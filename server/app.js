@@ -7,7 +7,8 @@ const logger = require("morgan");
 const initMongo = require("./config/db");
 
 const indexRouter = require("./routes/index");
-// const usersRouter = require("./routes/patientRoutes");
+const patientRouter = require("./routes/patientRoutes");
+const doctorRouter = require("./routes/doctorRoutes");
 
 // connect to MongoDB
 initMongo();
@@ -21,7 +22,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-// app.use("/users", usersRouter);
+app.use("/patient", patientRouter);
+app.use("/doctor", doctorRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
