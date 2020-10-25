@@ -1,5 +1,6 @@
 const createError = require("http-errors");
 const express = require("express");
+const dotenv = require("dotenv");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -8,7 +9,7 @@ const mongoose = require("mongoose");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
-const Patient = require("./models/patient");
+dotenv.config();
 
 // Set up default mongoose connection
 const mongoDB = "mongodb://localhost:27017";

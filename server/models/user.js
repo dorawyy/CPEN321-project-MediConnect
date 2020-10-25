@@ -10,11 +10,35 @@ const userOptions = {
 // schemas will inherit from
 const UserSchema = new Schema(
   {
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
-    age: { type: Number, required: true, min: 0 },
+    first_name: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 255,
+    },
+    last_name: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 255,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: 1,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+      maxlength: 1024,
+    },
+    age: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
   },
   userOptions
 );
