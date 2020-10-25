@@ -1,22 +1,16 @@
+require("dotenv").config();
 const createError = require("http-errors");
 const express = require("express");
-const dotenv = require("dotenv");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const mongoose = require("mongoose");
+const initMongo = require("./config/db");
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/patientRoutes");
+// const usersRouter = require("./routes/patientRoutes");
 
-dotenv.config();
-
-// Set up default mongoose connection
-const mongoDB = "mongodb://localhost:27017";
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-// Bind connection to error event (to get notification of connection errors)
-db.on("error", console.error.bind(console, "MongoDB connection error"));
+// connect to MongoDB
+initMongo();
 
 const app = express();
 
@@ -27,7 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+// app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
