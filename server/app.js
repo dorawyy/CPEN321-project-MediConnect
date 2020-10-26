@@ -6,7 +6,8 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/patientRoutes");
+const patientRouter = require("./routes/patientRoutes");
+const doctorRouter = require("./routes/doctorRoutes");
 
 const Patient = require("./models/patient");
 
@@ -26,7 +27,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/patients", patientRouter);
+app.use("/doctors", doctorRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
