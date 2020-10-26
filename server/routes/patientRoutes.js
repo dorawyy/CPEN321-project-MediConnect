@@ -1,18 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const patController = require("../controllers/userController");
+const authController = require("../controllers/authController");
 
-// get user page
-router.get("/", function (req, res) {
-  res.send("respond with a resource");
-});
+// get patient page
+router.get("/", authController.getPatients);
 
-router.get("/:id/", patController.findById);
-router.delete("/:id/", patController.deleteUser);
+// post new patient (authentication)
+router.post("/register", authController.registerPatient);
 
-router.get("/:id/:attribute", patController.getAttribute);
-router.delete("/:id/:attribute", patController.deleteAttribute);
+// get patient by id
+router.get("/:id/", authController.getPatientById);
 
-router.set("/:id/:attribute/:newVal", patController.setAttribute);
+// delete patient by id
+router.delete("/:id/", authController.deletePatientById);
+
+// router.get("/:id/:attribute", patController.getAttribute);
+// router.delete("/:id/:attribute", patController.deleteAttribute);
 
 module.exports = router;
