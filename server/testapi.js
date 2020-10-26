@@ -11,15 +11,25 @@ axios.defaults.withCredentials = true;
 //     console.log(err);
 //   });
 
-axios
-  .post("http://54.183.200.234:5000/doctor/signup", {
-    first_name: "Luigi",
-    last_name: "Scared",
-    email: "luigigi@gmail.com",
-    password: "cowaly",
-  })
-  .then((res) => console.log(res.data))
-  .catch((err) => console.log(err.response.data));
+// axios
+//   .post("http://54.183.200.234:5000/doctor/signin", {
+//     first_name: "Luigi",
+//     last_name: "Scared",
+//     email: "luigi@gmail.com",
+//     password: "cowardly",
+//   })
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err));
+
+// axios
+//   .post("http://localhost:5000/doctor/signin", {
+//     first_name: "Luigi",
+//     last_name: "Scared",
+//     email: "luigi@gmail.com",
+//     password: "cowarddly",
+//   })
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err.response.data));
 
 // axios
 //   .post("http://54.183.200.234:5000/doctor/signin", {
@@ -44,7 +54,9 @@ axios
 //   })
 //   .catch((err) => console.log(err));
 
-// axios
-//   .post("http://localhost:5000/patient/search")
-//   .then((res) => console.log(res.data))
-//   .catch((err) => console.log(err));
+axios
+  .post("http://localhost:5000/patient/search", {
+    symptoms: ["Chest pain"],
+  })
+  .then((res) => console.log(res.data))
+  .catch((err) => console.log(err));
