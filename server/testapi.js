@@ -22,11 +22,15 @@ axios.defaults.withCredentials = true;
 //   .catch((err) => console.log(err));
 
 // axios
-//   .post("http://localhost:5000/doctor/signin", {
-//     first_name: "Luigi",
-//     last_name: "Scared",
-//     email: "luigi@gmail.com",
-//     password: "cowarddly",
+//   .post("http://localhost:5000/doctor/signup", {
+//     first_name: "Falcon",
+//     last_name: "Punch",
+//     email: "falcon@gmail.com",
+//     password: "smashbros",
+//     age: 40,
+//     specialization: "Neurology",
+//     years_of_experience: 20,
+//     verified: true,
 //   })
 //   .then((res) => console.log(res.data))
 //   .catch((err) => console.log(err.response.data));

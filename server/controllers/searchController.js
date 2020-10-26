@@ -79,43 +79,29 @@ const findDoctor = async (req, res) => {
 
   const specializations = await diseaseToSpecialization(req, res, diseases);
 
-  // diseaseToSpecialization(req, res);
-
-  const spec = ["spec1", "spec2", "spec3"];
-
   const sortedDocs = [];
 
-  for (var j = 0; j < 3; j++) {
-    Doctor.find({ specialization: spec[i] })
-      .lean()
-      .then((result) => {
-        for (var i = 0; i < result.length - 1; i++) {
-          var minInd = i;
-          for (var k = i + 1; k < result.length; k++) {
-            if (
-              result[k].get("years_of_experience") >
-              result[minInd].get("years_of_experience")
-            )
-              minInd = k;
+  // specializations.forEach((specialization) => {
+  //   Doctor.find({ specialization: specialization })
+  //     .sort({ rating: -1 })
+  //     .then((doctors) => {
+  //       doctors.forEach((doctor) => sortedDocs.push(doctor));
+  //       return res.send(sortedDocs);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // });
 
-            var tmp = result[k];
-            result[k] = result[i];
-            result[i] = tmp;
-          }
-        }
-
-        for (var i = 0; i < result.length; i++) sortedDocs.push(result[i]);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.send(err);
-      });
-  }
-
-  res.send(sortedDocs);
-
-  console.log(res.locals.user);
-  res.send(res.locals.user);
+  Doctor.find({ specialization: specializations[0] })
+    .sort({ rating: -1 })
+    .then((doctors) => {
+      doctors.forEach((doctor) => sortedDocs.push(doctor));
+      res.send(sortedDocs);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 module.exports = { findDoctor };
