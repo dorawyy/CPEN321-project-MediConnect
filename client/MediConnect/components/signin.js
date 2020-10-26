@@ -74,6 +74,8 @@ class SignIn extends Component {
                 //         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
                 //     });
 
+                this.props.navigation.navigate("Home");
+
             })
           .catch((err) =>{ 
               console.log(err.response.data);

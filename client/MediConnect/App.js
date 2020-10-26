@@ -33,6 +33,8 @@ import {
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 const Stack = createStackNavigator();
 
 // import AuthContext from './page.components/context'
@@ -40,6 +42,7 @@ import StartUpPage from './components/startup';
 import SignInPage from './components/signin';
 import SignUpPage from './components/signup';
 import HomePage from './components/home';
+import SymptomsPage from './components/symptoms';
 
 const App: () => React$Node = () => {
 
@@ -84,6 +87,7 @@ const App: () => React$Node = () => {
         <Stack.Screen name="SignIn" component={SignInPage} options={{headerTitle:false}}/>
         <Stack.Screen name="SignUp" component={SignUpPage} options={{headerTitle:false}}/>
         <Stack.Screen name="Home" component={HomePage} options={{headerTitle:false}}/>
+        <Stack.Screen name="Symptoms" component={SymptomsPage} options={{headerTitle:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </>
