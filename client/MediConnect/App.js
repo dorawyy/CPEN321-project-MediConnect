@@ -41,6 +41,10 @@ import SignInPage from './components/signin';
 import SignUpPage from './components/signup';
 import HomePage from './components/home';
 
+import {
+  SQIPCore,
+} from 'react-native-square-in-app-payments';
+
 const App: () => React$Node = () => {
 
   // const [isLoading, setIsLoading] = React.useState(true); 

@@ -18,14 +18,14 @@ class Home extends Component {
                                     <Image source={require("../assets/user_icon.png")} resizeMode="stretch" onPress={() => this.props.navigation.navigate("AccountInfo")}/>
                                 </View>
                                 <View alignSelf="flex-start">
-                                <Text style = {styles.text} underlineColorAndroid="gray">Age    : 43 years</Text>
-                                <break>
-                                <Text style = {styles.text} underlineColorAndroid="gray">Gender : M</Text>
-                                <break>
-                                <Text style = {styles.text} underlineColorAndroid="gray">Height : 176 cm</Text>
-                                <break>
-                                <Text style = {styles.text} underlineColorAndroid="gray">Weight : 78 kg</Text>
-                                </View>
+                                <Text style = {styles.text} underlineColorAndroid="gray">"Age    : 43 years"\n</Text>
+
+                                <Text style = {styles.text} underlineColorAndroid="gray">"Gender : M"\n</Text>
+
+                                <Text style = {styles.text} underlineColorAndroid="gray">"Height : 176 cm"\n</Text>
+
+                                <Text style = {styles.text} underlineColorAndroid="gray">"Weight : 78 kg"\n</Text>
+
                             </View>
                             <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("Report Symptoms")}>Report Symptoms</Text></TouchableOpacity>
              </View>
@@ -35,7 +35,7 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-container: {
+    container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
@@ -54,6 +54,8 @@ container: {
                 shadowOpacity:1,
                 shadowRadius: 2.45,
                 padding: 20,
+                width: 20,
+                height: 20,
     },
 
     infobox: {
@@ -80,19 +82,19 @@ container: {
         justifyContent: "center",
         shadowColor: "black",
         borderRadius: 7,
-     },
+    },
 
     buttonText:{
         fontFamily: 'Iowan Old Style',
         fontSize: 17,
         color: '#02d9b5'
-     },
+    },
 
-     text: {
+    text: {
              fontFamily: 'Iowan Old Style'
              color:"white",
              fontSize: 12,
-         }
+    },
 
 });
   
