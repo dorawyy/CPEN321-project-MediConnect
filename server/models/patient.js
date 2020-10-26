@@ -12,8 +12,4 @@ const Patient = User.discriminator(
   })
 );
 
-Patient.schema.virtual("url").get(() => {
-  return "/patients/" + this._id;
-});
-
 module.exports = mongoose.model("Patient");

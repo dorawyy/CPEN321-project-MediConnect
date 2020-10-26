@@ -105,9 +105,9 @@ function createDoctors(cb) {
           "Alex",
           "Jones",
           "alexjones@gmail.com",
-          "123456",
+          "12345678",
           46,
-          "conspiracy",
+          "Neurology",
           20,
           true
         );
@@ -118,9 +118,9 @@ function createDoctors(cb) {
           "Michael",
           "Jordan",
           "micjordan@gmail.com",
-          "123",
+          "abcdefghi",
           57,
-          "basketball",
+          "Neurology",
           10
         );
       },
@@ -132,7 +132,7 @@ function createDoctors(cb) {
           "micjackson@gmail.com",
           "thriller",
           50,
-          "pop",
+          "Gynecology",
           5
         );
       },
@@ -144,7 +144,7 @@ function createDoctors(cb) {
           "donalddrumpf@gmail.com",
           "makedonalddrumpfagain",
           74,
-          "president",
+          "Internal medicine",
           40,
           true
         );
@@ -155,9 +155,9 @@ function createDoctors(cb) {
           "Tor",
           "Aamodt",
           "toraamodt@gmail.com",
-          "CPEN211",
+          "CPEN211HELL",
           45,
-          "FPGA",
+          "Oncology",
           30
         );
       },
@@ -167,9 +167,9 @@ function createDoctors(cb) {
           "John",
           "Lennon",
           "johnlennon@gmail.com",
-          "imagine",
+          "imaginetheresnoheaven",
           40,
-          "softrock",
+          "Pulmonology",
           2
         );
       },
@@ -181,7 +181,7 @@ function createDoctors(cb) {
           "mickeymouse@gmail.com",
           "talkingrat",
           100,
-          "cartoon",
+          "Oncology",
           70,
           true
         );
@@ -194,7 +194,7 @@ function createDoctors(cb) {
           "rickastley@gmail.com",
           "nevergonnagiveyouup",
           54,
-          "meme",
+          "Psychiatry",
           7
         );
       },
@@ -252,7 +252,7 @@ function createPatients(cb) {
           "Kyle",
           "Red",
           "kylered@gmail.com",
-          "pass",
+          "passlmao",
           12,
           "Male",
           160,
@@ -265,7 +265,7 @@ function createPatients(cb) {
           "Lucy",
           "Stank",
           "lucystank@gmail.com",
-          "bigpw",
+          "bigpwpwpw",
           22,
           "Female",
           150,
@@ -278,7 +278,7 @@ function createPatients(cb) {
           "Susan",
           "Doyle",
           "susandoyle@gmail.com",
-          "sdpw",
+          "sdpwsdpw",
           40,
           "Female",
           165,
@@ -304,7 +304,7 @@ function createPatients(cb) {
           "Bruce",
           "Wayne",
           "brucewayne@gmail.com",
-          "batman",
+          "batmanishere",
           40,
           "Male",
           185,
@@ -324,8 +324,7 @@ async.series(
     if (err) {
       console.log("FINAL ERR: " + err);
     } else {
-      console.log("Doctors: " + doctors);
-      console.log("Patients: " + patients);
+      console.log("Done populating!");
     }
     // All done, disconnect from database
     mongoose.connection.close();
