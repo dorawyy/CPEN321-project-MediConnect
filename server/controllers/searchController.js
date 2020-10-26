@@ -1,5 +1,12 @@
+const fs = require("fs");
+
 const symptomToDisease = (req, res) => {
-  console.log("lol");
+  fs.readFile("../public/data/symptoms.json", (err, data) => {
+    if (err) throw err;
+    let student = JSON.parse(data);
+    console.log(student);
+    return student;
+  });
 };
 
 const diseaseToSpecialization = (req, res) => {
@@ -7,7 +14,7 @@ const diseaseToSpecialization = (req, res) => {
 };
 
 const findDoctor = (req, res) => {
-  symptomToDisease(req, res);
+  const diseases = symptomToDisease(req, res);
 
   diseaseToSpecialization(req, res);
 

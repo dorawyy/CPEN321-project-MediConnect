@@ -17,7 +17,7 @@ router.post("/signout", authController.signinPatient);
 router.get("/signout", authController.signoutPatient);
 
 // post symptoms to doctor specialization
-router.post("/search", checkUser, searchController.findDoctor);
+router.post("/search", requireAuth, searchController.findDoctor);
 
 // get patient by id
 router.get("/:id", requireAuth, authController.getPatientById);

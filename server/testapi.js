@@ -12,11 +12,11 @@ axios.defaults.withCredentials = true;
 //   });
 
 axios
-  .post("http://localhost:5000/doctor/signup", {
+  .post("http://54.183.200.234:5000/doctor/signup", {
     first_name: "Luigi",
     last_name: "Scared",
-    email: "luigi@gmail.com",
-    password: "cowardly",
+    email: "luigigi@gmail.com",
+    password: "cowaly",
   })
   .then((res) => console.log(res.data))
   .catch((err) => console.log(err.response.data));
