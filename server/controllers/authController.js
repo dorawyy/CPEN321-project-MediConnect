@@ -1,6 +1,26 @@
 const Patient = require("../models/patient");
 const Doctor = require("../models/doctor");
 
+// Error handler
+const handleErrors = (err) => {
+  let errors = { first_name: "", last_name: "", email: "", password: "" };
+
+  // duplicate error code
+  if (err.code === 11000) {
+    errors.email = "Email already registed";
+    return errors;
+  }
+
+  // validation errors
+  if (err.message.includes("Patient validation failed")) {
+    Object.values(err.errors).forEach(({ properties }) => {
+      errors[properties.path] = properties.message;
+    });
+  }
+
+  return errors;
+};
+
 /*
  * Common functions for all users (patients and doctors), the type of user
  * is specified by the model parameter
@@ -19,7 +39,15 @@ const getUser = (req, res, model) => {
 };
 
 // Register user in database. User must have provided legal parameters
-const registerUser = (req, res, model) => {};
+const signupUser = async (req, res, model, userObj) => {
+  try {
+    const newUser = await model.create(userObj);
+    res.status(201).json(newUser);
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json(errors);
+  }
+};
 
 // Get user by id
 const getUserById = (req, res, model) => {
@@ -51,7 +79,8 @@ const getPatients = (req, res) => {
   getUser(req, res, Patient);
 };
 
-const registerPatient = async (req, res) => {
+// Post a new patient to database through signup
+const signupPatient = async (req, res) => {
   const {
     first_name,
     last_name,
@@ -63,23 +92,16 @@ const registerPatient = async (req, res) => {
     weight,
   } = req.body;
 
-  try {
-    const newPatient = await Patient.create({
-      first_name,
-      last_name,
-      email,
-      password,
-      age,
-      gender,
-      height,
-      weight,
-    });
-    res.status(201).json(newPatient);
-  } catch (err) {
-    console.log(err);
-    res.status(400).send("error, patient not created");
-  }
-  //registerUser(req, res, Patient);
+  signupUser(req, res, Patient, {
+    first_name,
+    last_name,
+    email,
+    password,
+    age,
+    gender,
+    height,
+    weight,
+  });
 };
 
 // Get patient by id
@@ -97,7 +119,8 @@ const getDoctors = (req, res) => {
   getUser(req, res, Doctor);
 };
 
-const registerDoctor = async (req, res) => {
+// Post a new patient to database through signup
+const signupDoctor = async (req, res) => {
   const {
     first_name,
     last_name,
@@ -109,23 +132,16 @@ const registerDoctor = async (req, res) => {
     verified,
   } = req.body;
 
-  try {
-    const newDoctor = await Doctor.create({
-      first_name,
-      last_name,
-      email,
-      password,
-      age,
-      specialization,
-      years_of_experience,
-      verified,
-    });
-    res.status(201).json(newDoctor);
-  } catch (err) {
-    console.log(err);
-    res.status(400).send("error, doctor not created");
-  }
-  //registerUser(req, res, Doctor);
+  signupUser(req, res, {
+    first_name,
+    last_name,
+    email,
+    password,
+    age,
+    specialization,
+    years_of_experience,
+    verified,
+  });
 };
 
 // Get doctor by id
@@ -140,11 +156,11 @@ const deleteDoctorById = (req, res) => {
 
 module.exports = {
   getPatients,
-  registerPatient,
+  signupPatient,
   getPatientById,
   deletePatientById,
   getDoctors,
-  registerDoctor,
+  signupDoctor,
   getDoctorById,
   deleteDoctorById,
 };

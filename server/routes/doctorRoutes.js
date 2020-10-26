@@ -6,7 +6,7 @@ const authController = require("../controllers/authController");
 router.get("/", authController.getDoctors);
 
 // post new doctor (authentication)
-router.post("/register", authController.registerDoctor);
+router.post("/signup", authController.signupDoctor);
 
 // get doctor by id
 router.get("/:id/", authController.getDoctorById);

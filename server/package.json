@@ -21,7 +21,8 @@
     "mongoose": "^5.10.10",
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "validator": "^13.1.17"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
