@@ -2,14 +2,18 @@
 import React, { version } from 'react';
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios';   
+// const { signIn } = React.useContext(AuthContext);
 
-  
-
-class Login extends Component {
+class SignIn extends Component {
 
     state = {
         email: '',
-        password: ''
+        password: '', 
+        emailList: [], 
+        // passwordList: [],
+        serverData: [],
+        user: [],
     }
 
     handleEmail = (text) => {
@@ -22,7 +26,51 @@ class Login extends Component {
 
     login = (email, pass) => {
         alert('Email: ' + email + '\nPassword: ' + pass)
+        // signIn(); 
     }
+
+    getEmailList = () => {
+        i = 0; 
+        this.state.serverData.forEach(element => {this.state.emailList.push(element.email)});
+        // console.log(this.state.emailList[0]);
+    }
+
+    componentDidMount = () => {
+        axios.get('http://54.183.200.234:5000/doctor')
+        .then(response => {
+
+            this.setState({
+                serverData: response.data,             
+           });
+
+            this.getEmailList(); 
+            // this.getPasswordList(); 
+        })
+        .catch(error =>  {
+            console.log(error.data)
+        })
+     }
+
+    async signin() {
+
+        axios.post("http://54.183.200.234:5000/doctor/signin", {
+            email: this.state.email,
+            password: this.state.password,
+          })
+          .then((res) => {
+              console.log(res.data); 
+              
+              this.setState({
+                  user: res.data, 
+              })
+
+              console.log('Here' + this.state.user.email)
+
+            })
+          .catch((err) => console.log(err.data));
+    
+    }
+
 
     render() {
           
@@ -39,10 +87,12 @@ class Login extends Component {
                                 autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                     </View>
 
-                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.login(this.state.email, this.state.password)}>
+                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.signin()}>
                         <Text style = {styles.submitButtonText}> LOGIN </Text>
                     </TouchableOpacity>
                 </View>
+                 {/* <Text>{this.state.serverData}</Text> */}
+        {/* <View>{this.state.serverData.map(serverData =><Text key={serverData.password}>{serverData.email}</Text>)}</View> */}
             </View>
 
         );
@@ -102,4 +152,4 @@ const styles = StyleSheet.create({
 });
   
 
-export default Login;
+export default SignIn;
