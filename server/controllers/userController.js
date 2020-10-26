@@ -1,3 +1,7 @@
+const patientModel = require("../models/patient");
+const doctorModel = require("../models/doctor");
+const userModel = require("../models/user");
+
 const findById = (req, res) => {
   const id = req.params.id;
   res.send(id);
@@ -20,6 +24,13 @@ const setAttribute = (req, res) => {
 
 const deleteUser = (req, res) => {
   const id = req.params.id;
+  if (req.url.slice(1,8) === "doctors")
+    doctorModel.findByIdAndDelete(id)
+    .then((result) => {
+      res.send("Killed Dr. " + id);
+    })
+    .catch;
+  else if (req.url.slice(1,9) === "patients");
   res.send(id + " deleted");
 };
 
