@@ -2,24 +2,17 @@
 import React, { version } from 'react';
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios';   
+// const { signIn } = React.useContext(AuthContext);
 
-  
-
-class CreateAccount extends Component {
+class SignIn extends Component {
 
     state = {
-        firstName: '',
-        lastName: '',
         email: '',
-        password: ''
-    }
-
-    handleFirstName = (text) => {
-        this.setState({ firstName: text })
-    }
-
-    handleLastName = (text) => {
-        this.setState({ lastName: text })
+        password: '', 
+        emailList: [], 
+        // passwordList: [],
+        serverData: [],
     }
 
     handleEmail = (text) => {
@@ -30,24 +23,40 @@ class CreateAccount extends Component {
         this.setState({ password: text })
     }
 
-    signup = (firstName, lastName, email, password) => {
-        alert('First Name: ' + firstName + '\nLast Name: ' + lastName  + '\nEmail: ' + email + '\nPassword: ' + password)
+    login = (email, pass) => {
+        alert('Email: ' + email + '\nPassword: ' + pass)
+        // signIn(); 
     }
+
+    getEmailList = () => {
+        i = 0; 
+        console.log('Here');
+        this.state.serverData.forEach(element => {this.state.emailList.push(element.email)});
+        console.log(this.state.emailList[0]);
+    }
+
+    componentDidMount = () => {
+        axios.get('http://54.183.200.234:5000/doctor')
+        .then(response => {
+
+            this.setState({
+                serverData: response.data,             
+           });
+
+            this.getEmailList(); 
+            // this.getPasswordList(); 
+        })
+        .catch(error =>  {
+            console.log(error.data)
+        })
+     }
 
     render() {
           
         return (
             <View style={styles.container}>
                 <Image source={require("../assets/logo.png")} resizeMode="stretch"/>
-                <View style={styles.accountbox}>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "First Name" 
-                                autoCapitalize = "none" onChangeText = {this.handleFirstName} required></TextInput>
-                    </View>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Last Name" 
-                                autoCapitalize = "none" onChangeText = {this.handleLastName} required></TextInput>
-                    </View>
+                <View style={styles.loginbox}>
                     <View>
                         <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
                                 autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
@@ -57,10 +66,12 @@ class CreateAccount extends Component {
                                 autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                     </View>
 
-                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.signup(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
-                        <Text style = {styles.submitButtonText}> SIGN UP </Text>
+                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.login(this.state.email, this.state.password)}>
+                        <Text style = {styles.submitButtonText}> LOGIN </Text>
                     </TouchableOpacity>
                 </View>
+                 {/* <Text>{this.state.serverData}</Text> */}
+        <View>{this.state.serverData.map(serverData =><Text key={serverData.password}>{serverData.email}</Text>)}</View>
             </View>
 
         );
@@ -81,7 +92,7 @@ const styles = StyleSheet.create({
         // backgroundColor: linear-gradient(#00ff99 29%, #00ffff 100%);
     },
 
-    accountbox: {
+    loginbox: {
         alignSelf: "center",
         backgroundColor: "#02f0c8", 
         borderRadius: 10,
@@ -91,7 +102,7 @@ const styles = StyleSheet.create({
         elevation: 8,
         // height: 300,
         width: 270, 
-        marginTop: 0, 
+        // marginTop: 20, 
         padding: 20, 
     },
 
@@ -120,4 +131,4 @@ const styles = StyleSheet.create({
 });
   
 
-export default CreateAccount;
+export default SignIn;

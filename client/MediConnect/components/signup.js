@@ -2,14 +2,27 @@
 import React, { version } from 'react';
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios'; 
+import Validator from 'validator'; 
+import validator from 'validator';
 
   
 
-class Login extends Component {
+class SignUp extends Component {
 
     state = {
+        firstName: '',
+        lastName: '',
         email: '',
         password: ''
+    }
+
+    handleFirstName = (text) => {
+        this.setState({ firstName: text })
+    }
+
+    handleLastName = (text) => {
+        this.setState({ lastName: text })
     }
 
     handleEmail = (text) => {
@@ -20,8 +33,27 @@ class Login extends Component {
         this.setState({ password: text })
     }
 
-    login = (email, pass) => {
-        alert('Email: ' + email + '\nPassword: ' + pass)
+    // signup = (firstName, lastName, email, password) => {
+    //     alert('First Name: ' + firstName + '\nLast Name: ' + lastName  + '\nEmail: ' + email + '\nPassword: ' + password)
+    // }
+
+    async signup() {
+
+        if (this.state.password.length < 8) {
+            alert('Password must be atleast 8 characters long!');
+        } else if (validator.isEmail(this.state.email) == false) {
+            alert('Please enter a valid email');
+        } else {
+            axios.post("http://54.183.200.234:5000/doctor/signup", {
+                first_name: this.state.firstName,
+                last_name: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+              })
+              .then((res) => console.log(res.data))
+              .catch((err) => console.log(err.data));
+        }
+    
     }
 
     render() {
@@ -29,7 +61,15 @@ class Login extends Component {
         return (
             <View style={styles.container}>
                 <Image source={require("../assets/logo.png")} resizeMode="stretch"/>
-                <View style={styles.loginbox}>
+                <View style={styles.accountbox}>
+                    <View>
+                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "First Name" 
+                                autoCapitalize = "none" onChangeText = {this.handleFirstName} required></TextInput>
+                    </View>
+                    <View>
+                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Last Name" 
+                                autoCapitalize = "none" onChangeText = {this.handleLastName} required></TextInput>
+                    </View>
                     <View>
                         <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
                                 autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
@@ -39,8 +79,8 @@ class Login extends Component {
                                 autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                     </View>
 
-                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.login(this.state.email, this.state.password)}>
-                        <Text style = {styles.submitButtonText}> LOGIN </Text>
+                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.signup(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
+                        <Text style = {styles.submitButtonText}> SIGN UP </Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -63,7 +103,7 @@ const styles = StyleSheet.create({
         // backgroundColor: linear-gradient(#00ff99 29%, #00ffff 100%);
     },
 
-    loginbox: {
+    accountbox: {
         alignSelf: "center",
         backgroundColor: "#02f0c8", 
         borderRadius: 10,
@@ -73,7 +113,7 @@ const styles = StyleSheet.create({
         elevation: 8,
         // height: 300,
         width: 270, 
-        // marginTop: 20, 
+        marginTop: 0, 
         padding: 20, 
     },
 
@@ -102,4 +142,4 @@ const styles = StyleSheet.create({
 });
   
 
-export default Login;
+export default SignUp;
