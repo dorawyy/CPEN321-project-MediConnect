@@ -8,6 +8,10 @@ target 'MediConnect' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-cookies', :path => '../node_modules/@react-native-community/cookies'
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
   target 'MediConnectTests' do
     inherit! :complete
     # Pods for testing

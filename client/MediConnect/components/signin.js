@@ -2,7 +2,9 @@
 import React, { version } from 'react';
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import axios from 'axios';   
+import axios from 'axios';  
+// import CookieManager from 'react-native-cookies';
+// import AsyncStorage from '@react-native-community/async-storage';
 // const { signIn } = React.useContext(AuthContext);
 
 class SignIn extends Component {
@@ -34,6 +36,7 @@ class SignIn extends Component {
         this.state.serverData.forEach(element => {this.state.emailList.push(element.email)});
         // console.log(this.state.emailList[0]);
     }
+    
 
     componentDidMount = () => {
         axios.get('http://54.183.200.234:5000/doctor')
@@ -66,8 +69,16 @@ class SignIn extends Component {
 
               console.log('Here' + this.state.user.email)
 
+                // CookieManager.get("http://54.183.200.234:5000/doctor/signin")
+                //     .then((res) => {
+                //         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
+                //     });
+
             })
-          .catch((err) => console.log(err.data));
+          .catch((err) =>{ 
+              console.log(err.response.data);
+              alert(err.response.data.email + '\n' + err.response.data.password);
+            });
     
     }
 
