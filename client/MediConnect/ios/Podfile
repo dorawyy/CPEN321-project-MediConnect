@@ -8,6 +8,16 @@ target 'MediConnect' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+<<<<<<< HEAD
+  pod 'RNSquareInAppPayments', :path => '../node_modules/react-native-square-in-app-payments'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+=======
+  pod 'react-native-cookies', :path => '../node_modules/@react-native-community/cookies'
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+>>>>>>> b5f071b96df8c90fdedd41c9f2e39235fcf680c8
+
   target 'MediConnectTests' do
     inherit! :complete
     # Pods for testing

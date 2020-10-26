@@ -39,20 +39,17 @@ class SignUp extends Component {
 
     async signup() {
 
-        if (this.state.password.length < 8) {
-            alert('Password must be atleast 8 characters long!');
-        } else if (validator.isEmail(this.state.email) == false) {
-            alert('Please enter a valid email');
-        } else {
-            axios.post("http://54.183.200.234:5000/doctor/signup", {
-                first_name: this.state.firstName,
-                last_name: this.state.lastName,
-                email: this.state.email,
-                password: this.state.password,
-              })
-              .then((res) => console.log(res.data))
-              .catch((err) => console.log(err.data));
-        }
+        axios.post("http://54.183.200.234:5000/doctor/signup", {
+            first_name: this.state.firstName,
+            last_name: this.state.lastName,
+            email: this.state.email,
+            password: this.state.password,
+          })
+          .then((res) => console.log(res.data))
+          .catch((err) =>{ 
+            console.log(err.response.data);
+            alert(err.response.data.first_name + '\n' + err.response.data.last_name + '\n' + err.response.data.email + '\n' + err.response.data.password);
+          });    
     
     }
 
