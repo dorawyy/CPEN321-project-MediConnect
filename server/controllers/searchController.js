@@ -12,16 +12,18 @@ const symptomToDisease = (req, res) => {
         let diseases_list = JSON.parse(data);
         let diseases = [];
 
-        symptoms.forEach(
-          (symptom) => (diseases = diseases.concat(diseases_list[symptom]))
-        );
+        symptoms.forEach((symptom) => {
+          if (diseases_list[symptom])
+            diseases = diseases.concat(diseases_list[symptom]);
+        });
+
         resolve(diseases);
       }
     });
   });
 };
 
-const diseaseToSpecialization = (req, res, diseases) => {
+const diseaseToSpecialization = (diseases) => {
   return new Promise((resolve, reject) => {
     fs.readFile(process.env.SPECIAL_FILE, (err, data) => {
       if (err) {
@@ -38,30 +40,32 @@ const diseaseToSpecialization = (req, res, diseases) => {
         diseases.forEach((disease) => {
           let specs = specializations_list[disease];
 
-          specs.forEach((spec) => {
-            if (specializations[spec]) {
-              specializations[spec] += 1;
-              let num = specializations[spec];
+          if (specs) {
+            specs.forEach((spec) => {
+              if (specializations[spec]) {
+                specializations[spec] += 1;
+                let num = specializations[spec];
 
-              if (mostCommon.common1[0] < num) {
-                mostCommon.common1 = [num, spec];
-              } else if (mostCommon.common2[0] < num) {
-                mostCommon.common2 = [num, spec];
-              } else if (mostCommon.common3[0] < num) {
-                mostCommon.common3 = [num, spec];
-              }
-            } else {
-              specializations[spec] = 1;
+                if (mostCommon.common1[0] < num) {
+                  mostCommon.common1 = [num, spec];
+                } else if (mostCommon.common2[0] < num) {
+                  mostCommon.common2 = [num, spec];
+                } else if (mostCommon.common3[0] < num) {
+                  mostCommon.common3 = [num, spec];
+                }
+              } else {
+                specializations[spec] = 1;
 
-              if (mostCommon.common1[0] < 1) {
-                mostCommon.common1 = [1, spec];
-              } else if (mostCommon.common2[0] < 1) {
-                mostCommon.common2 = [1, spec];
-              } else if (mostCommon.common3[0] < 1) {
-                mostCommon.common3 = [1, spec];
+                if (mostCommon.common1[0] < 1) {
+                  mostCommon.common1 = [1, spec];
+                } else if (mostCommon.common2[0] < 1) {
+                  mostCommon.common2 = [1, spec];
+                } else if (mostCommon.common3[0] < 1) {
+                  mostCommon.common3 = [1, spec];
+                }
               }
-            }
-          });
+            });
+          }
         });
 
         resolve([
@@ -77,31 +81,23 @@ const diseaseToSpecialization = (req, res, diseases) => {
 const findDoctor = async (req, res) => {
   const diseases = await symptomToDisease(req, res);
 
-  const specializations = await diseaseToSpecialization(req, res, diseases);
+  const specializations = await diseaseToSpecialization(diseases);
 
   const sortedDocs = [];
 
-  // specializations.forEach((specialization) => {
-  //   Doctor.find({ specialization: specialization })
-  //     .sort({ rating: -1 })
-  //     .then((doctors) => {
-  //       doctors.forEach((doctor) => sortedDocs.push(doctor));
-  //       return res.send(sortedDocs);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // });
+  await Promise.all(
+    specializations.map(async (specialization) => {
+      const doctors = await Doctor.find({
+        specialization: specialization,
+      }).sort({
+        rating: -1,
+      });
 
-  Doctor.find({ specialization: specializations[0] })
-    .sort({ rating: -1 })
-    .then((doctors) => {
       doctors.forEach((doctor) => sortedDocs.push(doctor));
-      res.send(sortedDocs);
     })
-    .catch((err) => {
-      console.log(err);
-    });
+  );
+
+  res.send(sortedDocs);
 };
 
 module.exports = { findDoctor };
