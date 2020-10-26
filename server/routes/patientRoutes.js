@@ -12,10 +12,13 @@ router.post("/signup", authController.signupPatient);
 // post patient login
 router.post("/login", authController.loginPatient);
 
+// get patient logout
+router.get("/logout", authController.logoutPatient);
+
 // get patient by id
-router.get("/:id/", requireAuth, authController.getPatientById);
+router.get("/:id", requireAuth, authController.getPatientById);
 
 // delete patient by id
-router.delete("/:id/", requireAuth, authController.deletePatientById);
+router.delete("/:id", requireAuth, authController.deletePatientById);
 
 module.exports = router;

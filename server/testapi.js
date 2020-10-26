@@ -10,6 +10,8 @@ const axios = require("axios");
 //   });
 
 axios
-  .get("http://localhost:5000/patient/5f9643819600abac6394bc8b")
+  .post("http://54.183.200.234:5000/patient/signup", {
+    password: "savepeach",
+  })
   .then((res) => console.log(res.data))
   .catch((err) => console.log(err));

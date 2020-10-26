@@ -23,7 +23,10 @@ const handleErrors = (err) => {
   }
 
   // validation errors
-  if (err.message.includes("Patient validation failed")) {
+  if (
+    err.message.includes("Patient validation failed") ||
+    err.message.includes("Doctor validation failed")
+  ) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
     });
@@ -83,6 +86,12 @@ const loginUser = async (req, res, model) => {
   }
 };
 
+// Logout user
+const logoutUser = (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.status(200).json({ message: "Logout successful" });
+};
+
 // Get user by id
 const getUserById = (req, res, model) => {
   const id = req.params.id;
@@ -99,7 +108,7 @@ const deleteUserById = (req, res, model) => {
 
   model
     .findByIdAndDelete(id)
-    .then((result) => res.send("Delete successful"))
+    .then((result) => res.status(200).json({ message: "Delete successful" }))
     .catch((err) => console.log(err));
 };
 
@@ -141,6 +150,11 @@ const signupPatient = (req, res) => {
 // Post a patient login
 const loginPatient = (req, res) => {
   loginUser(req, res, Patient);
+};
+
+// Get patient logout
+const logoutPatient = (req, res) => {
+  logoutUser(req, res);
 };
 
 // Get patient by id
@@ -188,6 +202,11 @@ const loginDoctor = (req, res) => {
   loginUser(req, res, Doctor);
 };
 
+// Get doctor logout
+const logoutDoctor = (req, res) => {
+  logoutUser(req, res);
+};
+
 // Get doctor by id
 const getDoctorById = (req, res) => {
   getUserById(req, res, Doctor);
@@ -202,11 +221,13 @@ module.exports = {
   getPatients,
   signupPatient,
   loginPatient,
+  logoutPatient,
   getPatientById,
   deletePatientById,
   getDoctors,
   signupDoctor,
   loginDoctor,
+  logoutDoctor,
   getDoctorById,
   deleteDoctorById,
 };
