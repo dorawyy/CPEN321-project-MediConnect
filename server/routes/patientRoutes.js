@@ -1,6 +1,7 @@
 const express = require("express");
-const router = express.Router();
 const authController = require("../controllers/authController");
+const { requireAuth } = require("../middleware/authMiddleware");
+const router = express.Router();
 
 // get patient page
 router.get("/", authController.getPatients);
@@ -8,13 +9,13 @@ router.get("/", authController.getPatients);
 // post new patient (authentication)
 router.post("/signup", authController.signupPatient);
 
+// post patient login
+router.post("/login", authController.loginPatient);
+
 // get patient by id
-router.get("/:id/", authController.getPatientById);
+router.get("/:id/", requireAuth, authController.getPatientById);
 
 // delete patient by id
-router.delete("/:id/", authController.deletePatientById);
-
-// router.get("/:id/:attribute", patController.getAttribute);
-// router.delete("/:id/:attribute", patController.deleteAttribute);
+router.delete("/:id/", requireAuth, authController.deletePatientById);
 
 module.exports = router;

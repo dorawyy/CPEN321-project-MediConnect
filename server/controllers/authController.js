@@ -1,9 +1,20 @@
 const Patient = require("../models/patient");
 const Doctor = require("../models/doctor");
+const jwt = require("jsonwebtoken");
 
 // Error handler
 const handleErrors = (err) => {
   let errors = { first_name: "", last_name: "", email: "", password: "" };
+
+  // incorrect email
+  if (err.message === "Incorrect email") {
+    errors.email = "that email is not registered";
+  }
+
+  // incorrect password
+  if (err.message === "Incorrect password") {
+    errors.password = "that password is incorrect";
+  }
 
   // duplicate error code
   if (err.code === 11000) {
@@ -19,6 +30,12 @@ const handleErrors = (err) => {
   }
 
   return errors;
+};
+
+// Token creation
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, "mediconnect sneaky secret", { expiresIn: maxAge });
 };
 
 /*
@@ -42,7 +59,24 @@ const getUser = (req, res, model) => {
 const signupUser = async (req, res, model, userObj) => {
   try {
     const newUser = await model.create(userObj);
-    res.status(201).json(newUser);
+    const token = createToken(newUser._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(201).json({ user: newUser._id });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json(errors);
+  }
+};
+
+// Login user. User must have provided legal parameters
+const loginUser = async (req, res, model) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await model.login(email, password);
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(200).json({ user: user._id });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json(errors);
@@ -80,7 +114,7 @@ const getPatients = (req, res) => {
 };
 
 // Post a new patient to database through signup
-const signupPatient = async (req, res) => {
+const signupPatient = (req, res) => {
   const {
     first_name,
     last_name,
@@ -104,6 +138,11 @@ const signupPatient = async (req, res) => {
   });
 };
 
+// Post a patient login
+const loginPatient = (req, res) => {
+  loginUser(req, res, Patient);
+};
+
 // Get patient by id
 const getPatientById = (req, res) => {
   getUserById(req, res, Patient);
@@ -119,8 +158,8 @@ const getDoctors = (req, res) => {
   getUser(req, res, Doctor);
 };
 
-// Post a new patient to database through signup
-const signupDoctor = async (req, res) => {
+// Post a new doctor to database through signup
+const signupDoctor = (req, res) => {
   const {
     first_name,
     last_name,
@@ -132,7 +171,7 @@ const signupDoctor = async (req, res) => {
     verified,
   } = req.body;
 
-  signupUser(req, res, {
+  signupUser(req, res, Doctor, {
     first_name,
     last_name,
     email,
@@ -142,6 +181,11 @@ const signupDoctor = async (req, res) => {
     years_of_experience,
     verified,
   });
+};
+
+// Post a doctor login
+const loginDoctor = (req, res) => {
+  loginUser(req, res, Doctor);
 };
 
 // Get doctor by id
@@ -157,10 +201,12 @@ const deleteDoctorById = (req, res) => {
 module.exports = {
   getPatients,
   signupPatient,
+  loginPatient,
   getPatientById,
   deletePatientById,
   getDoctors,
   signupDoctor,
+  loginDoctor,
   getDoctorById,
   deleteDoctorById,
 };

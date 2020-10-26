@@ -56,11 +56,26 @@ UserSchema.virtual("name").get(() => {
   return fullname;
 });
 
-// fire a function before doc saved to db
+// Fire a function before doc saved to db
 UserSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
+
+// Static method to login user
+UserSchema.statics.login = async function (email, password) {
+  const user = await this.findOne({ email });
+
+  if (user) {
+    // auth is truthy if provided password matches password in database
+    const auth = await bcrypt.compare(password, user.password);
+    if (auth) {
+      return user;
+    }
+    throw Error("Incorrect password");
+  }
+  throw Error("Incorrect email");
+};
 
 module.exports = mongoose.model("User", UserSchema);
