@@ -72,7 +72,7 @@ const signupUser = async (req, res, model, userObj) => {
 };
 
 // Login user. User must have provided legal parameters
-const loginUser = async (req, res, model) => {
+const signinUser = async (req, res, model) => {
   const { email, password } = req.body;
 
   try {
@@ -87,7 +87,7 @@ const loginUser = async (req, res, model) => {
 };
 
 // Logout user
-const logoutUser = (req, res) => {
+const signoutUser = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.status(200).json({ message: "Logout successful" });
 };
@@ -148,13 +148,13 @@ const signupPatient = (req, res) => {
 };
 
 // Post a patient login
-const loginPatient = (req, res) => {
-  loginUser(req, res, Patient);
+const signinPatient = (req, res) => {
+  signinUser(req, res, Patient);
 };
 
 // Get patient logout
-const logoutPatient = (req, res) => {
-  logoutUser(req, res);
+const signoutPatient = (req, res) => {
+  signoutUser(req, res);
 };
 
 // Get patient by id
@@ -198,13 +198,13 @@ const signupDoctor = (req, res) => {
 };
 
 // Post a doctor login
-const loginDoctor = (req, res) => {
-  loginUser(req, res, Doctor);
+const signinDoctor = (req, res) => {
+  signinUser(req, res, Doctor);
 };
 
 // Get doctor logout
-const logoutDoctor = (req, res) => {
-  logoutUser(req, res);
+const signoutDoctor = (req, res) => {
+  signoutUser(req, res);
 };
 
 // Get doctor by id
@@ -220,14 +220,14 @@ const deleteDoctorById = (req, res) => {
 module.exports = {
   getPatients,
   signupPatient,
-  loginPatient,
-  logoutPatient,
+  signinPatient,
+  signoutPatient,
   getPatientById,
   deletePatientById,
   getDoctors,
   signupDoctor,
-  loginDoctor,
-  logoutDoctor,
+  signinDoctor,
+  signoutDoctor,
   getDoctorById,
   deleteDoctorById,
 };

@@ -10,10 +10,10 @@ router.get("/", authController.getDoctors);
 router.post("/signup", authController.signupDoctor);
 
 // post doctor login
-router.post("/login", authController.loginDoctor);
+router.post("/signin", authController.signinDoctor);
 
 // get doctor logout
-router.get("/logout", authController.logoutDoctor);
+router.get("/signout", authController.signoutDoctor);
 
 // get doctor by id
 router.get("/:id", requireAuth, authController.getDoctorById);
