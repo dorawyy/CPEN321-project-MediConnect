@@ -1,10 +1,17 @@
 const axios = require("axios");
 
+// axios
+//   .get("http://54.183.200.234:5000/")
+//   .then((res) => {
+//     console.log(res.data);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
 axios
-  .get("http://localhost:5000")
-  .then((res) => {
-    console.log(res.data);
+  .post("http://54.183.200.234:5000/patient/signup", {
+    password: "savepeach",
   })
-  .catch((err) => {
-    console.log(err);
-  });
+  .then((res) => console.log(res.data))
+  .catch((err) => console.log(err));

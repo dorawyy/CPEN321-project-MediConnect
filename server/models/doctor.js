@@ -6,8 +6,8 @@ const Schema = mongoose.Schema;
 const Doctor = User.discriminator(
   "Doctor",
   Schema({
-    specialization: { type: String, required: true },
-    years_of_experience: { type: Number, required: true, min: 0 },
+    specialization: { type: String, required: false },
+    years_of_experience: { type: Number, required: false, min: 0 },
     verified: { type: Boolean, default: false },
   })
 );

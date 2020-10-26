@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -28,12 +29,25 @@ import {
   Component,
 } from 'react'; 
 
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
+
+import StartUpPage from './page.components/startup';
 import LoginPage from './page.components/login';
+import CreateAccountPage from './page.components/createaccount';
 
 const App: () => React$Node = () => {
   return (
     <>
-    <LoginPage></LoginPage>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="StartUp" component={StartUpPage} options={{headerShown:false}}/>
+        <Stack.Screen name="Login" component={LoginPage} options={{headerTitle:false}}/>
+        <Stack.Screen name="CreateAccount" component={CreateAccountPage} options={{headerTitle:false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
     </>
   );
 };
