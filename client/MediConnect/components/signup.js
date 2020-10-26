@@ -2,10 +2,13 @@
 import React, { version } from 'react';
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios'; 
+import Validator from 'validator'; 
+import validator from 'validator';
 
   
 
-class CreateAccount extends Component {
+class SignUp extends Component {
 
     state = {
         firstName: '',
@@ -30,8 +33,27 @@ class CreateAccount extends Component {
         this.setState({ password: text })
     }
 
-    signup = (firstName, lastName, email, password) => {
-        alert('First Name: ' + firstName + '\nLast Name: ' + lastName  + '\nEmail: ' + email + '\nPassword: ' + password)
+    // signup = (firstName, lastName, email, password) => {
+    //     alert('First Name: ' + firstName + '\nLast Name: ' + lastName  + '\nEmail: ' + email + '\nPassword: ' + password)
+    // }
+
+    async signup() {
+
+        if (this.state.password.length < 8) {
+            alert('Password must be atleast 8 characters long!');
+        } else if (validator.isEmail(this.state.email) == false) {
+            alert('Please enter a valid email');
+        } else {
+            axios.post("http://54.183.200.234:5000/doctor/signup", {
+                first_name: this.state.firstName,
+                last_name: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+              })
+              .then((res) => console.log(res.data))
+              .catch((err) => console.log(err.data));
+        }
+    
     }
 
     render() {
@@ -120,4 +142,4 @@ const styles = StyleSheet.create({
 });
   
 
-export default CreateAccount;
+export default SignUp;
