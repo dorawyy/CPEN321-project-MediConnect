@@ -13,6 +13,7 @@ class SignIn extends Component {
         emailList: [], 
         // passwordList: [],
         serverData: [],
+        user: [],
     }
 
     handleEmail = (text) => {
@@ -30,9 +31,8 @@ class SignIn extends Component {
 
     getEmailList = () => {
         i = 0; 
-        console.log('Here');
         this.state.serverData.forEach(element => {this.state.emailList.push(element.email)});
-        console.log(this.state.emailList[0]);
+        // console.log(this.state.emailList[0]);
     }
 
     componentDidMount = () => {
@@ -51,6 +51,27 @@ class SignIn extends Component {
         })
      }
 
+    async signin() {
+
+        axios.post("http://54.183.200.234:5000/doctor/signin", {
+            email: this.state.email,
+            password: this.state.password,
+          })
+          .then((res) => {
+              console.log(res.data); 
+              
+              this.setState({
+                  user: res.data, 
+              })
+
+              console.log('Here' + this.state.user.email)
+
+            })
+          .catch((err) => console.log(err.data));
+    
+    }
+
+
     render() {
           
         return (
@@ -66,12 +87,12 @@ class SignIn extends Component {
                                 autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                     </View>
 
-                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.login(this.state.email, this.state.password)}>
+                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.signin()}>
                         <Text style = {styles.submitButtonText}> LOGIN </Text>
                     </TouchableOpacity>
                 </View>
                  {/* <Text>{this.state.serverData}</Text> */}
-        <View>{this.state.serverData.map(serverData =><Text key={serverData.password}>{serverData.email}</Text>)}</View>
+        {/* <View>{this.state.serverData.map(serverData =><Text key={serverData.password}>{serverData.email}</Text>)}</View> */}
             </View>
 
         );
