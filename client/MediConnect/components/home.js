@@ -44,16 +44,6 @@ class Home extends Component {
                                 </View>
                             </View>
                             <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("Symptoms")}>Report Symptoms</Text></TouchableOpacity>
-                            <View >
-                            {this.state.serverData.map(serverData =><View style={styles.doctor} key={serverData.password}>
-                                            <Text style={styles.doctorinfo}>{'Doctor Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
-                                            <Text style={styles.doctorinfo}>{'Specialisation: ' + serverData.specialization}</Text>
-                                            <Text style={styles.doctorinfo}>{'Doctor Email: ' + serverData.email}</Text>
-                                            <Text style={styles.doctorinfo}>{'Doctor Rating: ' + serverData.rating}</Text>
-                                            <Text style={styles.doctorinfo}>{'Verified: ' + serverData.verified}</Text>
-                                            <Text style={styles.doctorinfo}>{'Years of Experience: ' + serverData.years_of_experience}</Text>
-                                        </View>)}
-                            </View>
 
              </View>
 
@@ -125,27 +115,25 @@ container: {
          }, 
 
     doctor: {
-        flexDirection: 'row',
-        justifyContent: "center",
         borderRadius: 7, 
         backgroundColor: "#d9d9d9", 
-        height: 150, 
+        height: 150,
         width: 270, 
         margin: 20,
+        borderRadius: 20,
+        shadowColor: "black",
+        shadowOpacity:1,
+        shadowRadius: 4.65,
+        elevation: 8,
         padding: 20,
         alignSelf: "center",
-
 
     },
     
     doctorinfo: {
-
-        justifyContent: "center",
-        borderRadius: 7, 
-        height: 150, 
-        width: 270, 
-        margin: 20,
-        padding: 20,    
+        fontFamily: 'Iowan Old Style',
+        color:"black",
+        fontSize: 12,
     }
 
 });
