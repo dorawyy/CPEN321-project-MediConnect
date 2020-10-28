@@ -58,14 +58,14 @@ axios.defaults.withCredentials = true;
 //   })
 //   .catch((err) => console.log(err));
 
-// axios
-//   .post("http://localhost:5000/patient/search", {
-//     symptoms: ["Chest pain"],
-//   })
-//   .then((res) => console.log(res.data))
-//   .catch((err) => console.log(err));
-
 axios
-  .get("http://localhost:5000/patient/pay")
+  .post("http://54.183.200.234:5000/patient/search", {
+    symptoms: ["Chest pain"],
+  })
   .then((res) => console.log(res.data))
   .catch((err) => console.log(err));
+
+// axios
+//   .get("http://localhost:5000/patient/pay")
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err));

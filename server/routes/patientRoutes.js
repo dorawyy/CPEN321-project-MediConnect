@@ -11,10 +11,10 @@ router.get("/", authController.getPatients);
 // post new patient (authentication)
 router.post("/signup", authController.signupPatient);
 
-// post patient login
-router.post("/signout", authController.signinPatient);
+// post patient signin
+router.post("/signin", authController.signinPatient);
 
-// get patient logout
+// get patient signout
 router.get("/signout", authController.signoutPatient);
 
 // post symptoms to doctor specialization
