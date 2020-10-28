@@ -3,16 +3,20 @@
 buildscript {
     ext {
         buildToolsVersion = "30.0.2"
-        minSdkVersion = 16
+        minSdkVersion = 21
         compileSdkVersion = 30
         targetSdkVersion = 30
     }
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://sdk.squareup.com/public/android'
+        }
     }
     dependencies {
         classpath('com.android.tools.build:gradle:4.1.0')
+       // implementation "com.squareup.sdk.in-app-payments:card-entry:1.4.0"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

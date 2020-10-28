@@ -11,7 +11,7 @@ const initMongo = () => {
       useCreateIndex: true,
     })
     .then((result) => console.log("Connected to MongoDB!\n"))
-    .catch((err) => console.log(er));
+    .catch((err) => console.log(err));
 };
 
 module.exports = initMongo;

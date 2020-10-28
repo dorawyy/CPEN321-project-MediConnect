@@ -45,6 +45,7 @@ import HomePage from './components/home';
 import SymptomsPage from './components/symptoms';
 import DoctorsPage from './components/doctors_result';
 
+
 const App: () => React$Node = () => {
 
   // const [isLoading, setIsLoading] = React.useState(true); 

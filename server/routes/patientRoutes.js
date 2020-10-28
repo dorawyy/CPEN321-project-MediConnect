@@ -1,6 +1,7 @@
 const express = require("express");
 const authController = require("../controllers/authController");
 const searchController = require("../controllers/searchController");
+const stripeController = require("../controllers/stripeController");
 const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 const router = express.Router();
 
@@ -18,6 +19,9 @@ router.get("/signout", authController.signoutPatient);
 
 // post symptoms to doctor specialization
 router.post("/search", searchController.findDoctor);
+
+// get request for payment
+router.get("/pay", stripeController.createPaymentIntent);
 
 // get patient by id
 router.get("/:id", requireAuth, authController.getPatientById);
