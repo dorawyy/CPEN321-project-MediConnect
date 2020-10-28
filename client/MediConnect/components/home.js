@@ -35,12 +35,12 @@ class Home extends Component {
 
                                 <View >
                                 <Text style = {styles.text} >Age    : 43 years</Text>
-                                <Text style = {styles.text} >"Gender : M"</Text>
-                                <Text style = {styles.text} >"Height : 176 cm"</Text>
-                                <Text style = {styles.text} >"Weight : 78 kg"</Text>
+                                <Text style = {styles.text} >Gender : M</Text>
+                                <Text style = {styles.text} >Height : 176 cm</Text>
+                                <Text style = {styles.text} >Weight : 78 kg</Text>
                                 </View>
                             </View>
-                            <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("Symptoms")}>"Report Symptoms"</Text></TouchableOpacity>
+                            <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("Symptoms")}>Report Symptoms</Text></TouchableOpacity>
 
              </View>
 
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     text: {
              fontFamily: 'Iowan Old Style',
              color:"white",
-             fontSize: 12,
+             fontSize: 20,
     },
 
 
