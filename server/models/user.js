@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 
 const userOptions = {
   discriminatorKey: "userkey",
-  collection: "items",
+  collection: "users",
+  timestamps: true,
 };
 
 // Schema of a user which contains important fields that both patient and doctor
@@ -43,20 +44,7 @@ const UserSchema = new Schema(
   userOptions
 );
 
-// Virtual for the user's full name
-UserSchema.virtual("name").get(() => {
-  let fullname = "";
-
-  if (this.first_name && this.last_name) {
-    fullname = this.last_name + ", " + this.first_name;
-  } else {
-    fullname = "";
-  }
-
-  return fullname;
-});
-
-// Fire a function before doc saved to db
+// Hash the password before doc saved to db
 UserSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);

@@ -18,7 +18,7 @@ router.post("/signin", authController.signinPatient);
 router.get("/signout", authController.signoutPatient);
 
 // post symptoms to doctor specialization
-router.post("/search", searchController.findDoctor);
+router.get("/search", searchController.findDoctor);
 
 // get request for payment
 router.get("/pay", stripeController.createPaymentIntent);

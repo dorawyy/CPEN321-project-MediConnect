@@ -59,8 +59,10 @@ axios.defaults.withCredentials = true;
 //   .catch((err) => console.log(err));
 
 axios
-  .post("http://54.183.200.234:5000/patient/search", {
-    symptoms: ["Chest pain"],
+  .get("http://localhost:5000/patient/search", {
+    params: {
+      symptoms: ["Fever"],
+    },
   })
   .then((res) => console.log(res.data))
   .catch((err) => console.log(err));
