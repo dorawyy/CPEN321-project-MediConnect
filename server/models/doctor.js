@@ -3,8 +3,15 @@ const User = require("./user");
 const Schema = mongoose.Schema;
 
 const DoctorSchema = new Schema({
-  specialization: { type: String, required: false },
-  years_of_experience: { type: Number, required: false, min: 0 },
+  specialization: {
+    type: String,
+    required: [false, "Please enter specialization"],
+  },
+  years_of_experience: {
+    type: Number,
+    required: [false, "Please enter years of experience"],
+    min: [0, "Years of experience must be at least 0"],
+  },
   verified: { type: Boolean, default: false },
   rating: { type: Number, default: 0 },
 });

@@ -25,7 +25,7 @@ axios.defaults.withCredentials = true;
 //   .post("http://localhost:5000/doctor/signup", {
 //     first_name: "Falcon",
 //     last_name: "Punch",
-//     email: "falcon@gmail.com",
+//     // email: "falcon@gmail.com",
 //     password: "smashbros",
 //     age: 40,
 //     specialization: "Neurology",
@@ -58,11 +58,18 @@ axios.defaults.withCredentials = true;
 //   })
 //   .catch((err) => console.log(err));
 
+// axios
+//   .get("http://localhost:5000/patient/search", {
+//     params: {
+//       symptoms: ["Fever"],
+//     },
+//   })
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err));
+
 axios
-  .get("http://localhost:5000/patient/search", {
-    params: {
-      symptoms: ["Fever"],
-    },
+  .put("http://localhost:5000/doctor/5f9a72292614191b8231ce1c", {
+    age: "30",
   })
   .then((res) => console.log(res.data))
   .catch((err) => console.log(err));

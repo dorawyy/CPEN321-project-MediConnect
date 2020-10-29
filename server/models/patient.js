@@ -7,8 +7,8 @@ const Patient = User.discriminator(
   "Patient",
   Schema({
     gender: { type: String, enum: ["Female", "Male", "Other"] },
-    height: { type: Number, max: 300, min: 60 },
-    weight: { type: Number, max: 650, min: 3 },
+    height: { type: Number },
+    weight: { type: Number },
   })
 );
 

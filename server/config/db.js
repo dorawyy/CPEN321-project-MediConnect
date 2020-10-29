@@ -9,6 +9,7 @@ const initMongo = () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     })
     .then((result) => console.log("Connected to MongoDB!\n"))
     .catch((err) => console.log(err));

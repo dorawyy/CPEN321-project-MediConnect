@@ -1,12 +1,13 @@
 const express = require("express");
 const authController = require("../controllers/authController");
+const userController = require("../controllers/userController");
 const searchController = require("../controllers/searchController");
 const stripeController = require("../controllers/stripeController");
 const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // get patient page
-router.get("/", authController.getPatients);
+router.get("/", userController.getPatients);
 
 // post new patient (authentication)
 router.post("/signup", authController.signupPatient);
@@ -24,9 +25,12 @@ router.get("/search", searchController.findDoctor);
 router.get("/pay", stripeController.createPaymentIntent);
 
 // get patient by id
-router.get("/:id", requireAuth, authController.getPatientById);
+router.get("/:id", userController.getPatientById);
+
+// put patient by id
+router.put("/:id", userController.putPatientById);
 
 // delete patient by id
-router.delete("/:id", requireAuth, authController.deletePatientById);
+router.delete("/:id", userController.deletePatientById);
 
 module.exports = router;
