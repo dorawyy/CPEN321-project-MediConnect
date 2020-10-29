@@ -4,12 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-<<<<<<< HEAD
+
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import sqip.react.SquareInAppPaymentsPackage;
-=======
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
->>>>>>> b5f071b96df8c90fdedd41c9f2e39235fcf680c8
+//import sqip.react.SquareInAppPaymentsPackage;
+
+//import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;

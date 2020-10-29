@@ -2,41 +2,43 @@
 import React, { version } from 'react';
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios';
 
   
 
 class Symptoms extends Component {
 
     state = {
-        doctor: [],
+            serverData: [],
     }
 
+        componentDidMount = () => {
+            axios
+            .post("http://54.183.200.234:5000/patient/search", {
+                symptoms: ["Chest pain"],
+            })
+            .then((res) => {
+                console.log(res.data),
+                this.setState({
+                    serverData: res.data,
+               });
+            })
+            .catch((err) => console.log(err));
+        }
 
     render() {
           
         return (
              <View style={styles.container}>
                     <View>
-                        <Text style = {styles.header}>Here</Text>
+                        <Text style = {styles.header}>Enter Your Symptom Here</Text>
                         <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Enter Symptoms" 
                                 autoCapitalize = "none" required></TextInput>
+                        <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("Doctors")}>Report Symptoms</Text></TouchableOpacity>
                     </View>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Last Name" 
-                                autoCapitalize = "none" onChangeText = {this.handleLastName} required></TextInput>
-                    </View>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
-                                autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
-                    </View>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Password" 
-                                autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
-                    </View>
-
-
-
              </View>
+
+
 
         );
     }
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        // alignItems: "center",
+         alignItems: "center",
         justifyContent: "center",
         // margin: "15%",
         backgroundColor: "white",
@@ -58,10 +60,54 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        color: "#02f0c8", 
-    }
+        color: "#02f0c8",
+        fontSize: 18
+    },
 
+    text: {
+            color:"#5c5c5c",
+            fontSize: 15,
+    },
 
+    button: {
+            backgroundColor: 'white',
+            padding: 10,
+            margin: 15,
+            height: 40,
+            alignItems: "center",
+            justifyContent: "center",
+            shadowColor: "black",
+            borderRadius: 7,
+    },
+
+    buttonText:{
+            fontFamily: 'Iowan Old Style',
+            fontSize: 15,
+            color: '#02d9b5'
+     },
+
+     doctor: {
+             //display: None,
+             borderRadius: 7,
+             backgroundColor: "#d9d9d9",
+             height: 105,
+             width: 270,
+             margin: 5,
+             borderRadius: 5,
+             shadowColor: "black",
+             shadowOpacity:1,
+             shadowRadius: 4.65,
+             elevation: 8,
+             padding: 10,
+             alignSelf: "center",
+
+         },
+
+         doctorinfo: {
+             fontFamily: 'Iowan Old Style',
+             color:"black",
+             fontSize: 11,
+         }
 
 
 });

@@ -10,12 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-<<<<<<< HEAD
+
     "-": "0.0.1",
-=======
+
     "@react-native-async-storage/async-storage": "^1.13.1",
     "@react-native-community/cookies": "^5.0.1",
->>>>>>> b5f071b96df8c90fdedd41c9f2e39235fcf680c8
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.8.0",
     "@react-navigation/stack": "^5.10.0",
