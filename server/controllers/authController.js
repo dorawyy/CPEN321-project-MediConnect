@@ -8,6 +8,11 @@ const Doctor = require("../models/doctor");
 const { handleErrors } = require("../middleware/errMiddleware");
 const jwt = require("jsonwebtoken");
 
+/*
+ * Common functions for all users (patients and doctors), the type of user
+ * is specified by the model parameter
+ */
+
 // Token creation
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
@@ -28,7 +33,7 @@ const signupUser = async (req, res, model, userObj) => {
   }
 };
 
-// Login user. User must have provided legal parameters
+// Sign in user. User must have provided legal parameters
 const signinUser = async (req, res, model) => {
   const { email, password } = req.body;
 
@@ -43,7 +48,7 @@ const signinUser = async (req, res, model) => {
   }
 };
 
-// Logout user
+// Sign out user
 const signoutUser = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.status(200).json({ message: "Logout successful" });
@@ -79,12 +84,12 @@ const signupPatient = (req, res) => {
   });
 };
 
-// Post a patient login
+// Post a patient signin
 const signinPatient = (req, res) => {
   signinUser(req, res, Patient);
 };
 
-// Get patient logout
+// Get patient signout
 const signoutPatient = (req, res) => {
   signoutUser(req, res);
 };
@@ -114,12 +119,12 @@ const signupDoctor = (req, res) => {
   });
 };
 
-// Post a doctor login
+// Post a doctor signin
 const signinDoctor = (req, res) => {
   signinUser(req, res, Doctor);
 };
 
-// Get doctor logout
+// Get doctor signout
 const signoutDoctor = (req, res) => {
   signoutUser(req, res);
 };

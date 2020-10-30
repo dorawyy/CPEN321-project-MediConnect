@@ -40,15 +40,20 @@ const UserSchema = new Schema(
       // required: true,
       min: [0, "Age must at least 0"],
     },
+    appointments: [{ type: Schema.Types.ObjectId, ref: "Appointment" }],
   },
   userOptions
 );
 
 // Hash the password before doc saved to db
 UserSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
+  if (this.isModified("password")) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } else {
+    next();
+  }
 });
 
 // Static method to login user

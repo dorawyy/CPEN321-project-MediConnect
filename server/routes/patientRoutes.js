@@ -1,36 +1,59 @@
+/*
+ * Routes dedicated to handling requests from patients or requests pertaining
+ * to patients
+ */
+
 const express = require("express");
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
+const appointController = require("../controllers/appointController");
 const searchController = require("../controllers/searchController");
 const stripeController = require("../controllers/stripeController");
 const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-// get patient page
+// Convenient endpoint for viewing all patients
 router.get("/", userController.getPatients);
 
-// post new patient (authentication)
+/*
+ * Routes relating to patient authentication
+ */
 router.post("/signup", authController.signupPatient);
 
-// post patient signin
 router.post("/signin", authController.signinPatient);
 
-// get patient signout
 router.get("/signout", authController.signoutPatient);
 
-// post symptoms to doctor specialization
+/*
+ * Routes relating to patient search for doctors based on symptoms
+ */
 router.get("/search", searchController.findDoctor);
 
-// get request for payment
+/*
+ * Routes relating to patient payment to doctor
+ * TODO: Mudit please handle this external API
+ */
 router.get("/pay", stripeController.createPaymentIntent);
 
-// get patient by id
+/*
+ * Routes relating to patient CRUB database operations
+ */
 router.get("/:id", userController.getPatientById);
 
-// put patient by id
 router.put("/:id", userController.putPatientById);
 
-// delete patient by id
 router.delete("/:id", userController.deletePatientById);
+
+/*
+ * Routes relating to appointment booking
+ * TODO: Daniel add support for get, put, and delete
+ */
+router.get("/appointment/:id", appointController.getAppointments);
+
+router.post("/appointment", appointController.postAppointment);
+
+router.put("/appointment", appointController.putAppointment);
+
+router.delete("/appointment", appointController.deleteAppointment);
 
 module.exports = router;
