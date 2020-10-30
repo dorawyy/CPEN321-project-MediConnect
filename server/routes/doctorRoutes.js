@@ -1,28 +1,43 @@
+/*
+ * Routes dedicated to handling requests from doctors or requests pertaining
+ * to doctors
+ */
+
 const express = require("express");
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
+const appointController = require("../controllers/appointController");
 const { requireAuth } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-// get doctor page
+// Convenient endpoint for viewing all doctors
 router.get("/", userController.getDoctors);
 
-// post new doctor (authentication)
+/*
+ * Routes relating to doctor authentication
+ */
 router.post("/signup", authController.signupDoctor);
 
-// post doctor signin
 router.post("/signin", authController.signinDoctor);
 
-// get doctor signout
 router.get("/signout", authController.signoutDoctor);
 
-// get doctor by id
+/*
+ * Routes relating to doctor CRUB database operations
+ */
 router.get("/:id", requireAuth, userController.getDoctorById);
 
-// put doctor by id
 router.put("/:id", requireAuth, userController.putDoctorById);
 
-// delete doctor by id
 router.delete("/:id", requireAuth, userController.deleteDoctorById);
+
+/*
+ * Routes relating to appointment booking
+ */
+router.get("/appointment/:id", appointController.getAppointments);
+
+router.put("/appointment", appointController.putAppointment);
+
+router.delete("/appointment", appointController.deleteAppointment);
 
 module.exports = router;

@@ -36,9 +36,9 @@ axios.defaults.withCredentials = true;
 //   .catch((err) => console.log(err.response.data));
 
 // axios
-//   .post("http://54.183.200.234:5000/doctor/signin", {
-//     email: "mario@gmail.com",
-//     password: "savepeach",
+//   .post("http://localhost:5000/patient/signin", {
+//     email: "johnsmith@gmail.com",
+//     password: "password",
 //   })
 //   .then((res) => {
 //     const cookie = res.headers["set-cookie"];
@@ -67,14 +67,24 @@ axios.defaults.withCredentials = true;
 //   .then((res) => console.log(res.data))
 //   .catch((err) => console.log(err));
 
-axios
-  .put("http://localhost:5000/doctor/5f9a72292614191b8231ce1c", {
-    age: "30",
-  })
-  .then((res) => console.log(res.data))
-  .catch((err) => console.log(err));
+// axios
+//   .put("http://localhost:5000/doctor/5f9a72292614191b8231ce1c", {
+//     age: "30",
+//   })
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err));
 
 // axios
 //   .get("http://localhost:5000/patient/pay")
 //   .then((res) => console.log(res.data))
 //   .catch((err) => console.log(err));
+
+axios
+  .post("http://localhost:5000/patient/appoint", {
+    patientId: "5f9a722a2614191b8231ce24",
+    doctorId: "5f9a72292614191b8231ce1c",
+    appointment_time: "time",
+    appointment_date: "date",
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
