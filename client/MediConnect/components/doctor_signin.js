@@ -7,7 +7,7 @@ import axios from 'axios';
 // import AsyncStorage from '@react-native-community/async-storage';
 // const { signIn } = React.useContext(AuthContext);
 
-class SignIn extends Component {
+class DoctorSignIn extends Component {
 
     state = {
         email: '',
@@ -89,7 +89,15 @@ class SignIn extends Component {
           
         return (
             <View style={styles.container}>
-                <Image source={require("../assets/logo.png")} resizeMode="stretch"/>
+                <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>
+                <View style={styles.toggle}>
+                    <View style={styles.toggleDoctor}>
+                        <TouchableOpacity style={styles.toggletextDoctor}><Text>Doctor</Text></TouchableOpacity>
+                    </View>
+                    <View style={styles.togglePatient}>
+                        <TouchableOpacity><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("PatientSignIn")}>Patient</Text></TouchableOpacity>
+                    </View>
+                </View>
                 <View style={styles.loginbox}>
                     <View>
                         <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
@@ -160,9 +168,45 @@ const styles = StyleSheet.create({
     text: {
         color:"#5c5c5c", 
         fontSize: 15, 
+    },
+
+    toggle: {
+        // alignItems: "center",
+        // justifyContent: "center",
+        flexDirection: 'row', 
+        backgroundColor: '#d9d9d9', 
+        width: 270, 
+        height: 40, 
+        borderRadius: 7, 
+        margin: 10, 
+    },
+
+    toggleDoctor: {
+        // color:"#5c5c5c", 
+        alignItems: "center",
+        justifyContent: "center",
+        width: 135, 
+        backgroundColor: "#02f0c8", 
+        borderRadius: 7, 
+        color: "white", 
+    }, 
+
+    togglePatient: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: 135, 
+        borderRadius: 7, 
+
+    }, 
+
+    logo: {
+        marginBottom: 0, 
+        height: 180, 
+        width: 180, 
     }
+
 
 });
   
 
-export default SignIn;
+export default DoctorSignIn;

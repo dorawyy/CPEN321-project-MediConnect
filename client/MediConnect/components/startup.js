@@ -13,8 +13,8 @@ class StartUp extends Component {
         return (
             <View style={styles.container}>
                 <Image source={require("../assets/logo.png")} resizeMode="stretch"/>
-                <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("SignUp")}>Sign Up</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("SignIn")}>Sign In</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("DoctorSignUp")}>Sign Up</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("DoctorSignIn")}>Sign In</Text></TouchableOpacity>
             </View>
 
         );
