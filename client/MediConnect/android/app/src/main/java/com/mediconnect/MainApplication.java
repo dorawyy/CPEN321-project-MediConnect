@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.reactnativecommunity.cookies.CookieManagerPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 //import sqip.react.SquareInAppPaymentsPackage;

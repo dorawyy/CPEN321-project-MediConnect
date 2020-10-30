@@ -39,8 +39,10 @@ const Stack = createStackNavigator();
 
 // import AuthContext from './page.components/context'
 import StartUpPage from './components/startup';
-import SignInPage from './components/signin';
-import SignUpPage from './components/signup';
+import DoctorSignInPage from './components/doctor_signin';
+import DoctorSignUpPage from './components/doctor_signup';
+import PatientSignInPage from './components/patient_signin';
+import PatientSignUpPage from './components/patient_signup';
 import HomePage from './components/home';
 import SymptomsPage from './components/symptoms';
 import DoctorsPage from './components/doctors_result';
@@ -86,8 +88,10 @@ const App: () => React$Node = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="StartUp" component={StartUpPage} options={{headerShown:false}}/>
-        <Stack.Screen name="SignIn" component={SignInPage} options={{headerTitle:false}}/>
-        <Stack.Screen name="SignUp" component={SignUpPage} options={{headerTitle:false}}/>
+        <Stack.Screen name="DoctorSignIn" component={DoctorSignInPage} options={{headerTitle:false}}/>
+        <Stack.Screen name="DoctorSignUp" component={DoctorSignUpPage} options={{headerTitle:false}}/>
+        <Stack.Screen name="PatientSignIn" component={PatientSignInPage} options={{headerTitle:false}}/>
+        <Stack.Screen name="PatientSignUp" component={PatientSignUpPage} options={{headerTitle:false}}/>
         <Stack.Screen name="Home" component={HomePage} options={{headerTitle:false}}/>
         <Stack.Screen name="Symptoms" component={SymptomsPage} options={{headerTitle:false}}/>
         <Stack.Screen name="Doctors" component={DoctorsPage} options={{headerTitle:false}}/>

@@ -18,6 +18,8 @@ target 'MediConnect' do
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 >>>>>>> b5f071b96df8c90fdedd41c9f2e39235fcf680c8
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'MediConnectTests' do
     inherit! :complete
     # Pods for testing
