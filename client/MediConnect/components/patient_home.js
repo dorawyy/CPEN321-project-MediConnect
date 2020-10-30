@@ -1,12 +1,12 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
 import React, { version } from 'react';
+import 'react-native-paper'
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import axios from 'axios'; 
-
   
 
-class Home extends Component {
+class PatientHome extends Component {
 
     state = {
         serverData: [],
@@ -41,7 +41,6 @@ class Home extends Component {
                                 </View>
                             </View>
                             <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("Symptoms")}>Report Symptoms</Text></TouchableOpacity>
-
              </View>
 
         );
@@ -140,4 +139,4 @@ const styles = StyleSheet.create({
 });
   
 
-export default Home;
+export default PatientHome;

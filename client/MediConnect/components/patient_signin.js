@@ -77,7 +77,7 @@ class PatientSignIn extends Component {
                 //         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
                 //     });
 
-                this.props.navigation.navigate("Home");
+                this.props.navigation.navigate("PatientHome");
 
             })
           .catch((err) =>{ 

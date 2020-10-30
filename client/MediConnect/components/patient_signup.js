@@ -48,7 +48,7 @@ class PatientSignUp extends Component {
           })
           .then((res) => {
               console.log(res.data); 
-              this.props.navigation.navigate("Home");
+              this.props.navigation.navigate("PatientHome");
             })
           .catch((err) =>{ 
             console.log(err.response.data);
