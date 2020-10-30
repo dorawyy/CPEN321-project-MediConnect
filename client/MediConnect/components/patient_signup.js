@@ -3,8 +3,8 @@ import React, { version } from 'react';
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import axios from 'axios'; 
-import Validator from 'validator'; 
-import validator from 'validator';
+import LinearGradient from 'react-native-linear-gradient';
+
 
   
 
@@ -39,7 +39,7 @@ class PatientSignUp extends Component {
 
     async signup() {
 
-        axios.post("http://54.183.200.234:5000/doctor/signup", {
+        axios.post("http://54.183.200.234:5000/patient/signup", {
             first_name: this.state.firstName,
             last_name: this.state.lastName,
             email: this.state.email,
@@ -56,39 +56,45 @@ class PatientSignUp extends Component {
     render() {
           
         return (
-            <View style={styles.container}>
-                <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>
-                <View style={styles.toggle}>
-                    <View style={styles.toggleDoctor}>
-                        <TouchableOpacity style={styles.toggletextDoctor} onPress={() => this.props.navigation.navigate("DoctorSignUp")}><Text>Doctor</Text></TouchableOpacity>
-                    </View>
-                    <View style={styles.togglePatient}>
-                        <TouchableOpacity><Text style={styles.buttonText}>Patient</Text></TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.accountbox}>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "First Name" 
-                                autoCapitalize = "none" onChangeText = {this.handleFirstName} required></TextInput>
-                    </View>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Last Name" 
-                                autoCapitalize = "none" onChangeText = {this.handleLastName} required></TextInput>
-                    </View>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
-                                autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
-                    </View>
-                    <View>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Password" 
-                                autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
-                    </View>
 
-                    <TouchableOpacity style = {styles.submitButton} onPress = {() => this.signup(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
-                        <Text style = {styles.submitButtonText}> SIGN UP </Text>
-                    </TouchableOpacity>
+            <LinearGradient   start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
+            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.3)']} style={styles.LinearGradient}>
+
+                <View style={styles.container}>
+                    <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>
+                    <View style={styles.toggle}>
+                        <View style={styles.toggleDoctor}>
+                            <TouchableOpacity style={styles.toggletextDoctor} onPress={() => this.props.navigation.navigate("DoctorSignUp")}><Text>DOCTOR</Text></TouchableOpacity>
+                        </View>
+                        <View style={styles.togglePatient}>
+                            <TouchableOpacity><Text style={styles.buttonText}>PATIENT</Text></TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={styles.accountbox}>
+                        <View>
+                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "First Name" 
+                                    autoCapitalize = "none" onChangeText = {this.handleFirstName} required></TextInput>
+                        </View>
+                        <View>
+                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Last Name" 
+                                    autoCapitalize = "none" onChangeText = {this.handleLastName} required></TextInput>
+                        </View>
+                        <View>
+                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
+                                    autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
+                        </View>
+                        <View>
+                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Password" 
+                                    autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
+                        </View>
+
+                        <TouchableOpacity style = {styles.submitButton} onPress = {() => this.signup(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
+                            <Text style = {styles.submitButtonText}> SIGN UP </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
+            </LinearGradient>
+
 
         );
     }
@@ -96,16 +102,19 @@ class PatientSignUp extends Component {
 
 const styles = StyleSheet.create({
 
+    LinearGradient: {
+        width: "100%",
+        height: "100%", 
+    },
+
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
         // margin: "15%",
-        backgroundColor: "white", 
         fontFamily: 'Iowan Old Style', 
         width: "100%",
         height: "100%", 
-        // backgroundColor: linear-gradient(#00ff99 29%, #00ffff 100%);
     },
 
     accountbox: {
@@ -136,12 +145,14 @@ const styles = StyleSheet.create({
      submitButtonText:{
         fontFamily: 'Iowan Old Style', 
         fontSize: 17, 
-        color: '#02d9b5'
+        color:"#5c5c5c", 
      }, 
 
     text: {
         color:"#5c5c5c", 
         fontSize: 15, 
+        fontFamily: 'Iowan Old Style', 
+
     },
 
     toggle: {
@@ -153,6 +164,8 @@ const styles = StyleSheet.create({
         height: 40, 
         borderRadius: 7, 
         margin: 10, 
+        fontFamily: 'Iowan Old Style', 
+
     },
 
     togglePatient: {
