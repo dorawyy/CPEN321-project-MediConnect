@@ -58,7 +58,8 @@ class PatientSignIn extends Component {
 
     async signin() {
 
-        axios.post("http://54.183.200.234:5000/patient/signin", {
+        // axios.post("http://54.183.200.234:5000/patient/signin", {
+        axios.post("http://localhost:5000/patient/signin", {
             email: this.state.email,
             password: this.state.password,
           })
@@ -92,7 +93,7 @@ class PatientSignIn extends Component {
         return (
 
             <LinearGradient   start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
-            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.3)']} style={styles.LinearGradient}>
+            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']} style={styles.LinearGradient}>
 
                 <View style={styles.container}>
                     <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>

@@ -3,8 +3,6 @@ import React, { version } from 'react';
 import { Component } from 'react';
 import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import axios from 'axios'; 
-import Validator from 'validator'; 
-import validator from 'validator';
 import LinearGradient from 'react-native-linear-gradient';
 
 
@@ -41,7 +39,8 @@ class DoctorSignUp extends Component {
 
     async signup() {
 
-        axios.post("http://54.183.200.234:5000/doctor/signup", {
+        // axios.post("http://54.183.200.234:5000/doctor/signup", {
+        axios.post("http://localhost:5000/doctor/signup", {
             first_name: this.state.firstName,
             last_name: this.state.lastName,
             email: this.state.email,
@@ -59,7 +58,7 @@ class DoctorSignUp extends Component {
           
         return (
             <LinearGradient   start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
-            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.3)']} style={styles.LinearGradient}>
+            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']} style={styles.LinearGradient}>
   
                 <View style={styles.container}>
                     <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>

@@ -5,9 +5,13 @@ import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } fr
 import axios from 'axios';  
 import LinearGradient from 'react-native-linear-gradient';
 
-// import CookieManager from 'react-native-cookies';
-// import AsyncStorage from '@react-native-community/async-storage';
+import CookieManager from '@react-native-community/cookies';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // const { signIn } = React.useContext(AuthContext);
+
+
+// const axios = require("axios");  
+
 
 class DoctorSignIn extends Component {
 
@@ -58,9 +62,15 @@ class DoctorSignIn extends Component {
 
     async signin() {
 
-        axios.post("http://54.183.200.234:5000/doctor/signin", {
+        console.log("hehehehehe")
+
+        // axios.post("http://54.183.200.234:5000/doctor/signin", {
+        axios.post("http://10.0.2.2:5000/doctor/signin", {
             email: this.state.email,
             password: this.state.password,
+            // email: "alexjones@gmail.com",
+            // password: "12345678",
+
           })
           .then((res) => {
               console.log(res.data); 
@@ -92,7 +102,7 @@ class DoctorSignIn extends Component {
         return (
 
             <LinearGradient   start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
-            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.3)']} style={styles.LinearGradient}>
+            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']} style={styles.LinearGradient}>
 
                 <View style={styles.container}>
                     <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>
