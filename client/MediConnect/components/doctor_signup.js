@@ -40,14 +40,17 @@ class DoctorSignUp extends Component {
     async signup() {
 
         // axios.post("http://54.183.200.234:5000/doctor/signup", {
-        axios.post("http://localhost:5000/doctor/signup", {
+        axios.post("http://10.0.2.2:5000/doctor/signup", {
             first_name: this.state.firstName,
             last_name: this.state.lastName,
             email: this.state.email,
             password: this.state.password,
           })
-          .then((res) => console.log(res.data))
-          .catch((err) =>{ 
+        .then((res) => {
+              console.log(res.data); 
+              this.props.navigation.navigate("Home");
+            })
+        .catch((err) =>{ 
             console.log(err.response.data);
             alert(err.response.data.first_name + '\n' + err.response.data.last_name + '\n' + err.response.data.email + '\n' + err.response.data.password);
           });    

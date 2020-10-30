@@ -68,9 +68,6 @@ class DoctorSignIn extends Component {
         axios.post("http://10.0.2.2:5000/doctor/signin", {
             email: this.state.email,
             password: this.state.password,
-            // email: "alexjones@gmail.com",
-            // password: "12345678",
-
           })
           .then((res) => {
               console.log(res.data); 

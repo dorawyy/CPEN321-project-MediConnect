@@ -59,7 +59,7 @@ class PatientSignIn extends Component {
     async signin() {
 
         // axios.post("http://54.183.200.234:5000/patient/signin", {
-        axios.post("http://localhost:5000/patient/signin", {
+        axios.post("http://10.0.2.2:5000/patient/signin", {
             email: this.state.email,
             password: this.state.password,
           })
