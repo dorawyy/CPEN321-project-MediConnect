@@ -79,12 +79,25 @@ axios.defaults.withCredentials = true;
 //   .then((res) => console.log(res.data))
 //   .catch((err) => console.log(err));
 
+// axios
+//   .post("http://localhost:5000/patient/appointment", {
+//     patientId: "5f9a722a2614191b8231ce24",
+//     doctorId: "5f9a72292614191b8231ce1c",
+//     appointment_time: "time1",
+//     appointment_date: "date1",
+//   })
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
+
+// axios
+//   .delete("http://localhost:5000/patient/appointment/5f9cca7ca4ae3e936bdaec79")
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
+
 axios
-  .post("http://localhost:5000/patient/appoint", {
-    patientId: "5f9a722a2614191b8231ce24",
-    doctorId: "5f9a72292614191b8231ce1c",
-    appointment_time: "time",
-    appointment_date: "date",
+  .put("http://localhost:5000/patient/appointment/5f9cd13beddd611162178c83", {
+    appointment_time: "time3",
+    appointment_date: "date3",
   })
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
