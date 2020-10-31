@@ -4,5 +4,6 @@ matrix:
       node_js: 12
       before_script:
         - cd server
+        - npm install
       script:
         - npm test
