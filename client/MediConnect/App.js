@@ -8,6 +8,8 @@ import 'react-native-gesture-handler';
  */
 
 import React, { useEffect } from 'react';
+import 'react-native-paper'; 
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -43,9 +45,12 @@ import DoctorSignInPage from './components/doctor_signin';
 import DoctorSignUpPage from './components/doctor_signup';
 import PatientSignInPage from './components/patient_signin';
 import PatientSignUpPage from './components/patient_signup';
-import HomePage from './components/home';
+import DoctorHomePage from './components/doctor_home';
+import PatientHomePage from './components/patient_home';
 import SymptomsPage from './components/symptoms';
 import DoctorsPage from './components/doctors_result';
+import DoctorSettingsPage from './components/doctor_settings';
+import DoctorHomeNavigatorPage from './components/doctor_home_navigator';
 
 
 const App: () => React$Node = () => {
@@ -92,9 +97,12 @@ const App: () => React$Node = () => {
         <Stack.Screen name="DoctorSignUp" component={DoctorSignUpPage} options={{headerTitle:false}}/>
         <Stack.Screen name="PatientSignIn" component={PatientSignInPage} options={{headerTitle:false}}/>
         <Stack.Screen name="PatientSignUp" component={PatientSignUpPage} options={{headerTitle:false}}/>
-        <Stack.Screen name="Home" component={HomePage} options={{headerTitle:false}}/>
+        <Stack.Screen name="DoctorHome" component={DoctorHomePage} options={{headerTitle:false}}/>
+        <Stack.Screen name="PatientHome" component={PatientHomePage} options={{headerTitle:false}}/>
         <Stack.Screen name="Symptoms" component={SymptomsPage} options={{headerTitle:false}}/>
         <Stack.Screen name="Doctors" component={DoctorsPage} options={{headerTitle:false}}/>
+        <Stack.Screen name="DoctorSettings" component={DoctorSettingsPage} options={{headerTitle:true}}/>
+        <Stack.Screen name="DoctorHomeNavigator" component={DoctorHomeNavigatorPage} options={{headerTitle:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </>

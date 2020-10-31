@@ -77,7 +77,7 @@ class PatientSignIn extends Component {
                 //         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
                 //     });
 
-                this.props.navigation.navigate("Home");
+                this.props.navigation.navigate("PatientHome");
 
             })
           .catch((err) =>{ 
@@ -111,7 +111,7 @@ class PatientSignIn extends Component {
                                     autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Password" 
+                            <TextInput style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
                                     autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                         </View>
 

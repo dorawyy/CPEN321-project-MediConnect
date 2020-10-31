@@ -48,7 +48,7 @@ class DoctorSignUp extends Component {
           })
         .then((res) => {
               console.log(res.data); 
-              this.props.navigation.navigate("Home");
+              this.props.navigation.navigate("DoctorHomeNavigator");
             })
         .catch((err) =>{ 
             console.log(err.response.data);
@@ -87,7 +87,7 @@ class DoctorSignUp extends Component {
                                     autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Password" 
+                            <TextInput style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
                                     autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                         </View>
 

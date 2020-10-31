@@ -22,6 +22,7 @@ class DoctorSignIn extends Component {
         // passwordList: [],
         serverData: [],
         user: [],
+        cookie: [],
     }
 
     handleEmail = (text) => {
@@ -45,49 +46,81 @@ class DoctorSignIn extends Component {
     
 
     componentDidMount = () => {
-        axios.get('http://54.183.200.234:5000/doctor')
-        .then(response => {
+        // axios.get('http://54.183.200.234:5000/doctor')
+        // .then(response => {
 
-            this.setState({
-                serverData: response.data,             
-           });
+        //     this.setState({
+        //         serverData: response.data,             
+        //    });
 
-            this.getEmailList(); 
-            // this.getPasswordList(); 
-        })
-        .catch(error =>  {
-            console.log(error.data)
-        })
+        //     this.getEmailList(); 
+        //     // this.getPasswordList(); 
+        // })
+        // .catch(error =>  {
+        //     console.log(error.data)
+        // })
      }
 
     async signin() {
 
-        console.log("hehehehehe")
-
+        var current_user = ""
+        CookieManager.clearAll();
         // axios.post("http://54.183.200.234:5000/doctor/signin", {
         axios.post("http://10.0.2.2:5000/doctor/signin", {
-            email: this.state.email,
-            password: this.state.password,
+            withCredentials:true, 
+            // email: this.state.email,
+            // password: this.state.password,
+            email: "f@gmail.com",
+            password: "12345678",
+            headers: {
+                'Accept':'application/json',
+                'Content-Type': 'application/json'
+            }       
           })
           .then((res) => {
               console.log(res.data); 
+              current_user = res.user;
               
               this.setState({
                   user: res.data, 
+                  cookie: res.headers["set-cookie"],
               })
 
-              console.log('Here' + this.state.user.email)
+              console.log( res.headers["set-cookie"])
 
-                // CookieManager.get("http://54.183.200.234:5000/doctor/signin")
+            // CookieManager.clearAll() //clearing cookies stored 
+
+            // const cookie = AsyncStorage.getItem('cookie')
+            // fetch('api/data', {
+            //     headers: {
+            //         'cookie': cookie
+            //     }
+            // })
+
+
+                // CookieManager.setFromResponse(
+                //     '{{res.data.url}}',
+                //     'user_session=abcdefg; path=/he; expires=Thu, 1 Jan 2030 00:00:00 -0000; secure; HttpOnly')
+                //       .then((success) => {
+                //         console.log('CookieManager.setFromResponse =>', success);
+                //       });
+                
+                // CookieManager.get("http://10.0.2.2:5000/doctor")
                 //     .then((res) => {
                 //         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
                 //     });
 
-                this.props.navigation.navigate("Home");
+
+                // // Get cookies for a url
+                // CookieManager.get('http://10.0.2.2:5000/doctor/signin')
+                // .then((cookies) => {
+                // console.log('CookieManager.get =>', cookies);
+                // });                  
+                this.props.navigation.navigate("DoctorHomeNavigator");
 
             })
           .catch((err) =>{ 
-              console.log(err.response.data);
+              console.log(err.response);
               alert(err.response.data.email + '\n' + err.response.data.password);
             });
     
@@ -117,7 +150,7 @@ class DoctorSignIn extends Component {
                                     autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Password" 
+                            <TextInput style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
                                     autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                         </View>
 
