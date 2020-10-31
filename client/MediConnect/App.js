@@ -51,8 +51,8 @@ import SymptomsPage from './components/symptoms';
 import DoctorsPage from './components/doctors_result';
 import DoctorSettingsPage from './components/doctor_settings';
 import DoctorHomeNavigatorPage from './components/doctor_home_navigator';
-import DoctorAppointments from './components/doctor_appointments';
-import DoctorNotifications from './components/doctor_notifications';
+import DoctorAppointmentsPage from './components/doctor_appointments';
+import DoctorNotificationsPage from './components/doctor_notifications';
 
 
 const App: () => React$Node = () => {
@@ -105,8 +105,8 @@ const App: () => React$Node = () => {
         <Stack.Screen name="Doctors" component={DoctorsPage} options={{headerTitle:false}}/>
         <Stack.Screen name="DoctorSettings" component={DoctorSettingsPage} options={{headerTitle:true}}/>
         <Stack.Screen name="DoctorHomeNavigator" component={DoctorHomeNavigatorPage} options={{headerTitle:false}}/>
-        <Stack.Screen name="DoctorAppointments" component={DoctorAppointments} options={{headerTitle:false}}/>
-        <Stack.Screen name="DoctorNotifications" component={DoctorNotifications} options={{headerTitle:false}}/>
+        <Stack.Screen name="DoctorAppointments" component={DoctorAppointmentsPage} options={{headerTitle:false}}/>
+        <Stack.Screen name="DoctorNotifications" component={DoctorNotificationsPage} options={{headerTitle:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </>
