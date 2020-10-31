@@ -7,6 +7,8 @@ import axios from 'axios';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import DoctorSettingsPage from './doctor_settings';
 import DoctorHome from './doctor_home';
+import DoctorAppointments from './doctor_appointments';
+import DoctorNotifications from './doctor_notifications';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -20,6 +22,8 @@ class Home extends Component {
             <Tab.Navigator >
                 <Tab.Screen name="Settings" component={DoctorSettingsPage} />
                 <Tab.Screen name="Home" component={DoctorHome} />
+                <Tab.Screen name="Appointments" component={DoctorAppointments}/>
+                <Tab.Screen name="Notifications" component={DoctorNotifications}/>
             </Tab.Navigator>
 
         );
