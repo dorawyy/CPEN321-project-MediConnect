@@ -13,62 +13,54 @@ const { handleErrors } = require("../middleware/errMiddleware");
  */
 
 // Get list of all users
-const getUser = (req, res, model) => {
-  model
-    .find()
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
+const getUser = async (req, res, model) => {
+  try {
+    const users = await model.find();
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 };
 
 // Get user by id
-const getUserById = (req, res, model) => {
+const getUserById = async (req, res, model) => {
   const id = req.params.id;
 
-  model
-    .findById(id)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
+  try {
+    const user = await model.findById(id);
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 };
 
 // Put user by id
-const putUserById = (req, res, model) => {
+const putUserById = async (req, res, model) => {
   const id = req.params.id;
 
-  model
-    .findByIdAndUpdate(id, req.body, { runValidators: true })
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      const errors = handleErrors(err);
-      res.status(400).json(errors);
-    });
+  try {
+    await model.findByIdAndUpdate(id, req.body, { runValidators: true });
+    res.status(200).json({ user: id });
+  } catch (err) {
+    console.log(err);
+    const errors = handleErrors(err);
+    res.status(400).json(errors);
+  }
 };
 
 // Delete user by id
-const deleteUserById = (req, res, model) => {
+const deleteUserById = async (req, res, model) => {
   const id = req.params.id;
 
-  model
-    .findByIdAndDelete(id)
-    .then((result) => {
-      res.status(200).json({ message: "Delete successful" });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
+  try {
+    await model.findByIdAndDelete(id);
+    res.status(200).json({ message: "Delete user account successful" });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 };
 
 /*
