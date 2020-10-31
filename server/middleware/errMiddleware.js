@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 // Error handler
 const handleErrors = (err) => {
   let errors = { first_name: "", last_name: "", email: "", password: "" };
@@ -32,4 +34,33 @@ const handleErrors = (err) => {
   return errors;
 };
 
-module.exports = { handleErrors };
+const handleAppointmentErrors = (err) => {
+  let errors = { patientId: "", doctorId: "", start_time: "", end_time: "" };
+
+  // incorrect patient ID
+  if (err.message === "Invalid patient ID") {
+    errors.patient = "Patient account doesn't exist";
+  }
+
+  // incorrect doctor ID
+  if (err.message === "Invalid doctor ID") {
+    errors.doctor = "Doctor account doesn't exist";
+  }
+
+  // incorrect appointment ID
+  if (err.message === "Invalid appointment ID") {
+    errors.start_time = "Appointment doesn't exist";
+    errors.end_time = "Appointment doesn't exist";
+  }
+
+  // validation errors
+  if (err.message.includes("Appointment validation failed")) {
+    Object.values(err.errors).forEach(({ properties }) => {
+      errors[properties.path] = properties.message;
+    });
+  }
+
+  return errors;
+};
+
+module.exports = { handleErrors, handleAppointmentErrors };

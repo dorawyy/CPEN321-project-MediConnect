@@ -46,7 +46,6 @@ router.delete("/:id", userController.deletePatientById);
 
 /*
  * Routes relating to appointment booking
- * TODO: Daniel add support for get, put, and delete
  */
 router.get("/appointment/:id", appointController.getAppointments);
 

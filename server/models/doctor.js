@@ -17,7 +17,6 @@ const DoctorSchema = new Schema({
 });
 
 DoctorSchema.pre("save", function (next) {
-  console.log(this.years_of_experience);
   this.rating = this.verified
     ? this.years_of_experience * 2
     : this.years_of_experience;
