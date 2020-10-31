@@ -111,7 +111,7 @@ class PatientSignIn extends Component {
                                     autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Password" 
+                            <TextInput style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
                                     autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                         </View>
 

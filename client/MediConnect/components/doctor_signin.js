@@ -22,6 +22,7 @@ class DoctorSignIn extends Component {
         // passwordList: [],
         serverData: [],
         user: [],
+        cookie: [],
     }
 
     handleEmail = (text) => {
@@ -82,9 +83,10 @@ class DoctorSignIn extends Component {
               
               this.setState({
                   user: res.data, 
+                  cookie: res.headers["set-cookie"],
               })
 
-              console.log(res.data)
+              console.log( res.headers["set-cookie"])
 
             // CookieManager.clearAll() //clearing cookies stored 
 
@@ -95,17 +97,18 @@ class DoctorSignIn extends Component {
             //     }
             // })
 
+
+                // CookieManager.setFromResponse(
+                //     '{{res.data.url}}',
+                //     'user_session=abcdefg; path=/he; expires=Thu, 1 Jan 2030 00:00:00 -0000; secure; HttpOnly')
+                //       .then((success) => {
+                //         console.log('CookieManager.setFromResponse =>', success);
+                //       });
+                
                 // CookieManager.get("http://10.0.2.2:5000/doctor")
                 //     .then((res) => {
                 //         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
                 //     });
-
-                // CookieManager.setFromResponse(
-                //     '{{res.data.url}}',
-                //     'user_session=abcdefg; path=/; expires=Thu, 1 Jan 2030 00:00:00 -0000; secure; HttpOnly')
-                //       .then((success) => {
-                //         console.log('CookieManager.setFromResponse =>', success);
-                //       });
 
 
                 // // Get cookies for a url
@@ -147,7 +150,7 @@ class DoctorSignIn extends Component {
                                     autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Password" 
+                            <TextInput style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
                                     autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                         </View>
 

@@ -101,7 +101,7 @@ const App: () => React$Node = () => {
         <Stack.Screen name="PatientHome" component={PatientHomePage} options={{headerTitle:false}}/>
         <Stack.Screen name="Symptoms" component={SymptomsPage} options={{headerTitle:false}}/>
         <Stack.Screen name="Doctors" component={DoctorsPage} options={{headerTitle:false}}/>
-        <Stack.Screen name="DoctorSettings" component={DoctorSettingsPage} options={{headerTitle:false}}/>
+        <Stack.Screen name="DoctorSettings" component={DoctorSettingsPage} options={{headerTitle:true}}/>
         <Stack.Screen name="DoctorHomeNavigator" component={DoctorHomeNavigatorPage} options={{headerTitle:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
