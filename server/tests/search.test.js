@@ -1,16 +1,11 @@
 const { ExpectationFailed } = require("http-errors");
 const { TestScheduler } = require("jest");
-import { JsonWebTokenError } from "jsonwebtoken";
-import {
-  symptomToDisease,
-  diseaseToSpecialization,
-  findDoctor,
-} from "../controllers/searchController";
+const search = require("../controllers/searchController");
 
 jest.mock("../controllers/searchController");
-symptomToDisease.mock.mockResolvedValue([]);
-diseaseToSpecialization.mock.mockResolvedValue([]);
+search.symptomToDisease.mock.mockResolvedValue([]);
+search.diseaseToSpecialization.mock.mockResolvedValue([]);
 
 test("Expect findDoctor to return no doctors if no symptoms are sent", () => {
-  expect(findDoctor).toBe([]);
+  expect(search.findDoctor).toBe([]);
 });
