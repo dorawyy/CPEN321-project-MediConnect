@@ -79,12 +79,30 @@ axios.defaults.withCredentials = true;
 //   .then((res) => console.log(res.data))
 //   .catch((err) => console.log(err));
 
+// axios
+//   .delete("http://localhost:5000/doctor/5f9d10bb7a3444a4ab75eb62")
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err));
+
 axios
-  .post("http://localhost:5000/patient/appoint", {
-    patientId: "5f9a722a2614191b8231ce24",
-    doctorId: "5f9a72292614191b8231ce1c",
-    appointment_time: "time",
-    appointment_date: "date",
+  .post("http://localhost:5000/patient/appointment", {
+    patientId: "5f9d10bc7a3444a4ab75eb6b",
+    doctorId: "5f9d10bb7a3444a4ab75eb63",
+    start_time: "new date lol",
+    end_time: "end date lol",
   })
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
+
+// axios
+//   .delete("http://localhost:5000/patient/appointment/5f9d18b8aec0303aa5f6070d")
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
+
+// axios
+//   .put("http://localhost:5000/patient/appointment/5f9d1d5a1fbc1993c61f8a76", {
+//     start_time: new Date(2020, 11, 20, 11, 0),
+//     end_time: new Date(2020, 11, 20, 12, 0),
+//   })
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));

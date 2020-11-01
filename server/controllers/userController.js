@@ -13,62 +13,43 @@ const { handleErrors } = require("../middleware/errMiddleware");
  */
 
 // Get list of all users
-const getUser = (req, res, model) => {
-  model
-    .find()
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
+const getUser = async (req, res, model) => {
+  try {
+    const users = await model.find();
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 };
 
 // Get user by id
-const getUserById = (req, res, model) => {
+const getUserById = async (req, res, model) => {
   const id = req.params.id;
 
-  model
-    .findById(id)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
+  try {
+    const user = await model.findById(id);
+    if (!user) throw Error("Invalid user ID");
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 };
 
 // Put user by id
-const putUserById = (req, res, model) => {
+const putUserById = async (req, res, model) => {
   const id = req.params.id;
 
-  model
-    .findByIdAndUpdate(id, req.body, { runValidators: true })
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      const errors = handleErrors(err);
-      res.status(400).json(errors);
-    });
-};
-
-// Delete user by id
-const deleteUserById = (req, res, model) => {
-  const id = req.params.id;
-
-  model
-    .findByIdAndDelete(id)
-    .then((result) => {
-      res.status(200).json({ message: "Delete successful" });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
+  try {
+    await model.findByIdAndUpdate(id, req.body, { runValidators: true });
+    res.status(200).json({ user: id });
+  } catch (err) {
+    console.log(err);
+    const errors = handleErrors(err);
+    res.status(400).json(errors);
+  }
 };
 
 /*
@@ -92,8 +73,27 @@ const putPatientById = (req, res) => {
 };
 
 // Delete patient by id
-const deletePatientById = (req, res) => {
-  deleteUserById(req, res, Patient);
+const deletePatientById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await Patient.findById(id).populate("appointments");
+    if (!user) throw Error("Invalid user ID");
+
+    // delete all appointments and remove from other user's appointment array
+    for (let i = user.appointments.length - 1; i >= 0; i--) {
+      const doctor = await Doctor.findById(user.appointments[i].doctorId);
+      doctor.appointments.pull({ _id: user.appointments[i]._id });
+      await user.appointments[i].deleteOne();
+      await doctor.save();
+    }
+    await user.deleteOne();
+
+    res.status(200).json({ message: "Delete user account successful" });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 };
 
 // Get list of all doctors
@@ -112,8 +112,27 @@ const putDoctorById = (req, res) => {
 };
 
 // Delete doctor by id
-const deleteDoctorById = (req, res) => {
-  deleteUserById(req, res, Doctor);
+const deleteDoctorById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await Doctor.findById(id).populate("appointments");
+    if (!user) throw Error("Invalid user ID");
+
+    // delete all appointments and remove from other user's appointment array
+    for (let i = user.appointments.length - 1; i >= 0; i--) {
+      const patient = await Patient.findById(user.appointments[i].patientId);
+      patient.appointments.pull({ _id: user.appointments[i]._id });
+      await user.appointments[i].deleteOne();
+      await patient.save();
+    }
+    await user.deleteOne();
+
+    res.status(200).json({ message: "Delete user account successful" });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 };
 
 module.exports = {

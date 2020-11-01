@@ -17,13 +17,13 @@ const AppointmentSchema = new Schema(
       ref: "Doctor",
       required: [true, "Please enter doctor"],
     },
-    appointment_time: {
-      type: String,
-      required: [true, "Please enter appointment time"],
+    start_time: {
+      type: Date,
+      required: [true, "Please enter start time"],
     },
-    appointment_date: {
-      type: String,
-      required: [true, "Please enter appointment date"],
+    end_time: {
+      type: Date,
+      required: [true, "Please enter end time"],
     },
   },
   appointmentOptions
