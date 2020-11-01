@@ -95,4 +95,4 @@ const findDoctor = async (req, res) => {
   }
 };
 
-module.exports = { findDoctor };
+module.exports = { findDoctor, symptomToDisease, diseaseToSpecialization };
