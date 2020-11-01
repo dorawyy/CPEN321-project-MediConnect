@@ -1,5 +1,5 @@
 const { ExpectationFailed } = require("http-errors");
-const jest = require("jest");
+const { TestScheduler } = require("jest");
 import { JsonWebTokenError } from "jsonwebtoken";
 import {
   symptomToDisease,
