@@ -59,7 +59,7 @@ const putUserById = async (req, res, model) => {
 
 // Get list of all patients
 const getPatients = (req, res) => {
-  getUser(req, res, Patient);
+  module.exports.getUser(req, res, Patient);
 };
 
 // Get patient by id
@@ -98,7 +98,7 @@ const deletePatientById = async (req, res) => {
 
 // Get list of all doctors
 const getDoctors = (req, res) => {
-  getUser(req, res, Doctor);
+  module.exports.getUser(req, res, Doctor);
 };
 
 // Get doctor by id
@@ -144,4 +144,5 @@ module.exports = {
   getDoctorById,
   putDoctorById,
   deleteDoctorById,
+  getUser,
 };
