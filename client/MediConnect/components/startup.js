@@ -13,7 +13,7 @@ class StartUp extends Component {
     render() {
           
         return (
-            <LinearGradient   start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
+            <LinearGradient  testID="StartUp" start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
           colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']} style={styles.container}>
                 {/* <View style={styles.container}> */}
                     <Image source={require("../assets/logo.png")} resizeMode="stretch"/>
