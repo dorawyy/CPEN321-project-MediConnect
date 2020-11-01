@@ -8,12 +8,14 @@ const Doctor = require("../models/doctor");
 const Patient = require("../models/patient");
 
 const patientRouter = require("../routes/patientRoutes");
+const doctorRouter = require("../routes/doctorRoutes");
 const { initMongo, closeMongo } = require("../config/db");
 const { forEach } = require("async");
 
 const app = express();
 app.use(express.json());
 app.use("/patient", patientRouter);
+app.use("/doctor", doctorRouter);
 
 beforeEach((done) => {
   initMongo();
@@ -23,6 +25,18 @@ beforeEach((done) => {
 afterEach((done) => {
   closeMongo();
   done();
+});
+
+test("Expect to get all patients when making request to get a list of all patients (no mocking)", async () => {
+  const res = await supertest(app).get("/patient/");
+  expect(res.body.length).toBe(8);
+  res.body.forEach((item) => {
+    expect(item.userkey).toBe("Patient");
+    expect(item.age).toBeGreaterThanOrEqual(0);
+    expect(typeof item.first_name).toBe("string");
+    expect(typeof item.last_name).toBe("string");
+    expect(typeof item.gender).toBe("string");
+  });
 });
 
 test("Expect to get 1 patient when making request to get a list of all patients", async () => {
@@ -95,16 +109,4 @@ test("Expect to get no doctors when making request to get a list of all doctors"
   const res = await supertest(app).get("/doctor/");
   expect(res.body.length).toBe(0);
   expect(getUserMock.mock.calls.length).toBe(1);
-});
-
-test("Expect to get all patients when making request to get a list of all patients (no mocking)", async () => {
-  const res = await supertest(app).get("/patient/");
-  expect(res.body.length).toBe(8);
-  res.body.forEach((item) => {
-    expect(item.userkey).toBe("Patient");
-    expect(item.age).toBeGreaterThanOrEqual(0);
-    expect(item.first_name).toBeInstanceOf(String);
-    expect(item.last_name).toBeInstanceOf(String);
-    expect(item.gender).toBeInstanceOf(String);
-  });
 });
