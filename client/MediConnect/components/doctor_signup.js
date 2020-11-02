@@ -75,19 +75,19 @@ class DoctorSignUp extends Component {
                     </View>
                     <View style={styles.accountbox}>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "First Name" 
+                            <TextInput testID="firstname" style = {styles.text} underlineColorAndroid = "gray" placeholder = "First Name" 
                                     autoCapitalize = "none" onChangeText = {this.handleFirstName} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Last Name" 
+                            <TextInput testID="lastname" style = {styles.text} underlineColorAndroid = "gray" placeholder = "Last Name" 
                                     autoCapitalize = "none" onChangeText = {this.handleLastName} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
+                            <TextInput testID="email" style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
                                     autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
+                            <TextInput testID="password" style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
                                     autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                         </View>
 
