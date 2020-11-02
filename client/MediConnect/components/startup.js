@@ -16,7 +16,7 @@ class StartUp extends Component {
             <LinearGradient testID="startup" start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
           colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']} style={styles.container}>
                 {/* <View testID="startup" style={testView}> */}
-                    <Image source={require("../assets/logo.png")} resizeMode="stretch"/>
+                    <Image testID="logo" source={require("../assets/logo.png")} resizeMode="stretch"/>
                     <TouchableOpacity testID="signup" style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("DoctorSignUp")}>Sign Up</Text></TouchableOpacity>
                     <TouchableOpacity testID="signin" style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("DoctorSignIn")}>Sign In</Text></TouchableOpacity>
                 {/* </View> */}

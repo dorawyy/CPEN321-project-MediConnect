@@ -21,44 +21,42 @@ class Home extends Component {
           
         return (
             <Tab.Navigator >
+              <Tab.Screen
+                name="Home"
+                component={DoctorHome}
+                options={{
+                  tabBarLabel: 'Home',
+                    tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons name="home" color={color} size={26} />
+                    ),
+                  }}/>
                 <Tab.Screen
-                    name="Settings"
-                    component={DoctorSettingsPage}
-                    options={{
-                           tabBarLabel: 'Settings',
-                           tabBarIcon: ({ color }) => (
-                             <MaterialCommunityIcons name="wrench" color={color} size={26} />
-                           ),
+                  name="Settings"
+                  component={DoctorSettingsPage}
+                  options={{
+                    tabBarLabel: 'Settings',
+                    tabBarIcon: ({ color }) => (
+                      <MaterialCommunityIcons name="wrench" color={color} size={26} />
+                    ),
+                  }}/>
+                <Tab.Screen
+                  name="Appointments"
+                  component={DoctorAppointments}
+                  options={{
+                    tabBarLabel: 'Appointments',
+                    tabBarIcon: ({ color }) => (
+                      <MaterialCommunityIcons name="calendar" color={color} size={26} />
+                    ),
                   }}/>
 
                 <Tab.Screen
-                    name="Home"
-                    component={DoctorHome}
-                    options={{
-                           tabBarLabel: 'Home',
-                           tabBarIcon: ({ color }) => (
-                             <MaterialCommunityIcons name="home" color={color} size={26} />
-                           ),
-                  }}/>
-
-                <Tab.Screen
-                    name="Appointments"
-                    component={DoctorAppointments}
-                    options={{
-                           tabBarLabel: 'Appointments',
-                           tabBarIcon: ({ color }) => (
-                             <MaterialCommunityIcons name="calendar" color={color} size={26} />
-                           ),
-                  }}/>
-
-                <Tab.Screen
-                    name="Notifications"
-                    component={DoctorNotifications}
-                    options={{
-                           tabBarLabel: 'Notifications',
-                           tabBarIcon: ({ color }) => (
-                              <MaterialCommunityIcons name="bell" color={color} size={26} />
-                           ),
+                  name="Notifications"
+                  component={DoctorNotifications}
+                  options={{
+                    tabBarLabel: 'Notifications',
+                    tabBarIcon: ({ color }) => (
+                      <MaterialCommunityIcons name="bell" color={color} size={26} />
+                    ),
                   }}/>
 
             </Tab.Navigator>

@@ -67,10 +67,10 @@ class DoctorSignUp extends Component {
                     <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>
                     <View style={styles.toggle}>
                         <View style={styles.toggleDoctor}>
-                            <TouchableOpacity style={styles.toggletextDoctor}><Text>DOCTOR</Text></TouchableOpacity>
+                            <TouchableOpacity testID="doctorToggle" style={styles.toggletextDoctor}><Text>DOCTOR</Text></TouchableOpacity>
                         </View>
                         <View style={styles.togglePatient}>
-                            <TouchableOpacity><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("PatientSignUp")}>PATIENT</Text></TouchableOpacity>
+                            <TouchableOpacity testID="patientToggle"><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("PatientSignUp")}>PATIENT</Text></TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.accountbox}>
@@ -91,7 +91,7 @@ class DoctorSignUp extends Component {
                                     autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                         </View>
 
-                        <TouchableOpacity style = {styles.submitButton} onPress = {() => this.signup(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
+                        <TouchableOpacity testID="signup_button" style = {styles.submitButton} onPress = {() => this.signup(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
                             <Text style = {styles.submitButtonText}> SIGN UP </Text>
                         </TouchableOpacity>
                     </View>
