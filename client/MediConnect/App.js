@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+// import 'react-native-gesture-handler';
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -35,11 +35,9 @@ import {
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Stack = createStackNavigator();
 
-// import AuthContext from './page.components/context'
 import StartUpPage from './components/startup';
 import DoctorSignInPage from './components/doctor_signin';
 import DoctorSignUpPage from './components/doctor_signup';
@@ -48,7 +46,7 @@ import PatientSignUpPage from './components/patient_signup';
 import DoctorHomePage from './components/doctor_home';
 import PatientHomePage from './components/patient_home';
 import SymptomsPage from './components/symptoms';
-import DoctorsPage from './components/doctors_result';
+import DoctorsPage from './components/doctor_result';
 import DoctorSettingsPage from './components/doctor_settings';
 import DoctorHomeNavigatorPage from './components/doctor_home_navigator';
 import DoctorAppointmentsPage from './components/doctor_appointments';

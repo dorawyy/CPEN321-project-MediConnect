@@ -5,8 +5,8 @@ import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } fr
 import axios from 'axios';  
 import LinearGradient from 'react-native-linear-gradient';
 
-import CookieManager from '@react-native-community/cookies';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import CookieManager from '@react-native-community/cookies';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 // const { signIn } = React.useContext(AuthContext);
 
 
@@ -22,7 +22,7 @@ class DoctorSignIn extends Component {
         // passwordList: [],
         serverData: [],
         user: [],
-        cookie: [],
+        // cookie: [],
     }
 
     handleEmail = (text) => {
@@ -64,7 +64,7 @@ class DoctorSignIn extends Component {
     async signin() {
 
         var current_user = ""
-        CookieManager.clearAll();
+        // CookieManager.clearAll();
         // axios.post("http://54.183.200.234:5000/doctor/signin", {
         axios.post("http://10.0.2.2:5000/doctor/signin", {
             withCredentials:true, 
