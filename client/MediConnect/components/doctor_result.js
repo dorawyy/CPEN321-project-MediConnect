@@ -6,39 +6,43 @@ import axios from 'axios';
 
 class Doctors extends Component {
 
-    state = {
-            serverData: [],
-    }
+    
 
-        componentDidMount = () => {
-            axios
-            .post("http://54.183.200.234:5000/patient/search", {
-                symptoms: ["Chest pain"],
-            })
-            .then((res) => {
-                console.log(res.data),
-                this.setState({
-                    serverData: res.data,
-               });
-            })
-            .catch((err) => console.log(err));
-        }
+
+    componentDidMount = () => {
+        
+        axios
+        // .post("http://54.183.200.234:5000/patient/search", {
+        .post("http://10.0.2.2:5000/patient/search", {
+            symptoms: this.state.symptom,
+        })
+        .then((res) => {
+            console.log(res.data),
+            this.setState({
+                serverData: res.data,
+            });
+            this.props.navigation.navigate("Doctors");
+        })
+        .catch((err) =>{ 
+            console.log(err.response.data);
+          });      
+    }
 
     render() {
 
         return (
              <View style={styles.container}>
-                    <Text style = {styles.header}>Doctors Found</Text>
-                    <View>
-                                 {this.state.serverData.map(serverData =><View style={styles.doctor} key={serverData.password}>
-                                 <Text style={styles.doctorinfo}>{'Doctor Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
-                                 <Text style={styles.doctorinfo}>{'Specialisation: ' + serverData.specialization}</Text>
-                                 <Text style={styles.doctorinfo}>{'Doctor Email: ' + serverData.email}</Text>
-                                 <Text style={styles.doctorinfo}>{'Doctor Rating: ' + serverData.rating}</Text>
-                                 <Text style={styles.doctorinfo}>{'Verified: ' + serverData.verified}</Text>
-                                 <Text style={styles.doctorinfo}>{'Years of Experience: ' + serverData.years_of_experience}</Text>
-                                 </View>)}
-                    </View>
+                <Text style = {styles.header}>Doctors Found</Text>
+                <View>
+                    {this.state.serverData.map(serverData =><View style={styles.doctor} key={serverData.password}>
+                    <Text style={styles.doctorinfo}>{'Doctor Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
+                    <Text style={styles.doctorinfo}>{'Specialisation: ' + serverData.specialization}</Text>
+                    <Text style={styles.doctorinfo}>{'Doctor Email: ' + serverData.email}</Text>
+                    <Text style={styles.doctorinfo}>{'Doctor Rating: ' + serverData.rating}</Text>
+                    <Text style={styles.doctorinfo}>{'Verified: ' + serverData.verified}</Text>
+                    <Text style={styles.doctorinfo}>{'Years of Experience: ' + serverData.years_of_experience}</Text>
+                    </View>)}
+                </View>
              </View>
 
 
