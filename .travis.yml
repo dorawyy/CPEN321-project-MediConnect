@@ -9,11 +9,12 @@ matrix:
         - node populatedb.js mongodb://localhost:27017
       script:
         - npm test
-      branches:
-        only:
-          - backend_test
 
-        except:
-          - master
-          - frontend
-          - frontend_test
+  branches:
+    only:
+      - backend_test
+
+    except:
+      - master
+      - frontend
+      - frontend_test
