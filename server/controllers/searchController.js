@@ -73,7 +73,8 @@ const findDoctor = async (req, res) => {
 
     const specializations = await diseaseToSpecialization(diseases);
 
-    const sortedDocs = [];
+    const verifiedDoc = [];
+    const unverifiedDoc = [];
 
     // for each of the most suitable specializations, append doctors in order
     // of decreasing ratings
@@ -85,12 +86,21 @@ const findDoctor = async (req, res) => {
           rating: -1,
         });
 
-        doctors.forEach((doctor) => sortedDocs.push(doctor));
+        doctors.forEach((doctor) => {
+          if (doctor.verified) {
+            verifiedDoc.push(doctor);
+          } else {
+            unverifiedDoc.push(doctor);
+          }
+        });
       })
     );
 
+    const sortedDocs = verifiedDoc.concat(unverifiedDoc);
+
     res.json(sortedDocs);
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 };

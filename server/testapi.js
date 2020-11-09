@@ -58,14 +58,14 @@ axios.defaults.withCredentials = true;
 //   })
 //   .catch((err) => console.log(err));
 
-// axios
-//   .get("http://localhost:5000/patient/search", {
-//     params: {
-//       symptoms: ["Fever"],
-//     },
-//   })
-//   .then((res) => console.log(res.data))
-//   .catch((err) => console.log(err));
+axios
+  .get("http://localhost:5000/patient/search", {
+    params: {
+      symptoms: ["Chest pain"],
+    },
+  })
+  .then((res) => console.log(res.data))
+  .catch((err) => console.log(err));
 
 // axios
 //   .put("http://localhost:5000/doctor/5f9a72292614191b8231ce1c", {
@@ -89,15 +89,15 @@ axios.defaults.withCredentials = true;
 //   .then((res) => console.log(res))
 //   .catch((err) => console.log(err));
 
-axios
-  .post("http://localhost:5000/patient/appointment", {
-    patientId: "5f9d10bc7a3444a4ab75eb6b",
-    doctorId: "5f9d10bb7a3444a4ab75eb63",
-    start_time: "new date lol",
-    //end_time: "end date lol",
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+// axios
+//   .post("http://localhost:5000/patient/appointment", {
+//     patientId: "5f9d10bc7a3444a4ab75eb6b",
+//     doctorId: "5f9d10bb7a3444a4ab75eb63",
+//     start_time: "new date lol",
+//     //end_time: "end date lol",
+//   })
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
 
 // axios
 //   .delete("http://localhost:5000/patient/appointment/5f9d18b8aec0303aa5f6070d")
