@@ -73,19 +73,19 @@ const deletePatientById = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const user = await Patient.findById(id).populate("appointments");
-    if (!user) throw Error("Invalid user ID");
+    const patient = await Patient.findById(id).populate("appointments");
+    if (!patient) throw Error("Invalid patient ID");
 
-    // delete all appointments and remove from other user's appointment array
-    for (let i = user.appointments.length - 1; i >= 0; i--) {
-      const doctor = await Doctor.findById(user.appointments[i].doctorId);
-      doctor.appointments.pull({ _id: user.appointments[i]._id });
-      await user.appointments[i].deleteOne();
+    // delete all appointments and remove from other patient's appointment array
+    for (let i = patient.appointments.length - 1; i >= 0; i--) {
+      const doctor = await Doctor.findById(patient.appointments[i].doctorId);
+      doctor.appointments.pull({ _id: patient.appointments[i]._id });
+      await patient.appointments[i].deleteOne();
       await doctor.save();
     }
-    await user.deleteOne();
+    await patient.deleteOne();
 
-    res.status(200).json({ message: "Delete user account successful" });
+    res.status(200).json({ message: "Delete patient account successful" });
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
@@ -113,19 +113,19 @@ const deleteDoctorById = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const user = await Doctor.findById(id).populate("appointments");
-    if (!user) throw Error("Invalid user ID");
+    const doctor = await Doctor.findById(id).populate("appointments");
+    if (!doctor) throw Error("Invalid doctor ID");
 
-    // delete all appointments and remove from other user's appointment array
-    for (let i = user.appointments.length - 1; i >= 0; i--) {
-      const patient = await Patient.findById(user.appointments[i].patientId);
-      patient.appointments.pull({ _id: user.appointments[i]._id });
-      await user.appointments[i].deleteOne();
+    // delete all appointments and remove from other doctor's appointment array
+    for (let i = doctor.appointments.length - 1; i >= 0; i--) {
+      const patient = await Patient.findById(doctor.appointments[i].patientId);
+      patient.appointments.pull({ _id: doctor.appointments[i]._id });
+      await doctor.appointments[i].deleteOne();
       await patient.save();
     }
-    await user.deleteOne();
+    await doctor.deleteOne();
 
-    res.status(200).json({ message: "Delete user account successful" });
+    res.status(200).json({ message: "Delete doctor account successful" });
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
