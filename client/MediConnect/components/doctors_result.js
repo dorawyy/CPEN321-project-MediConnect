@@ -14,7 +14,7 @@ class Doctors extends Component {
 				symptoms: ['Chest pain'],
 			})
 			.then((res) => {
-				console.log(res.data),
+				console.log(res.data);
 					this.setState({
 						serverData: res.data,
 					});
