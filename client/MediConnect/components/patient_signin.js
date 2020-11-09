@@ -1,11 +1,10 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
-import React, {version} from 'react';
+import React from 'react';
 import {Component} from 'react';
 import {
 	Text,
 	View,
 	Image,
-	Button,
 	StyleSheet,
 	TextInput,
 	TouchableOpacity,
@@ -131,7 +130,7 @@ class PatientSignIn extends Component {
 								autoCapitalize="none"
 								onChangeText={this.handleEmail}
 								required
-							></TextInput>
+							/>
 						</View>
 						<View>
 							<TextInput
@@ -142,7 +141,7 @@ class PatientSignIn extends Component {
 								autoCapitalize="none"
 								onChangeText={this.handlePassword}
 								required
-							></TextInput>
+							/>
 						</View>
 
 						<TouchableOpacity

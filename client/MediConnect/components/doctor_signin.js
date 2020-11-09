@@ -31,10 +31,6 @@ class DoctorSignIn extends Component {
 		this.setState({password: text});
 	};
 
-	login = (email, pass) => {
-		alert('Email: ' + email + '\nPassword: ' + pass);
-	};
-
 	async signin() {
 		var current_user = '';
 		// CookieManager.clearAll();
@@ -156,7 +152,6 @@ class DoctorSignIn extends Component {
 								required
 							></TextInput>
 						</View>
-
 						<TouchableOpacity
 							testID="signin_button"
 							style={styles.submitButton}

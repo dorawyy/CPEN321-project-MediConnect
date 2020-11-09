@@ -1,5 +1,5 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
-import React, {version} from 'react';
+import React from 'react';
 import {Component} from 'react';
 import {
 	Text,
@@ -31,7 +31,7 @@ class Symptoms extends Component {
 						autoCapitalize="none"
 						onChangeText={this.handleSymptom}
 						required
-					></TextInput>
+					/>
 					<TouchableOpacity style={styles.button}>
 						<Text
 							style={styles.buttonText}

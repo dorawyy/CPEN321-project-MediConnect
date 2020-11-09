@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
 		fontFamily: 'Iowan Old Style',
 		width: '100%',
 		height: '100%',
-		fontFamily: 'Iowan Old Style',
 		// backgroundColor: linear-gradient(#00ff99 29%, #00ffff 100%);
 	},
 

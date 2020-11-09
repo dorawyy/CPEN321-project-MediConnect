@@ -11,10 +11,10 @@ class Doctors extends Component {
 				symptoms: this.state.symptom,
 			})
 			.then((res) => {
-				console.log(res.data),
-					this.setState({
-						serverData: res.data,
-					});
+				console.log(res.data)
+				this.setState({
+					serverData: res.data,
+				});
 				this.props.navigation.navigate('Doctors');
 			})
 			.catch((err) => {

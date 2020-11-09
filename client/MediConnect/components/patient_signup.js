@@ -1,5 +1,5 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
-import React, {version} from 'react';
+import React from 'react';
 import {Component} from 'react';
 import {
 	Text,
@@ -56,15 +56,7 @@ class PatientSignUp extends Component {
 			})
 			.catch((err) => {
 				console.log(err.response.data);
-				alert(
-					err.response.data.first_name +
-						'\n' +
-						err.response.data.last_name +
-						'\n' +
-						err.response.data.email +
-						'\n' +
-						err.response.data.password,
-				);
+				alert(err.response.data.first_name + '\n' + err.response.data.last_name + '\n' + err.response.data.email + '\n' + err.response.data.password);
 			});
 	}
 
