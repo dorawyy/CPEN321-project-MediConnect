@@ -1,20 +1,19 @@
-//import { NavigationHelpersContext } from '@react-navigation/native';
-import React, { version } from 'react';
-import { Component } from 'react';
-import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {Component} from 'react';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-  
-
 class DoctorSettings extends Component {
-
 
     render() {
           
         return (
-            <LinearGradient   start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
-            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']} style={styles.LinearGradient}>
+            <LinearGradient
+            start={{x: 0.0, y: 0.25}}
+            end={{x: 0.7, y: 1}}
+            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
+            style={styles.LinearGradient}>
                 <View style={styles.container}>
                     <View>
                         <TouchableOpacity style={styles.option}>
@@ -46,9 +45,7 @@ class DoctorSettings extends Component {
                             <Text style={styles.optionText}>About</Text>
                         </TouchableOpacity>
                     </View>
-
                 </View>
-
             </LinearGradient>
 
         );
@@ -74,11 +71,9 @@ const styles = StyleSheet.create({
     option: {
         padding: 10, 
         borderColor: '#02f0c8', 
-        // borderWidth: 2, 
         borderRadius: 7, 
         backgroundColor: '#d9d9d9', 
         alignItems: 'center', 
-        // justifyContent: 'center',
         margin: 10, 
         flexDirection: 'row', 
     },
@@ -87,10 +82,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Iowan Old Style', 
         fontSize: 20, 
         color: '#5c5c5c', 
-
     }
-
-
 
 });
   

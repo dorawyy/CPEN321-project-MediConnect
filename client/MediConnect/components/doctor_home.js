@@ -1,12 +1,10 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
-import React, { version } from 'react';
+import React from 'react';
 import 'react-native-paper'
-import { Component } from 'react';
-import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {Component} from 'react';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import axios from 'axios'; 
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import DoctorSettingsPage from './doctor_settings';
-import DoctorSignIn from './doctor_signin';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -32,7 +30,6 @@ class Home extends Component {
         .catch((err) => console.log(err));
     }
 
-
     render() {
           
         return (
@@ -53,20 +50,18 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        // margin: "15%",
         backgroundColor: "white",
         fontFamily: 'Iowan Old Style',
         width: "100%",
         height: "100%",
-        // backgroundColor: linear-gradient(#00ff99 29%, #00ffff 100%);
     },
 
     user_icon: {
-        // alignSelf:"flex-start",
         borderRadius: 5,
         shadowColor: "black",
         shadowOpacity:1,
@@ -74,8 +69,6 @@ const styles = StyleSheet.create({
         padding: 20,
         width: 20,
         height: 20,
-
-
     },
 
     infobox: {
@@ -86,12 +79,9 @@ const styles = StyleSheet.create({
         shadowOpacity:1,
         shadowRadius: 4.65,
         elevation: 8,
-        // height: 100,
         width: 270,
-        // marginTop: 20,
         padding: 20,
     },
-
 
     button: {
         backgroundColor: 'white',
@@ -110,13 +100,11 @@ const styles = StyleSheet.create({
         color: '#02d9b5',
     },
 
-
     text: {
         fontFamily: 'Iowan Old Style',
         color:"#5c5c5c",
         fontSize: 20,
     },
-
 
     doctor: {
         borderRadius: 7, 
@@ -131,14 +119,13 @@ const styles = StyleSheet.create({
         elevation: 8,
         padding: 20,
         alignSelf: "center",
-
     },
     
     doctorinfo: {
         fontFamily: 'Iowan Old Style',
         color:"black",
         fontSize: 12,
-    }
+    },
 
 });
   

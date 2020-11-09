@@ -1,12 +1,8 @@
-//import { NavigationHelpersContext } from '@react-navigation/native';
-import React, { version } from 'react';
+import React from 'react';
 import { Component } from 'react';
-import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {Text, View, Image, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import axios from 'axios'; 
 import LinearGradient from 'react-native-linear-gradient';
-
-
-  
 
 class DoctorSignUp extends Component {
 
@@ -33,10 +29,6 @@ class DoctorSignUp extends Component {
         this.setState({ password: text })
     }
 
-    // signup = (firstName, lastName, email, password) => {
-    //     alert('First Name: ' + firstName + '\nLast Name: ' + lastName  + '\nEmail: ' + email + '\nPassword: ' + password)
-    // }
-
     async signup() {
 
         // axios.post("http://54.183.200.234:5000/doctor/signup", {
@@ -53,16 +45,18 @@ class DoctorSignUp extends Component {
         .catch((err) =>{ 
             console.log(err.response.data);
             alert(err.response.data.first_name + '\n' + err.response.data.last_name + '\n' + err.response.data.email + '\n' + err.response.data.password);
-          });    
+        });    
     
     }
 
     render() {
-          
+
         return (
-            <LinearGradient   start={{x: 0.0, y: 0.25}} end={{x: 0.7, y: 1}}
-            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']} style={styles.LinearGradient}>
-  
+            <LinearGradient
+            start={{x: 0.0, y: 0.25}}
+            end={{x: 0.7, y: 1}}
+            colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
+            style={styles.LinearGradient}>  
                 <View style={styles.container}>
                     <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>
                     <View style={styles.toggle}>
@@ -96,7 +90,6 @@ class DoctorSignUp extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-
             </LinearGradient>
 
         );
@@ -105,32 +98,28 @@ class DoctorSignUp extends Component {
 
 const styles = StyleSheet.create({
 
-
     LinearGradient: {
-        width: "100%",
-        height: "100%", 
+        width: '100%',
+        height: '100%', 
     },
 
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        // margin: "15%",
+        alignItems: 'center',
+        justifyContent: 'center',
         fontFamily: 'Iowan Old Style', 
-        width: "100%",
-        height: "100%", 
-        // backgroundColor: linear-gradient(#00ff99 29%, #00ffff 100%);
+        width: '100%',
+        height: '100%', 
     },
 
     accountbox: {
-        alignSelf: "center",
-        backgroundColor: "#02f0c8", 
+        alignSelf: 'center',
+        backgroundColor: '#02f0c8', 
         borderRadius: 10,
-        shadowColor: "black",
+        shadowColor: 'black',
         shadowOpacity:1,
         shadowRadius: 4.65,
         elevation: 8,
-        // height: 300,
         width: 270, 
         marginTop: 0, 
         padding: 20, 
@@ -141,27 +130,25 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 15,
         height: 40,
-        alignItems: "center",
-        justifyContent: "center",
-        shadowColor: "black",
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: 'black',
         borderRadius: 7, 
-     },
+    },
      
-     submitButtonText:{
+    submitButtonText:{
         fontFamily: 'Iowan Old Style', 
         fontSize: 17, 
         color:"#5c5c5c", 
-     }, 
+    }, 
 
     text: {
         fontFamily: 'Iowan Old Style', 
-        color:"#5c5c5c", 
+        color:'#5c5c5c', 
         fontSize: 15, 
     },
 
     toggle: {
-        // alignItems: "center",
-        // justifyContent: "center",
         flexDirection: 'row', 
         backgroundColor: '#d9d9d9', 
         width: 270, 
@@ -172,19 +159,18 @@ const styles = StyleSheet.create({
     },
 
     toggleDoctor: {
-        // color:"#5c5c5c", 
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
         width: 135, 
-        backgroundColor: "#02f0c8", 
+        backgroundColor: '#02f0c8', 
         borderRadius: 7, 
-        color: "white", 
+        color: 'white', 
         fontSize: 50, 
     }, 
 
     togglePatient: {
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
         width: 135, 
         borderRadius: 7, 
 
@@ -197,6 +183,5 @@ const styles = StyleSheet.create({
     }
 
 });
-  
 
 export default DoctorSignUp;
