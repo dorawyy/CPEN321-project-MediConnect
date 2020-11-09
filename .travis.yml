@@ -1,11 +1,18 @@
-matrix:
-  include:
-    - language: node_js
-      node_js: 12
-      before_script:
-        - cd server
-        - npm install
-        - sudo systemctl start mongod
-        - node populatedb.js mongodb://localhost:27017
-      script:
-        - npm test
+language: node_js
+node_js: 12
+before_script:
+  - cd server
+  - npm install
+  - sudo systemctl start mongod
+  - node populatedb.js mongodb://localhost:27017
+script:
+  - npm test
+
+branches:
+  only:
+    - backend_test
+
+  # except:
+  #   - master
+  #   - frontend
+  #   - frontend_test

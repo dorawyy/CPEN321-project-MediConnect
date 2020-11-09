@@ -40,7 +40,7 @@ test("Expect to get all patients when making request to get a list of all patien
 });
 
 test("Expect to get 1 patient when making request to get a list of all patients", async () => {
-  getUserMock = jest.fn(async (req, res, model) =>
+  const getUserMock = jest.fn(async (req, res, model) =>
     model === Doctor
       ? res.status(200).json([])
       : model === Patient
@@ -77,8 +77,10 @@ test("Expect to get 1 patient when making request to get a list of all patients"
   expect(getUserMock.mock.calls.length).toBe(1);
 });
 
+// comment for adding commit to show TA TravisCI
+
 test("Expect to get no doctors when making request to get a list of all doctors", async () => {
-  getUserMock = jest.fn(async (req, res, model) =>
+  const getUserMock = jest.fn(async (req, res, model) =>
     model === Doctor
       ? res.status(200).json([])
       : model === Patient

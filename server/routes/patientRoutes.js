@@ -36,7 +36,7 @@ router.get("/search", searchController.findDoctor);
 router.get("/pay", stripeController.createPaymentIntent);
 
 /*
- * Routes relating to patient CRUB database operations
+ * Routes relating to patient CRUD database operations
  */
 router.get("/:id", userController.getPatientById);
 

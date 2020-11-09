@@ -68,6 +68,7 @@ const putPatientById = (req, res) => {
 };
 
 // Delete patient by id
+// remember to edit so that we have single deleteUserById with 4 parameters (req, res, model, otherModel)
 const deletePatientById = async (req, res) => {
   const id = req.params.id;
 
@@ -107,6 +108,7 @@ const putDoctorById = (req, res) => {
 };
 
 // Delete doctor by id
+// remember to edit so that we have single deleteUserById with 4 parameters (req, res, model, otherModel)
 const deleteDoctorById = async (req, res) => {
   const id = req.params.id;
 
