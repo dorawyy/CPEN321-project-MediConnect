@@ -36,17 +36,16 @@ class Home extends Component {
     render() {
           
         return (
-             <View style={styles.container}>
-                            <View style={styles.infobox}>
-
-                                <View >
-                                <Text style = {styles.text} >Age    : 43 years</Text>
-                                <Text style = {styles.text} >Gender : M</Text>
-                                <Text style = {styles.text} >Height : 176 cm</Text>
-                                <Text style = {styles.text} >Weight : 78 kg</Text>
-                                </View>
-                            </View>
-
+             <View testID="homepage" style={styles.container}>
+                <View style={styles.infobox}>
+                    <View>
+                        <Text style = {styles.text} >Age    : 43 years</Text>
+                        <Text style = {styles.text} >Gender : M</Text>
+                        <Text style = {styles.text} >Height : 176 cm</Text>
+                        <Text style = {styles.text} >Weight : 78 kg</Text>
+                    </View>
+                    <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("Symptoms")}>Report Symptoms</Text></TouchableOpacity>
+                </View>
              </View>
 
         );
@@ -67,32 +66,31 @@ const styles = StyleSheet.create({
     },
 
     user_icon: {
-                // alignSelf:"flex-start",
-                borderRadius: 5,
-                shadowColor: "black",
-                shadowOpacity:1,
-                shadowRadius: 2.45,
-                padding: 20,
-
-                       width: 20,
-                       height: 20,
+        // alignSelf:"flex-start",
+        borderRadius: 5,
+        shadowColor: "black",
+        shadowOpacity:1,
+        shadowRadius: 2.45,
+        padding: 20,
+        width: 20,
+        height: 20,
 
 
     },
 
     infobox: {
-            alignSelf: "center",
-            backgroundColor: "#02f0c8",
-            borderRadius: 10,
-            shadowColor: "black",
-            shadowOpacity:1,
-            shadowRadius: 4.65,
-            elevation: 8,
-            // height: 100,
-            width: 270,
-            // marginTop: 20,
-            padding: 20,
-        },
+        alignSelf: "center",
+        backgroundColor: "#02f0c8",
+        borderRadius: 10,
+        shadowColor: "black",
+        shadowOpacity:1,
+        shadowRadius: 4.65,
+        elevation: 8,
+        // height: 100,
+        width: 270,
+        // marginTop: 20,
+        padding: 20,
+    },
 
 
     button: {
@@ -114,9 +112,9 @@ const styles = StyleSheet.create({
 
 
     text: {
-             fontFamily: 'Iowan Old Style',
-             color:"white",
-             fontSize: 20,
+        fontFamily: 'Iowan Old Style',
+        color:"#5c5c5c",
+        fontSize: 20,
     },
 
 

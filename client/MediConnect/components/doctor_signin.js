@@ -5,8 +5,8 @@ import { Text, View, Image, Button, StyleSheet, TextInput, TouchableOpacity } fr
 import axios from 'axios';  
 import LinearGradient from 'react-native-linear-gradient';
 
-import CookieManager from '@react-native-community/cookies';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import CookieManager from '@react-native-community/cookies';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 // const { signIn } = React.useContext(AuthContext);
 
 
@@ -22,7 +22,7 @@ class DoctorSignIn extends Component {
         // passwordList: [],
         serverData: [],
         user: [],
-        cookie: [],
+        // cookie: [],
     }
 
     handleEmail = (text) => {
@@ -64,14 +64,14 @@ class DoctorSignIn extends Component {
     async signin() {
 
         var current_user = ""
-        CookieManager.clearAll();
+        // CookieManager.clearAll();
         // axios.post("http://54.183.200.234:5000/doctor/signin", {
         axios.post("http://10.0.2.2:5000/doctor/signin", {
             withCredentials:true, 
-            // email: this.state.email,
-            // password: this.state.password,
-            email: "f@gmail.com",
-            password: "12345678",
+            email: this.state.email,
+            password: this.state.password,
+            // email: "f@gmail.com",
+            // password: "12345678",
             headers: {
                 'Accept':'application/json',
                 'Content-Type': 'application/json'
@@ -138,24 +138,24 @@ class DoctorSignIn extends Component {
                     <Image style={styles.logo} source={require("../assets/logo.png")} resizeMode="stretch"/>
                     <View style={styles.toggle}>
                         <View style={styles.toggleDoctor}>
-                            <TouchableOpacity style={styles.toggletextDoctor}><Text>DOCTOR</Text></TouchableOpacity>
+                            <TouchableOpacity testID="doctorToggle" style={styles.toggletextDoctor}><Text>DOCTOR</Text></TouchableOpacity>
                         </View>
                         <View style={styles.togglePatient}>
-                            <TouchableOpacity><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("PatientSignIn")}>PATIENT</Text></TouchableOpacity>
+                            <TouchableOpacity testID="patientToggle"><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("PatientSignIn")}>PATIENT</Text></TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.loginbox}>
                         <View>
-                            <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
+                            <TextInput testID="email" style = {styles.text} underlineColorAndroid = "gray" placeholder = "Email" 
                                     autoCapitalize = "none" onChangeText = {this.handleEmail} required></TextInput>
                         </View>
                         <View>
-                            <TextInput style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
+                            <TextInput testID="password" style = {styles.text} secureTextEntry={true} underlineColorAndroid = "gray" placeholder = "Password" 
                                     autoCapitalize = "none" onChangeText = {this.handlePassword} required></TextInput>
                         </View>
 
-                        <TouchableOpacity style = {styles.submitButton} onPress = {() => this.signin()}>
-                            <Text style = {styles.submitButtonText}> LOGIN </Text>
+                        <TouchableOpacity testID="signin_button" style = {styles.submitButton} onPress = {() => this.signin()}>
+                            <Text style = {styles.submitButtonText}>SIGN IN</Text>
                         </TouchableOpacity>
                     </View>
                     {/* <Text>{this.state.serverData}</Text> */}
