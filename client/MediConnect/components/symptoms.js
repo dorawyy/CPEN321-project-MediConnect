@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
 		height: 105,
 		width: 270,
 		margin: 5,
-		borderRadius: 5,
 		shadowColor: 'black',
 		shadowOpacity: 1,
 		shadowRadius: 4.65,

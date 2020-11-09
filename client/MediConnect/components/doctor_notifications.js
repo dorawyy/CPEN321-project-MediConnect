@@ -50,7 +50,6 @@ class DoctorNotifications extends Component {
 								checked={this.state.isTaskDone}
 								uncheckedColor="white"
 								checkedColor="blue"
-								checked={this.state.isTaskDone}
 								onPress={this.switchTaskDone}
 							/>
 							<Text style={styles.optionText}>Notification 2</Text>
@@ -65,7 +64,6 @@ class DoctorNotifications extends Component {
 								checked={this.state.isTaskDone}
 								uncheckedColor="white"
 								checkedColor="blue"
-								checked={this.state.isTaskDone}
 								onPress={this.switchTaskDone}
 							/>
 							<Text style={styles.optionText}>Notification 3</Text>
@@ -80,7 +78,6 @@ class DoctorNotifications extends Component {
 								checked={this.state.isTaskDone}
 								uncheckedColor="white"
 								checkedColor="blue"
-								checked={this.state.isTaskDone}
 								onPress={this.switchTaskDone}
 							/>
 							<Text style={styles.optionText}>Notification 4</Text>
@@ -95,7 +92,6 @@ class DoctorNotifications extends Component {
 								checked={this.state.isTaskDone}
 								uncheckedColor="white"
 								checkedColor="blue"
-								checked={this.state.isTaskDone}
 								onPress={this.switchTaskDone}
 							/>
 							<Text style={styles.optionText}>Notification 5</Text>
