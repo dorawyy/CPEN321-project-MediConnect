@@ -30,64 +30,79 @@ import DoctorAppointmentsPage from './components/doctor_appointments';
 import DoctorNotificationsPage from './components/doctor_notifications';
 
 const App: () => React$Node = () => {
-
-  return (
-    <>
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen 
-          name="StartUp" 
-          component={StartUpPage} 
-          options={{headerShown:false}}/>
-        <Stack.Screen 
-          name="DoctorSignIn" 
-          component={DoctorSignInPage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen name="DoctorSignUp" 
-          component={DoctorSignUpPage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen name="PatientSignIn" 
-          component={PatientSignInPage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen name="PatientSignUp" 
-          component={PatientSignUpPage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen name="DoctorHome" 
-          component={DoctorHomePage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen 
-          name="PatientHome" 
-          component={PatientHomePage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen 
-          name="Symptoms" 
-          component={SymptomsPage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen 
-          name="Doctors" 
-          component={DoctorsPage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen 
-          name="DoctorSettings" 
-          component={DoctorSettingsPage} 
-          options={{headerTitle:true}}/>
-        <Stack.Screen 
-          name="DoctorHomeNavigator" 
-          component={DoctorHomeNavigatorPage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen 
-          name="DoctorAppointments" 
-          component={DoctorAppointmentsPage} 
-          options={{headerTitle:false}}/>
-        <Stack.Screen 
-          name="DoctorNotifications" 
-          component={DoctorNotificationsPage} 
-          options={{headerTitle:false}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-    </>
-  );
+	return (
+		<>
+			<NavigationContainer>
+				<Stack.Navigator>
+					<Stack.Screen
+						name="StartUp"
+						component={StartUpPage}
+						options={{headerShown: false}}
+					/>
+					<Stack.Screen
+						name="DoctorSignIn"
+						component={DoctorSignInPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="DoctorSignUp"
+						component={DoctorSignUpPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="PatientSignIn"
+						component={PatientSignInPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="PatientSignUp"
+						component={PatientSignUpPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="DoctorHome"
+						component={DoctorHomePage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="PatientHome"
+						component={PatientHomePage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="Symptoms"
+						component={SymptomsPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="Doctors"
+						component={DoctorsPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="DoctorSettings"
+						component={DoctorSettingsPage}
+						options={{headerTitle: true}}
+					/>
+					<Stack.Screen
+						name="DoctorHomeNavigator"
+						component={DoctorHomeNavigatorPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="DoctorAppointments"
+						component={DoctorAppointmentsPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="DoctorNotifications"
+						component={DoctorNotificationsPage}
+						options={{headerTitle: false}}
+					/>
+				</Stack.Navigator>
+			</NavigationContainer>
+		</>
+	);
 };
-
 
 export default App;
