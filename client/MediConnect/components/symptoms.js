@@ -36,7 +36,7 @@ class Symptoms extends Component {
 						<Text
 							style={styles.buttonText}
 							onPress={() => {
-								const {symptom} = this.state;
+								// const {symptom} = this.state;
 								this.props.navigation.navigate('Doctors');
 							}}
 						>

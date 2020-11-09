@@ -36,7 +36,6 @@ class DoctorNotifications extends Component {
 								checked={this.state.isTaskDone}
 								uncheckedColor="white"
 								checkedColor="blue"
-								checked={this.state.isTaskDone}
 								onPress={this.switchTaskDone}
 							/>
 							<Text style={styles.optionText}>Notification 1</Text>

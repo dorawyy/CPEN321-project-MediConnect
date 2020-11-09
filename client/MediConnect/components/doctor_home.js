@@ -4,9 +4,6 @@ import 'react-native-paper';
 import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import axios from 'axios';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-
-const Tab = createMaterialBottomTabNavigator();
 
 class Home extends Component {
 	state = {
@@ -19,10 +16,10 @@ class Home extends Component {
 				symptoms: ['Chest pain'],
 			})
 			.then((res) => {
-				console.log(res.data),
-					this.setState({
-						serverData: res.data,
-					});
+				console.log(res.data)
+				this.setState({
+					serverData: res.data,
+				});
 			})
 			.catch((err) => console.log(err));
 	};

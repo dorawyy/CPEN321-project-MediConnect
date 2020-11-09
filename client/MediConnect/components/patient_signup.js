@@ -5,7 +5,6 @@ import {
 	Text,
 	View,
 	Image,
-	Button,
 	StyleSheet,
 	TextInput,
 	TouchableOpacity,
@@ -56,7 +55,7 @@ class PatientSignUp extends Component {
 			})
 			.catch((err) => {
 				console.log(err.response.data);
-				alert(err.response.data.first_name + '\n' + err.response.data.last_name + '\n' + err.response.data.email + '\n' + err.response.data.password);
+				// alert(err.response.data.first_name + '\n' + err.response.data.last_name + '\n' + err.response.data.email + '\n' + err.response.data.password);
 			});
 	}
 
@@ -98,7 +97,7 @@ class PatientSignUp extends Component {
 								autoCapitalize="none"
 								onChangeText={this.handleFirstName}
 								required
-							></TextInput>
+							/>
 						</View>
 						<View>
 							<TextInput
@@ -108,7 +107,7 @@ class PatientSignUp extends Component {
 								autoCapitalize="none"
 								onChangeText={this.handleLastName}
 								required
-							></TextInput>
+							/>
 						</View>
 						<View>
 							<TextInput
@@ -118,7 +117,7 @@ class PatientSignUp extends Component {
 								autoCapitalize="none"
 								onChangeText={this.handleEmail}
 								required
-							></TextInput>
+							/>
 						</View>
 						<View>
 							<TextInput
@@ -129,7 +128,7 @@ class PatientSignUp extends Component {
 								autoCapitalize="none"
 								onChangeText={this.handlePassword}
 								required
-							></TextInput>
+							/>
 						</View>
 						<TouchableOpacity
 							style={styles.submitButton}

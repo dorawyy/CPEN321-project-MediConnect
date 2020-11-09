@@ -32,7 +32,7 @@ class DoctorSignIn extends Component {
 	};
 
 	async signin() {
-		var current_user = '';
+		// var current_user = '';
 		// CookieManager.clearAll();
 		// axios.post("http://54.183.200.234:5000/doctor/signin", {
 		axios
@@ -49,7 +49,7 @@ class DoctorSignIn extends Component {
 			})
 			.then((res) => {
 				console.log(res.data);
-				current_user = res.user;
+				// current_user = res.user;
 
 				this.setState({
 					user: res.data,
@@ -88,7 +88,7 @@ class DoctorSignIn extends Component {
 			})
 			.catch((err) => {
 				console.log(err.response);
-				alert(err.response.data.email + '\n' + err.response.data.password);
+				// alert(err.response.data.email + '\n' + err.response.data.password);
 			});
 	}
 
@@ -138,7 +138,7 @@ class DoctorSignIn extends Component {
 								autoCapitalize="none"
 								onChangeText={this.handleEmail}
 								required
-							></TextInput>
+							/>
 						</View>
 						<View>
 							<TextInput
@@ -150,7 +150,7 @@ class DoctorSignIn extends Component {
 								autoCapitalize="none"
 								onChangeText={this.handlePassword}
 								required
-							></TextInput>
+							/>
 						</View>
 						<TouchableOpacity
 							testID="signin_button"

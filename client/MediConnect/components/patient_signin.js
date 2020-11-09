@@ -34,19 +34,6 @@ class PatientSignIn extends Component {
 		this.setState({password: text});
 	};
 
-	login = (email, pass) => {
-		alert('Email: ' + email + '\nPassword: ' + pass);
-		// signIn();
-	};
-
-	getEmailList = () => {
-		i = 0;
-		this.state.serverData.forEach((element) => {
-			this.state.emailList.push(element.email);
-		});
-		// console.log(this.state.emailList[0]);
-	};
-
 	componentDidMount = () => {
 		axios
 			.get('http://54.183.200.234:5000/doctor')
@@ -88,7 +75,7 @@ class PatientSignIn extends Component {
 			})
 			.catch((err) => {
 				console.log(err.response.data);
-				alert(err.response.data.email + '\n' + err.response.data.password);
+				// alert(err.response.data.email + '\n' + err.response.data.password);
 			});
 	}
 

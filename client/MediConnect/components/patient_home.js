@@ -1,4 +1,4 @@
-import React, {version} from 'react';
+import React from 'react';
 import 'react-native-paper';
 import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
@@ -15,10 +15,10 @@ class PatientHome extends Component {
 				symptoms: ['Chest pain'],
 			})
 			.then((res) => {
-				console.log(res.data),
-					this.setState({
-						serverData: res.data,
-					});
+				console.log(res.data);
+				this.setState({
+					serverData: res.data,
+				});
 			})
 			.catch((err) => console.log(err));
 	};
@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
 		height: 150,
 		width: 270,
 		margin: 20,
-		borderRadius: 20,
 		shadowColor: 'black',
 		shadowOpacity: 1,
 		shadowRadius: 4.65,

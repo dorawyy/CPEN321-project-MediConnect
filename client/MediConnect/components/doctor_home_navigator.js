@@ -2,7 +2,6 @@
 import React from 'react';
 import 'react-native-paper';
 import {Component} from 'react';
-import {StyleSheet} from 'react-native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import DoctorSettingsPage from './doctor_settings';
 import DoctorHome from './doctor_home';
@@ -61,7 +60,5 @@ class Home extends Component {
 		);
 	}
 }
-
-const styles = StyleSheet.create({});
 
 export default Home;
