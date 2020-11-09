@@ -5,7 +5,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const initMongo = require("./config/db");
+const { initMongo, closeMongo } = require("./config/db");
 const indexRouter = require("./routes/index");
 const patientRouter = require("./routes/patientRoutes");
 const doctorRouter = require("./routes/doctorRoutes");

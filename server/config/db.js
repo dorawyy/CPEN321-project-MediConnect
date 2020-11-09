@@ -15,4 +15,9 @@ const initMongo = () => {
     .catch((err) => console.log(err));
 };
 
-module.exports = initMongo;
+const closeMongo = () => {
+  mongoose.connection.close();
+  console.log("MongoDB connection closed\n");
+};
+
+module.exports = { initMongo, closeMongo };

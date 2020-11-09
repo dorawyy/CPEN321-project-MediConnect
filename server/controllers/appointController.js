@@ -35,11 +35,13 @@ const getAppointments = async (req, res) => {
     const appointments = await User.findById(id, "appointments").populate(
       "appointments"
     );
+    if (!appointments) throw Error("Invalid user ID");
 
     res.status(200).json(appointments);
   } catch (err) {
     console.log(err);
-    res.status(400).json(err);
+    const errors = handleAppointmentErrors(err);
+    res.status(400).json(errors);
   }
 };
 

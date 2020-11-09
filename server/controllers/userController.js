@@ -14,13 +14,8 @@ const { handleErrors } = require("../middleware/errMiddleware");
 
 // Get list of all users
 const getUser = async (req, res, model) => {
-  try {
-    const users = await model.find();
-    res.status(200).json(users);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
-  }
+  const users = await model.find();
+  res.status(200).json(users);
 };
 
 // Get user by id
@@ -59,7 +54,7 @@ const putUserById = async (req, res, model) => {
 
 // Get list of all patients
 const getPatients = (req, res) => {
-  getUser(req, res, Patient);
+  module.exports.getUser(req, res, Patient);
 };
 
 // Get patient by id
@@ -73,6 +68,7 @@ const putPatientById = (req, res) => {
 };
 
 // Delete patient by id
+// remember to edit so that we have single deleteUserById with 4 parameters (req, res, model, otherModel)
 const deletePatientById = async (req, res) => {
   const id = req.params.id;
 
@@ -98,7 +94,7 @@ const deletePatientById = async (req, res) => {
 
 // Get list of all doctors
 const getDoctors = (req, res) => {
-  getUser(req, res, Doctor);
+  module.exports.getUser(req, res, Doctor);
 };
 
 // Get doctor by id
@@ -112,6 +108,7 @@ const putDoctorById = (req, res) => {
 };
 
 // Delete doctor by id
+// remember to edit so that we have single deleteUserById with 4 parameters (req, res, model, otherModel)
 const deleteDoctorById = async (req, res) => {
   const id = req.params.id;
 
@@ -144,4 +141,5 @@ module.exports = {
   getDoctorById,
   putDoctorById,
   deleteDoctorById,
+  getUser,
 };

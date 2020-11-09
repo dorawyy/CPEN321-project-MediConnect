@@ -47,16 +47,31 @@ const handleAppointmentErrors = (err) => {
     errors.doctor = "Doctor account doesn't exist";
   }
 
+  // incorrect user ID
+  if (err.message === "Invalid user ID") {
+    errors.patient = "User account doesn't exist";
+    errors.doctor = "User account doesn't exist";
+  }
+
   // incorrect appointment ID
   if (err.message === "Invalid appointment ID") {
     errors.start_time = "Appointment doesn't exist";
     errors.end_time = "Appointment doesn't exist";
   }
 
+  // CastError
+  if (err.name === "CastError") {
+    errors[err.path] = err.message;
+  }
+
   // validation errors
   if (err.message.includes("Appointment validation failed")) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
+    Object.values(err.errors).forEach((error) => {
+      if (error.name === "CastError") {
+        errors[error.path] = error.message;
+      } else {
+        errors[error.path] = error.message;
+      }
     });
   }
 
