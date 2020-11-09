@@ -10,36 +10,25 @@ class Symptoms extends Component {
 
     state = {
             serverData: [],
+            symptom: '',
     }
 
-        componentDidMount = () => {
-            axios
-            .post("http://54.183.200.234:5000/patient/search", {
-                symptoms: ["Chest pain"],
-            })
-            .then((res) => {
-                console.log(res.data),
-                this.setState({
-                    serverData: res.data,
-               });
-            })
-            .catch((err) => console.log(err));
-        }
+    handleSymptom = (text) => {
+        this.setState({ symptom: text })
+    }
+
 
     render() {
           
         return (
              <View style={styles.container}>
-                    <View>
-                        <Text style = {styles.header}>Enter Your Symptom Here</Text>
-                        <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Enter Symptoms" 
-                                autoCapitalize = "none" required></TextInput>
-                        <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => this.props.navigation.navigate("Doctors")}>Report Symptoms</Text></TouchableOpacity>
-                    </View>
+                <View>
+                    <Text style = {styles.header}>Enter Your Symptom Here</Text>
+                    <TextInput style = {styles.text} underlineColorAndroid = "gray" placeholder = "Enter Symptoms" 
+                            autoCapitalize = "none" onChangeText = {this.handleSymptom} required></TextInput>
+                    <TouchableOpacity style={styles.button}><Text style={styles.buttonText} onPress={() => {const { symptom } = this.state; this.props.navigation.navigate("Doctors")}}>Report Symptoms</Text></TouchableOpacity>
+                </View>
              </View>
-
-
-
         );
     }
 }
