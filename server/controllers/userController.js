@@ -14,13 +14,8 @@ const { handleErrors } = require("../middleware/errMiddleware");
 
 // Get list of all users
 const getUser = async (req, res, model) => {
-  try {
-    const users = await model.find();
-    res.status(200).json(users);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
-  }
+  const users = await model.find();
+  res.status(200).json(users);
 };
 
 // Get user by id
