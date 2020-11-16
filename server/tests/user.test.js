@@ -7,6 +7,7 @@ const express = require("express");
 const fs = require("fs");
 const Doctor = require("../models/doctor");
 const Patient = require("../models/patient");
+const User = require("../models/user");
 
 const patientRouter = require("../routes/patientRoutes");
 const doctorRouter = require("../routes/doctorRoutes");
@@ -29,8 +30,10 @@ afterAll((done) => {
 });
 
 jest.mock("../middleware/authMiddleware");
+jest.mock("../middleware/errMiddleware");
 
 const { requireAuth } = require("../middleware/authMiddleware");
+const { handleErrors } = require("../middleware/errMiddleware");
 
 test("Expect to get all patients when making request to get a list of all patients (no mocking)", async () => {
   const res = await supertest(app).get("/patient/");
@@ -172,6 +175,11 @@ test("Expect to get no doctors when making request to get a list of all doctors"
   expect(getUserMock.mock.calls.length).toBe(1);
 });
 
-test("Check if patient info updates correctly if a single correct field is changed", async () => {
-  expect(true).toBe(true);
+test("Expect for the user identified by a given id to be deleted from the database", async () => {
+  handleErrors.mockImplementation((err) => err);
+
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).patients[0];
+
+  const res = await (await supertest(app).put("/patient/" + id)).send();
 });
