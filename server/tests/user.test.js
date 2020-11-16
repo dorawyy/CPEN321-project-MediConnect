@@ -177,7 +177,7 @@ test("Expect to get no doctors when making request to get a list of all doctors"
   expect(getUserMock.mock.calls.length).toBe(1);
 });
 
-test("Expect age of Lucy Stank to change from 22 to 50 and then back to 22", async () => {
+test("Expect weight of Lucy Stank to change from 40 to 50 and then back to 40", async () => {
   handleErrors.mockImplementation((err) => err);
 
   const data = fs.readFileSync("./public/data/dbArrays.json");
