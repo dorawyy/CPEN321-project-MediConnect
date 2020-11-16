@@ -1,6 +1,7 @@
 describe('Startup flow test', () => {
 	beforeEach(async () => {
-		//await device.reloadReactNative();
+		// await device.launchApp();
+		await device.reloadReactNative();
 	});
 
 	it('should have startup screen', async () => {
