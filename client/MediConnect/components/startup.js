@@ -7,14 +7,14 @@ import LinearGradient from 'react-native-linear-gradient';
 class StartUp extends Component {
 	render() {
 		return (
-			<View testID="startup">
-							<LinearGradient
+			// <View testID="startup">
+			<LinearGradient
 				start={{x: 0.0, y: 0.25}}
 				end={{x: 0.7, y: 1}}
 				colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
 				style={styles.container}
 			>
-				{/* <View testID="startup" style={testView}> */}
+				<View testID="startup">
 				<Image
 					testID="logo"
 					source={require('../assets/logo.png')}
@@ -36,9 +36,9 @@ class StartUp extends Component {
 						Sign In
 					</Text>
 				</TouchableOpacity>
-				{/* </View> */}
+				</View>
 			</LinearGradient>
-			</View>
+			// </View>
 		);
 	}
 }
