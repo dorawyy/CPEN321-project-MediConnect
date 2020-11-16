@@ -142,7 +142,7 @@ test("Expect to get list of patients with 1 item when making request to get a li
 
   expect(getUserMock.mock.calls.length).toBe(1);
 });
-
+// comment for travis ci
 test("Expect to get no doctors when making request to get a list of all doctors", async () => {
   const getUserMock = jest.fn(async (req, res, model) =>
     model === Doctor
