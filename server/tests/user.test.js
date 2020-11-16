@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { ExpectationFailed } = require("http-errors");
+const { ExpectationFailed, LengthRequired } = require("http-errors");
 const { TestScheduler } = require("jest");
 const supertest = require("supertest");
 const user = require("../controllers/userController");
@@ -34,6 +34,8 @@ jest.mock("../middleware/errMiddleware");
 
 const { requireAuth } = require("../middleware/authMiddleware");
 const { handleErrors } = require("../middleware/errMiddleware");
+const { findById } = require("../models/user");
+const { hasUncaughtExceptionCaptureCallback } = require("process");
 
 test("Expect to get all patients when making request to get a list of all patients (no mocking)", async () => {
   const res = await supertest(app).get("/patient/");
@@ -175,11 +177,176 @@ test("Expect to get no doctors when making request to get a list of all doctors"
   expect(getUserMock.mock.calls.length).toBe(1);
 });
 
-test("Expect for the user identified by a given id to be deleted from the database", async () => {
+test("Expect age of Lucy Stank to change from 22 to 50 and then back to 22", async () => {
   handleErrors.mockImplementation((err) => err);
 
   const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).patients[0];
+  const id = JSON.parse(data).patients[4];
 
-  const res = await (await supertest(app).put("/patient/" + id)).send();
+  var res = await supertest(app)
+    .put("/patient/" + id)
+    .send({
+      weight: 50,
+    });
+
+  var lucy = await User.findById(id);
+  expect(lucy.weight).toBe(50);
+  expect(lucy.first_name).toBe("Lucy");
+  expect(lucy.last_name).toBe("Stank");
+
+  res = await supertest(app)
+    .put("/patient/" + id)
+    .send({
+      weight: 40,
+    });
+
+  lucy = await User.findById(id);
+  expect(lucy.weight).toBe(22);
+  expect(lucy.first_name).toBe("Lucy");
+  expect(lucy.last_name).toBe("Stank");
+});
+
+test("Expect no fields of Lucy Stank to change when request body has incorrect field(s)", async () => {
+  handleErrors.mockImplementation((err) => err);
+
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).patients[4];
+
+  const res = await supertest(app)
+    .put("/patient/" + id)
+    .send({
+      yage: 50,
+    });
+
+  const lucy = await User.findById(id);
+  expect(lucy.age).toBe(22);
+  expect(lucy.first_name).toBe("Lucy");
+  expect(lucy.last_name).toBe("Stank");
+  expect(lucy.gender).toBe("Female");
+  expect(lucy.email).toBe("lucystank@gmail.com");
+  expect(lucy.height).toBe(150);
+  expect(lucy.weight).toBe(40);
+  expect(res.status).toBe(200);
+  expect(lucy.yage).toBe(undefined);
+});
+
+test("Expect specialization of Tor Aamodt to change from Oncology to Neurology and back to Oncology", async () => {
+  handleErrors.mockImplementation((err) => err);
+  requireAuth.mockImplementation((req, res, next) => {
+    next();
+  });
+
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).doctors[4];
+
+  var res = await supertest(app)
+    .put("/doctor/" + id)
+    .send({
+      specialization: "Neurology",
+    });
+
+  var doc = await User.findById(id);
+  console.log(res.body);
+  expect(doc.specialization).toBe("Neurology");
+  expect(doc.first_name).toBe("Tor");
+  expect(doc.last_name).toBe("Aamodt");
+
+  res = await supertest(app)
+    .put("/doctor/" + id)
+    .send({
+      specialization: "Oncology",
+    });
+
+  doc = await User.findById(id);
+  expect(doc.specialization).toBe("Oncology");
+  expect(doc.first_name).toBe("Tor");
+  expect(doc.last_name).toBe("Aamodt");
+});
+
+test("Expect no fields of Tor Aamodt to change when request body has incorrect field(s)", async () => {
+  handleErrors.mockImplementation((err) => err);
+  requireAuth.mockImplementation((req, res, next) => {
+    next();
+  });
+
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).doctors[4];
+
+  const res = await supertest(app)
+    .put("/doctor/" + id)
+    .send({
+      specializations: "Neurology",
+    });
+
+  const doc = await User.findById(id);
+  expect(doc.specialization).toBe("Oncology");
+  expect(doc.first_name).toBe("Tor");
+  expect(doc.last_name).toBe("Aamodt");
+  expect(doc.specializations).toBe(undefined);
+  expect(res.status).toBe(200);
+});
+
+test("Expect Lucy Stank to get deleted from the database", async () => {
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).patients[4];
+
+  const doctors = await Doctor.find();
+
+  const res = await supertest(app).delete("/patient/" + id);
+
+  const patients = await Patient.find();
+  expect(patients.length).toBe(7);
+  patients.forEach((patient) => {
+    expect(patient._id).not.toBe(id);
+  });
+  doctors.forEach((doctor) => {
+    expect(doctor.appointments).not.toContain(id);
+  });
+});
+
+test("Expect no patient to get deleted. Error is thrown (denoted by status 400) because of invalid id", async () => {
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).patients[4];
+
+  const res = await supertest(app).delete("/patient/" + id);
+
+  const patients = await Patient.find();
+  expect(patients.length).toBe(7);
+  expect(res.status).toBe(400);
+});
+
+test("Expect Tor Aamodt to get deleted from the database", async () => {
+  requireAuth.mockImplementation((req, res, next) => {
+    next();
+  });
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).doctors[4];
+
+  const patients = await Patient.find();
+
+  const res = await supertest(app).delete("/doctor/" + id);
+
+  const doctors = await Doctor.find();
+  expect(doctors.length).toBe(7);
+  doctors.forEach((doctor) => {
+    expect(doctor._id).not.toBe(id);
+  });
+  patients.forEach((patient) => {
+    expect(patient.appointments).not.toContain(id);
+  });
+});
+
+test("Expect no doctor to get deleted. Error is thrown (denoted by status 400) because of invalid id", async () => {
+  requireAuth.mockImplementation((req, res, next) => {
+    next();
+  });
+
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).doctors[4];
+
+  const res = await supertest(app).delete("/doctor/" + id);
+
+  const doctors = await Patient.find();
+  expect(doctors.length).toBe(7);
+  expect(res.status).toBe(400);
 });
