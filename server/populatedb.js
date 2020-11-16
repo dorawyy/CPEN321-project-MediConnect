@@ -384,8 +384,8 @@ function createAppointments(cb) {
           callback,
           0,
           0,
-          new Date(2020, 11, 24, 11, 0),
-          new Date(2020, 11, 24, 12, 0)
+          new Date(2020, 11, 20, 11, 0),
+          new Date(2020, 11, 20, 12, 0)
         );
       },
       function (callback) {
@@ -447,8 +447,8 @@ function createAppointments(cb) {
           callback,
           0,
           0,
-          new Date(2020, 11, 20, 11, 0),
-          new Date(2020, 11, 20, 12, 0)
+          new Date(2020, 11, 24, 11, 0),
+          new Date(2020, 11, 24, 12, 0)
         );
       },
       function (callback) {
