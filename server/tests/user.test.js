@@ -4,6 +4,7 @@ const { TestScheduler } = require("jest");
 const supertest = require("supertest");
 const user = require("../controllers/userController");
 const express = require("express");
+const fs = require("fs");
 const Doctor = require("../models/doctor");
 const Patient = require("../models/patient");
 
@@ -56,18 +57,20 @@ test("Expect to get all doctors when making request to get a list of all doctors
   });
 });
 
-test("Expect to get patient with name Lucy Stank when requesting patient with certain id (no mocking)", async () => {
-  const res = await supertest(app).get("/patient/5f9ce563b761fe125cece991");
+test("Expect to get patient with name Mary Joe when requesting patient with certain id (no mocking)", async () => {
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).patients[0];
+  const res = await supertest(app).get("/patient/" + id);
   expect(res.body.userkey).toBe("Patient");
-  expect(res.body.age).toBe(22);
-  expect(res.body._id).toBe("5f9ce563b761fe125cece991");
-  expect(res.body.first_name).toBe("Lucy");
-  expect(res.body.last_name).toBe("Stank");
+  expect(res.body.age).toBe(30);
+  expect(res.body._id).toBe(id);
+  expect(res.body.first_name).toBe("Mary");
+  expect(res.body.last_name).toBe("Joe");
   expect(res.body.gender).toBe("Female");
 });
 
 test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
-  const res = await supertest(app).get("/patient/5f9ce563b76555125ceee991");
+  const res = await supertest(app).get("/patient/vvvvvvvvvvvvvvvvvvvvvvvv");
   expect(res.status).toBe(400);
 });
 
@@ -76,10 +79,13 @@ test("Expect to get doctor with name Tor Aamodt when requesting doctor with cert
     next();
   });
 
-  const res = await supertest(app).get("/doctor/5f9ce561b761fe125cece989");
+  const data = fs.readFileSync("./public/data/dbArrays.json");
+  const id = JSON.parse(data).doctors[0];
+
+  const res = await supertest(app).get("/doctor/" + id);
   expect(res.body.userkey).toBe("Doctor");
   expect(res.body.age).toBe(45);
-  expect(res.body._id).toBe("5f9ce561b761fe125cece989");
+  expect(res.body._id).toBe(id);
   expect(res.body.first_name).toBe("Tor");
   expect(res.body.last_name).toBe("Aamodt");
   expect(res.body.specialization).toBe("Oncology");
@@ -91,7 +97,6 @@ test("Expect to get error (denoted by 400 status) when the id is incorrect", asy
   });
 
   const res = await supertest(app).get("/doctor/rrrrrrrrrrrrrrrrrrrrrrrr");
-  console.log(res.body);
   expect(res.status).toBe(400);
 });
 
