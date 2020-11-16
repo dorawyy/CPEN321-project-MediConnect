@@ -66,6 +66,11 @@ test("Expect to get patient with name Lucy Stank when requesting patient with ce
   expect(res.body.gender).toBe("Female");
 });
 
+test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  const res = await supertest(app).get("/patient/5f9ce563b76555125ceee991");
+  expect(res.status).toBe(400);
+});
+
 test("Expect to get doctor with name Tor Aamodt when requesting doctor with certain id (mocking auth)", async () => {
   requireAuth.mockImplementation((req, res, next) => {
     next();
@@ -78,6 +83,16 @@ test("Expect to get doctor with name Tor Aamodt when requesting doctor with cert
   expect(res.body.first_name).toBe("Tor");
   expect(res.body.last_name).toBe("Aamodt");
   expect(res.body.specialization).toBe("Oncology");
+});
+
+test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  requireAuth.mockImplementation((req, res, next) => {
+    next();
+  });
+
+  const res = await supertest(app).get("/doctor/rrrrrrrrrrrrrrrrrrrrrrrr");
+  console.log(res.body);
+  expect(res.status).toBe(400);
 });
 
 test("Expect to get list of patients with 1 item when making request to get a list of all patients", async () => {

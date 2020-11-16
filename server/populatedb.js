@@ -330,3 +330,9 @@ async.series(
     mongoose.connection.close();
   }
 );
+
+module.exports = {
+  getArrays: function () {
+    return doctors, patients;
+  },
+};
