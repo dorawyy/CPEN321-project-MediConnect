@@ -502,3 +502,9 @@ async.series(
     );
   }
 );
+
+module.exports = {
+  getArrays: function () {
+    return doctors, patients;
+  },
+};
