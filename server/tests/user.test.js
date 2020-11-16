@@ -17,12 +17,12 @@ app.use(express.json());
 app.use("/patient", patientRouter);
 app.use("/doctor", doctorRouter);
 
-beforeEach((done) => {
+beforeAll((done) => {
   initMongo();
   done();
 });
 
-afterEach((done) => {
+afterAll((done) => {
   closeMongo();
   done();
 });
@@ -39,7 +39,43 @@ test("Expect to get all patients when making request to get a list of all patien
   });
 });
 
-test("Expect to get 1 patient when making request to get a list of all patients", async () => {
+test("Expect to get all doctors when making request to get a list of all doctors (no mocking)", async () => {
+  const res = await supertest(app).get("/doctor/");
+  expect(res.body.length).toBe(8);
+  res.body.forEach((item) => {
+    expect(item.userkey).toBe("Doctor");
+    expect(item.age).toBeGreaterThanOrEqual(0);
+    console.log(item);
+    expect(typeof item.first_name).toBe("string");
+    expect(typeof item.last_name).toBe("string");
+    expect(item.years_of_experience).toBeGreaterThan(0);
+    expect(typeof item.specialization).toBe("string");
+  });
+});
+
+test("Expect to get patient with name Lucy Stank when requesting patient with certain id (no mocking)", async () => {
+  const res = await supertest(app).get("/patient/5f9ce563b761fe125cece991");
+  console.log(res.body);
+  expect(res.body.userkey).toBe("Patient");
+  expect(res.body.age).toBe(22);
+  expect(res.body._id).toBe("5f9ce563b761fe125cece991");
+  expect(res.body.first_name).toBe("Lucy");
+  expect(res.body.last_name).toBe("Stank");
+  expect(res.body.gender).toBe("Female");
+});
+
+test("Expect to get doctor with name Alex Jones when requesting doctor with certain id (no mocking)", async () => {
+  const res = await supertest(app).get("/doctor/5f9ce561b761fe125cece985");
+  console.log(res.body);
+  expect(res.body.userkey).toBe("Doctor");
+  expect(res.body.age).toBe(46);
+  expect(res.body._id).toBe("5f9ce561b761fe125cece985");
+  expect(res.body.first_name).toBe("Alex");
+  expect(res.body.last_name).toBe("Jones");
+  expect(res.body.specialization).toBe("Neurology");
+});
+
+test("Expect to get list of patients with 1 item when making request to get a list of all patients", async () => {
   const getUserMock = jest.fn(async (req, res, model) =>
     model === Doctor
       ? res.status(200).json([])
