@@ -3,7 +3,7 @@ const axios = require("axios");
 axios.defaults.withCredentials = true;
 
 // axios
-//   .get("http://54.183.200.234:5000/")
+//   .get("http://54.183.200.234:5000/doctor")
 //   .then((res) => {
 //     console.log(res.data);
 //   })
@@ -61,7 +61,7 @@ axios.defaults.withCredentials = true;
 // axios
 //   .get("http://localhost:5000/patient/search", {
 //     params: {
-//       symptoms: ["Fever"],
+//       symptoms: ["Chest pain"],
 //     },
 //   })
 //   .then((res) => console.log(res.data))
@@ -89,15 +89,15 @@ axios.defaults.withCredentials = true;
 //   .then((res) => console.log(res))
 //   .catch((err) => console.log(err));
 
-axios
-  .post("http://localhost:5000/patient/appointment", {
-    patientId: "5f9d10bc7a3444a4ab75eb6b",
-    doctorId: "5f9d10bb7a3444a4ab75eb63",
-    start_time: "new date lol",
-    //end_time: "end date lol",
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+// axios
+//   .post("http://localhost:5000/patient/appointment", {
+//     patientId: "5f9d10bc7a3444a4ab75eb6b",
+//     doctorId: "5f9d10bb7a3444a4ab75eb63",
+//     start_time: "new date lol",
+//     //end_time: "end date lol",
+//   })
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
 
 // axios
 //   .delete("http://localhost:5000/patient/appointment/5f9d18b8aec0303aa5f6070d")

@@ -38,9 +38,9 @@ router.get("/pay", stripeController.createPaymentIntent);
 /*
  * Routes relating to patient CRUD database operations
  */
-router.get("/:id", userController.getPatientById);
+router.get("/:id", userController.getUserById);
 
-router.put("/:id", userController.putPatientById);
+router.put("/:id", userController.putUserById);
 
 router.delete("/:id", userController.deletePatientById);
 
