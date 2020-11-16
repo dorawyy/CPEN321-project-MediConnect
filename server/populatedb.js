@@ -16,6 +16,7 @@ const async = require("async");
 const Doctor = require("./models/doctor");
 const Patient = require("./models/patient");
 const Appointment = require("./models/appointment");
+const fs = require("fs");
 
 const mongoose = require("mongoose");
 const app = require("./app");
@@ -59,7 +60,7 @@ function doctorCreate(
       return;
     }
     console.log("New Doctor: " + doctor);
-    doctors.push(doctor);
+    doctors.push(doctor._id);
     cb(null, doctor);
   });
 }
@@ -94,7 +95,7 @@ function patientCreate(
       return;
     }
     console.log("New Patient: " + patient);
-    patients.push(patient);
+    patients.push(patient._id);
     cb(null, patient);
   });
 }
@@ -119,8 +120,8 @@ async function appointmentCreate(
   start_time,
   end_time
 ) {
-  const patientId = patients[patientIndex]._id;
-  const doctorId = doctors[doctorIndex]._id;
+  const patientId = patients[patientIndex];
+  const doctorId = doctors[doctorIndex];
 
   const appointmentDetails = {
     patientId: patientId,
@@ -150,7 +151,7 @@ async function appointmentCreate(
   await doctor.save();
 
   console.log("New appointment: " + newAppointment);
-  appointments.push(newAppointment);
+  appointments.push(newAppointment._id);
   cb(null, newAppointment);
 }
 
@@ -485,5 +486,15 @@ async.series(
     }
     // All done, disconnect from database
     mongoose.connection.close();
+
+    const dbArrays = {
+      patients: patients,
+      doctors: doctors,
+      appointments: appointments,
+    };
+    fs.writeFile("dbArrays.json", JSON.stringify(dbArrays), (err) => {
+      if (err) console.log("Writing to JSON err " + err);
+      else console.log("Completed writing to JSON");
+    });
   }
 );

@@ -27,6 +27,10 @@ afterAll((done) => {
   done();
 });
 
+jest.mock("../middleware/authMiddleware");
+
+const { requireAuth } = require("../middleware/authMiddleware");
+
 test("Expect to get all appointments of a patient", async () => {
   const res = await supertest(app).get("/patient/appointment/");
 });
