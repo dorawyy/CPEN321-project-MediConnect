@@ -156,7 +156,7 @@ async function appointmentCreate(
 }
 
 function createDoctors(cb) {
-  async.parallel(
+  async.series(
     [
       function (callback) {
         doctorCreate(
@@ -264,7 +264,7 @@ function createDoctors(cb) {
 }
 
 function createPatients(cb) {
-  async.parallel(
+  async.series(
     [
       function (callback) {
         patientCreate(
