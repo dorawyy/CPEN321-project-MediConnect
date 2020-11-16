@@ -24,7 +24,8 @@ class Symptoms extends Component {
 			<View style={styles.container}>
 				<View>
 					<Text style={styles.header}>Enter Your Symptom Here</Text>
-					<TextInput
+					<TextInput 
+						testID= "report_symptoms_text"
 						style={styles.text}
 						underlineColorAndroid="gray"
 						placeholder="Enter Symptoms"
@@ -32,7 +33,7 @@ class Symptoms extends Component {
 						onChangeText={this.handleSymptom}
 						required
 					/>
-					<TouchableOpacity style={styles.button}>
+					<TouchableOpacity style={styles.button} testID="report_button">
 						<Text
 							style={styles.buttonText}
 							onPress={() => {
