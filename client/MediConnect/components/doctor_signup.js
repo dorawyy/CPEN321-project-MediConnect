@@ -79,14 +79,14 @@ class DoctorSignUp extends Component {
 					<View style={styles.toggle}>
 						<View style={styles.toggleDoctor}>
 							<TouchableOpacity
-								testID="doctorToggle"
+								testID={doctorToggle}
 								style={styles.toggletextDoctor}
 							>
 								<Text>DOCTOR</Text>
 							</TouchableOpacity>
 						</View>
 						<View style={styles.togglePatient}>
-							<TouchableOpacity testID="patientToggle">
+							<TouchableOpacity testID={patientToggle}>
 								<Text
 									style={styles.buttonText}
 									onPress={() =>
@@ -144,20 +144,22 @@ class DoctorSignUp extends Component {
 								required
 							/>
 						</View>
-						<TouchableOpacity
-							testID="signup_button"
-							style={styles.submitButton}
-							onPress={() =>
-								this.signup(
-									this.state.firstName,
-									this.state.lastName,
-									this.state.email,
-									this.state.password,
-								)
-							}
-						>
+						<View>
+							<TouchableOpacity
+								testID={signup_button}
+								style={styles.submitButton}
+								onPress={() =>
+									this.signup(
+										this.state.firstName,
+										this.state.lastName,
+										this.state.email,
+										this.state.password,
+									)
+								}
+							>
 							<Text style={styles.submitButtonText}> SIGN UP </Text>
-						</TouchableOpacity>
+							</TouchableOpacity>
+						</View>
 					</View>
 				</View>
 			</LinearGradient>
