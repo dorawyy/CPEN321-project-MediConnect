@@ -1,6 +1,7 @@
 //require("dotenv").config();
 const { ExpectationFailed } = require("http-errors");
 const { TestScheduler } = require("jest");
+const fs = require("fs");
 const supertest = require("supertest");
 const user = require("../controllers/userController");
 const express = require("express");
@@ -32,5 +33,8 @@ jest.mock("../middleware/authMiddleware");
 const { requireAuth } = require("../middleware/authMiddleware");
 
 test("Expect to get all appointments of a patient", async () => {
-  const res = await supertest(app).get("/patient/appointment/");
+  const data = await fs.readFile("../dbArrays.json");
+  const patient0 = data.patients[0];
+  const res = await supertest(app).get(`/patient/appointment/${patient0}`);
+  console.log(res);
 });

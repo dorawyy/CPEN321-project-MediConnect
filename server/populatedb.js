@@ -492,9 +492,13 @@ async.series(
       doctors: doctors,
       appointments: appointments,
     };
-    fs.writeFile("dbArrays.json", JSON.stringify(dbArrays), (err) => {
-      if (err) console.log("Writing to JSON err " + err);
-      else console.log("Completed writing to JSON");
-    });
+    fs.writeFile(
+      "./public/data/dbArrays.json",
+      JSON.stringify(dbArrays),
+      (err) => {
+        if (err) console.log("Writing to JSON err " + err);
+        else console.log("Completed writing to JSON");
+      }
+    );
   }
 );
