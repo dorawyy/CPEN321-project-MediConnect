@@ -5,6 +5,7 @@
 
 const Patient = require("../models/patient");
 const Doctor = require("../models/doctor");
+const User = require("../models/user");
 const { handleErrors } = require("../middleware/errMiddleware");
 
 /*
@@ -19,11 +20,11 @@ const getUser = async (req, res, model) => {
 };
 
 // Get user by id
-const getUserById = async (req, res, model) => {
+const getUserById = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const user = await model.findById(id);
+    const user = await User.findById(id);
     if (!user) throw Error("Invalid user ID");
 
     res.status(200).json(user);
@@ -34,11 +35,11 @@ const getUserById = async (req, res, model) => {
 };
 
 // Put user by id
-const putUserById = async (req, res, model) => {
+const putUserById = async (req, res) => {
   const id = req.params.id;
 
   try {
-    await model.findByIdAndUpdate(id, req.body, { runValidators: true });
+    await User.findByIdAndUpdate(id, req.body, { runValidators: true });
     res.status(200).json({ user: id });
   } catch (err) {
     console.log(err);
@@ -142,4 +143,6 @@ module.exports = {
   putDoctorById,
   deleteDoctorById,
   getUser,
+  getUserById,
+  putUserById,
 };
