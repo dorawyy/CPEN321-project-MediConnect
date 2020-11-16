@@ -27,6 +27,10 @@ afterAll((done) => {
   done();
 });
 
+jest.mock("../middleware/authMiddleware");
+
+const { requireAuth } = require("../middleware/authMiddleware");
+
 test("Expect to get all patients when making request to get a list of all patients (no mocking)", async () => {
   const res = await supertest(app).get("/patient/");
   expect(res.body.length).toBe(8);
@@ -45,7 +49,6 @@ test("Expect to get all doctors when making request to get a list of all doctors
   res.body.forEach((item) => {
     expect(item.userkey).toBe("Doctor");
     expect(item.age).toBeGreaterThanOrEqual(0);
-    console.log(item);
     expect(typeof item.first_name).toBe("string");
     expect(typeof item.last_name).toBe("string");
     expect(item.years_of_experience).toBeGreaterThan(0);
@@ -55,7 +58,6 @@ test("Expect to get all doctors when making request to get a list of all doctors
 
 test("Expect to get patient with name Lucy Stank when requesting patient with certain id (no mocking)", async () => {
   const res = await supertest(app).get("/patient/5f9ce563b761fe125cece991");
-  console.log(res.body);
   expect(res.body.userkey).toBe("Patient");
   expect(res.body.age).toBe(22);
   expect(res.body._id).toBe("5f9ce563b761fe125cece991");
@@ -64,15 +66,18 @@ test("Expect to get patient with name Lucy Stank when requesting patient with ce
   expect(res.body.gender).toBe("Female");
 });
 
-test("Expect to get doctor with name Alex Jones when requesting doctor with certain id (no mocking)", async () => {
-  const res = await supertest(app).get("/doctor/5f9ce561b761fe125cece985");
-  console.log(res.body);
+test("Expect to get doctor with name Tor Aamodt when requesting doctor with certain id (mocking auth)", async () => {
+  requireAuth.mockImplementation((req, res, next) => {
+    next();
+  });
+
+  const res = await supertest(app).get("/doctor/5f9ce561b761fe125cece989");
   expect(res.body.userkey).toBe("Doctor");
-  expect(res.body.age).toBe(46);
-  expect(res.body._id).toBe("5f9ce561b761fe125cece985");
-  expect(res.body.first_name).toBe("Alex");
-  expect(res.body.last_name).toBe("Jones");
-  expect(res.body.specialization).toBe("Neurology");
+  expect(res.body.age).toBe(45);
+  expect(res.body._id).toBe("5f9ce561b761fe125cece989");
+  expect(res.body.first_name).toBe("Tor");
+  expect(res.body.last_name).toBe("Aamodt");
+  expect(res.body.specialization).toBe("Oncology");
 });
 
 test("Expect to get list of patients with 1 item when making request to get a list of all patients", async () => {

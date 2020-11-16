@@ -34,7 +34,7 @@ class Home extends Component {
 						<Text style={styles.text}>Height : 176 cm</Text>
 						<Text style={styles.text}>Weight : 78 kg</Text>
 					</View>
-					<TouchableOpacity style={styles.button}>
+					<TouchableOpacity style={styles.button} testID="report_symptoms_button">
 						<Text
 							style={styles.buttonText}
 							onPress={() => this.props.navigation.navigate('Symptoms')}
