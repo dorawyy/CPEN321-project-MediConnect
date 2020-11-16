@@ -14,7 +14,17 @@ const Tab = createMaterialBottomTabNavigator();
 class Home extends Component {
 	render() {
 		return (
-			<Tab.Navigator>
+			<Tab.Navigator
+			initialRouteName="Home"
+			activeColor="#00aea2"
+			inactiveColor="#95a5a6"
+			labeled={false}
+			shifting={true}
+			sceneAnimationEnabled={true}
+			barStyle={{ 
+				backgroundColor: 'white',
+			}}
+			>
 				<Tab.Screen
 					name="Home"
 					component={DoctorHome}
@@ -22,16 +32,6 @@ class Home extends Component {
 						tabBarLabel: 'Home',
 						tabBarIcon: ({color}) => (
 							<MaterialCommunityIcons name="home" color={color} size={26} />
-						),
-					}}
-				/>
-				<Tab.Screen
-					name="Settings"
-					component={DoctorSettingsPage}
-					options={{
-						tabBarLabel: 'Settings',
-						tabBarIcon: ({color}) => (
-							<MaterialCommunityIcons name="wrench" color={color} size={26} />
 						),
 					}}
 				/>
@@ -45,7 +45,6 @@ class Home extends Component {
 						),
 					}}
 				/>
-
 				<Tab.Screen
 					name="Notifications"
 					component={DoctorNotifications}
@@ -53,6 +52,16 @@ class Home extends Component {
 						tabBarLabel: 'Notifications',
 						tabBarIcon: ({color}) => (
 							<MaterialCommunityIcons name="bell" color={color} size={26} />
+						),
+					}}
+				/>
+				<Tab.Screen
+					name="Settings"
+					component={DoctorSettingsPage}
+					options={{
+						tabBarLabel: 'Settings',
+						tabBarIcon: ({color}) => (
+							<MaterialCommunityIcons name="wrench" color={color} size={26} />
 						),
 					}}
 				/>

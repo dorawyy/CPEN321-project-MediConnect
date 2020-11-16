@@ -8,6 +8,9 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from 'react-native';
+import axios from 'axios';
+
+// export const SymptomsContext = React.createContext(); 
 
 class Symptoms extends Component {
 	state = {
@@ -19,33 +22,66 @@ class Symptoms extends Component {
 		this.setState({symptom: text});
 	};
 
+	async reportSymptom(text) {
+		// console.log(text); 
+
+		// axios
+		// 	.get("http://54.183.200.234:5000/patient/search", {
+		// 	// .post('http://10.0.2.2:5000/patient/search', {
+		// 		params: {
+		// 			symptoms: [text],
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		// console.log(symptom); 
+		// 		console.log(res.data);
+		// 		this.setState({
+		// 			serverData: res.data,
+		// 		});
+				this.props.navigation.navigate('Doctors', {symptoms: text, data: this.state.serverData});
+			// })
+			// .catch((err) => {
+			// 	console.log(err.response.data);
+			// });
+	};
+
 	render() {
 		return (
-			<View style={styles.container}>
-				<View>
-					<Text style={styles.header}>Enter Your Symptom Here</Text>
-					<TextInput 
-						testID= "report_symptoms_text"
-						style={styles.text}
-						underlineColorAndroid="gray"
-						placeholder="Enter Symptoms"
-						autoCapitalize="none"
-						onChangeText={this.handleSymptom}
-						required
-					/>
-					<TouchableOpacity style={styles.button} testID="report_button">
-						<Text
-							style={styles.buttonText}
-							onPress={() => {
-								// const {symptom} = this.state;
-								this.props.navigation.navigate('Doctors');
-							}}
-						>
-							Report Symptoms
-						</Text>
-					</TouchableOpacity>
+			// <SymptomsContext.Provider
+			// values={{
+			// 	symptom: this.state.symptom
+			// }}
+			// >
+				<View style={styles.container}>
+					<View>
+						<Text style={styles.header}>Enter Your Symptom Here</Text>
+						<TextInput
+							testID="report_symptoms_text"
+							style={styles.text}
+							underlineColorAndroid="gray"
+							placeholder="Enter Symptoms"
+							autoCapitalize="none"
+							onChangeText={this.handleSymptom}
+							required
+						/>
+						<TouchableOpacity style={styles.button} testID="report_button">
+							<Text
+								style={styles.buttonText}
+								onPress={() => {
+									// const {symptom} = this.state;
+									// this.props.navigation.navigate('Doctors');
+									this.reportSymptom(
+										this.state.symptom,
+									)
+								}}
+							>
+								Report Symptoms
+							</Text>
+						</TouchableOpacity>
+					</View>
+					{/* <DoctorsResults symptom={this.state.symptom}></DoctorsResults> */}
 				</View>
-			</View>
+			// </SymptomsContext.Provider>
 		);
 	}
 }

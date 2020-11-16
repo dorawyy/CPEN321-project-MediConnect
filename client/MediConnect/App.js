@@ -29,9 +29,15 @@ import DoctorHomeNavigatorPage from './components/doctor_home_navigator';
 import DoctorAppointmentsPage from './components/doctor_appointments';
 import DoctorNotificationsPage from './components/doctor_notifications';
 
+// export const SymptomsContext = React.createContext(); 
+
 const App: () => React$Node = () => {
 	return (
 		<>
+		{/* <SymptomsContext.Provider
+		values={{
+			symptom: this.state.symptom
+		}}> */}
 			<NavigationContainer>
 				<Stack.Navigator>
 					<Stack.Screen
@@ -101,6 +107,7 @@ const App: () => React$Node = () => {
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
+		{/* </SymptomsContext.Provider> */}
 		</>
 	);
 };

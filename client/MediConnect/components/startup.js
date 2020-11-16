@@ -7,8 +7,8 @@ import LinearGradient from 'react-native-linear-gradient';
 class StartUp extends Component {
 	render() {
 		return (
-			<LinearGradient
-				testID="startup"
+			<View testID="startup">
+							<LinearGradient
 				start={{x: 0.0, y: 0.25}}
 				end={{x: 0.7, y: 1}}
 				colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
@@ -38,6 +38,7 @@ class StartUp extends Component {
 				</TouchableOpacity>
 				{/* </View> */}
 			</LinearGradient>
+			</View>
 		);
 	}
 }
