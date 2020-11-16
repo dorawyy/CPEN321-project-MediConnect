@@ -230,6 +230,25 @@ test("Expect no fields of Lucy Stank to change when request body has incorrect f
   expect(lucy.yage).toBe(undefined);
 });
 
+test("Expect to get error and no fields of any user get changed if id is invalid", async () => {
+  handleErrors.mockImplementation((err) => err);
+
+  const past = await Patient.find();
+
+  const res = await supertest(app)
+    .put("/patient/rrrrrrrrrrrrrrrrrrrrrrrr")
+    .send({
+      age: 50,
+    });
+
+  const patients = await Patient.find();
+
+  for (i = 0; i < past.length; i++) {
+    expect(patients[i].age).toBe(past[i].age);
+  }
+  expect(res.status).toBe(400);
+});
+
 test("Expect specialization of Tor Aamodt to change from Oncology to Neurology and back to Oncology", async () => {
   handleErrors.mockImplementation((err) => err);
   requireAuth.mockImplementation((req, res, next) => {
