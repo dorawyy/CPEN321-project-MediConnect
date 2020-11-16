@@ -3,7 +3,7 @@ const axios = require("axios");
 axios.defaults.withCredentials = true;
 
 // axios
-//   .get("http://54.183.200.234:5000/")
+//   .get("http://54.183.200.234:5000/doctor")
 //   .then((res) => {
 //     console.log(res.data);
 //   })
@@ -58,14 +58,14 @@ axios.defaults.withCredentials = true;
 //   })
 //   .catch((err) => console.log(err));
 
-axios
-  .get("http://localhost:5000/patient/search", {
-    params: {
-      symptoms: ["Chest pain"],
-    },
-  })
-  .then((res) => console.log(res.data))
-  .catch((err) => console.log(err));
+// axios
+//   .get("http://localhost:5000/patient/search", {
+//     params: {
+//       symptoms: ["Chest pain"],
+//     },
+//   })
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err));
 
 // axios
 //   .put("http://localhost:5000/doctor/5f9a72292614191b8231ce1c", {
