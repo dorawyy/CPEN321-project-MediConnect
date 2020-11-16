@@ -34,29 +34,30 @@ class DoctorSignIn extends Component {
 	async signin() {
 		// var current_user = '';
 		// CookieManager.clearAll();
-		// axios.post("http://54.183.200.234:5000/doctor/signin", {
-		axios
-			.post('http://10.0.2.2:5000/doctor/signin', {
+		axios.post("http://54.183.200.234:5000/doctor/signin", {
+		// axios
+		// 	.post('http://10.0.2.2:5000/doctor/signin', {
 				withCredentials: true,
 				email: this.state.email,
 				password: this.state.password,
-				// email: "f@gmail.com",
+				// email: "alexjones@gmail.com",
 				// password: "12345678",
 				headers: {
+					// "Content-Type": "application/x-www-form-urlencoded",
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
 			})
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data);
 				// current_user = res.user;
 
 				this.setState({
 					user: res.data,
-					cookie: res.headers['set-cookie'],
+					// cookie: res.headers['set-cookie'],
 				});
 
-				console.log(res.headers['set-cookie']);
+				// console.log(res.headers['set-cookie']);
 
 				// CookieManager.clearAll() //clearing cookies stored
 
@@ -88,7 +89,7 @@ class DoctorSignIn extends Component {
 			})
 			.catch((err) => {
 				console.log(err.response);
-				// alert(err.response.data.email + '\n' + err.response.data.password);
+				alert(err.response.data.email + '\n' + err.response.data.password);
 			});
 	}
 
