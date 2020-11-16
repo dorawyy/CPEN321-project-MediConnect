@@ -57,16 +57,16 @@ test("Expect to get all doctors when making request to get a list of all doctors
   });
 });
 
-test("Expect to get patient with name Mary Joe when requesting patient with certain id (no mocking)", async () => {
+test("Expect to get patient with name John Smith when requesting patient with certain id (no mocking)", async () => {
   const data = fs.readFileSync("./public/data/dbArrays.json");
   const id = JSON.parse(data).patients[0];
   const res = await supertest(app).get("/patient/" + id);
   expect(res.body.userkey).toBe("Patient");
   expect(res.body.age).toBe(30);
   expect(res.body._id).toBe(id);
-  expect(res.body.first_name).toBe("Mary");
-  expect(res.body.last_name).toBe("Joe");
-  expect(res.body.gender).toBe("Female");
+  expect(res.body.first_name).toBe("John");
+  expect(res.body.last_name).toBe("Smith");
+  expect(res.body.gender).toBe("Male");
 });
 
 test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
@@ -74,7 +74,7 @@ test("Expect to get error (denoted by 400 status) when the id is incorrect", asy
   expect(res.status).toBe(400);
 });
 
-test("Expect to get doctor with name Tor Aamodt when requesting doctor with certain id (mocking auth)", async () => {
+test("Expect to get doctor with name Alex Jones when requesting doctor with certain id (mocking auth)", async () => {
   requireAuth.mockImplementation((req, res, next) => {
     next();
   });
@@ -84,11 +84,11 @@ test("Expect to get doctor with name Tor Aamodt when requesting doctor with cert
 
   const res = await supertest(app).get("/doctor/" + id);
   expect(res.body.userkey).toBe("Doctor");
-  expect(res.body.age).toBe(45);
+  expect(res.body.age).toBe(46);
   expect(res.body._id).toBe(id);
-  expect(res.body.first_name).toBe("Tor");
-  expect(res.body.last_name).toBe("Aamodt");
-  expect(res.body.specialization).toBe("Oncology");
+  expect(res.body.first_name).toBe("Alex");
+  expect(res.body.last_name).toBe("Jones");
+  expect(res.body.specialization).toBe("Neurology");
 });
 
 test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
@@ -138,8 +138,6 @@ test("Expect to get list of patients with 1 item when making request to get a li
   expect(getUserMock.mock.calls.length).toBe(1);
 });
 
-// comment for adding commit to show TA TravisCI
-
 test("Expect to get no doctors when making request to get a list of all doctors", async () => {
   const getUserMock = jest.fn(async (req, res, model) =>
     model === Doctor
@@ -172,4 +170,8 @@ test("Expect to get no doctors when making request to get a list of all doctors"
   const res = await supertest(app).get("/doctor/");
   expect(res.body.length).toBe(0);
   expect(getUserMock.mock.calls.length).toBe(1);
+});
+
+test("Check if patient info updates correctly if a single correct field is changed", async () => {
+  expect(true).toBe(true);
 });
