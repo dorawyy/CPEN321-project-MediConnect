@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, TouchableHighlightBase} from 'react-native';
 import axios from 'axios';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class Doctors extends Component {
+
+	constructor(props) {
+		super(props);
+	}
+
+	state = {
+		// serverData: [ {users: []}],
+		specs: [], 
+		specs_data: [{spec0: [], spec1: [], spec2: []}], 
+		screenHeight: 0,
+	};
+
+	onContentSizeChange = (contentWidth, contentHeight) => {
+		// Save the content height in state
+		this.setState({ screenHeight: contentHeight });
+	};
+
 	componentDidMount = () => {
+
 		axios
-			// .post("http://54.183.200.234:5000/patient/search", {
-			.post('http://10.0.2.2:5000/patient/search', {
-				symptoms: this.state.symptom,
+			.get("http://54.183.200.234:5000/patient/search", {
+			// .post('http://10.0.2.2:5000/patient/search', {
+				params: {
+					symptoms: [this.props.route.params.symptoms],
+				},
 			})
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data.at);
 				this.setState({
-					serverData: res.data,
+					specs: Object.keys(res.data),
+					specs_data: Object.values(res.data),				
 				});
-				this.props.navigation.navigate('Doctors');
 			})
 			.catch((err) => {
 				console.log(err.response.data);
@@ -23,37 +44,50 @@ class Doctors extends Component {
 	};
 
 	render() {
+
+		// const { serverData } = this.state;
+
+		console.log(this.state.specs);
+
 		return (
-			<View style={styles.container}>
-				<Text style={styles.header}>Doctors Found</Text>
-				<View>
-					{this.state.serverData.map((serverData) => (
-						<View style={styles.doctor} key={serverData.password}>
-							<Text style={styles.doctorinfo}>
-								{'Doctor Name: ' +
-									serverData.first_name +
-									' ' +
-									serverData.last_name}
-							</Text>
-							<Text style={styles.doctorinfo}>
-								{'Specialisation: ' + serverData.specialization}
-							</Text>
-							<Text style={styles.doctorinfo}>
-								{'Doctor Email: ' + serverData.email}
-							</Text>
-							<Text style={styles.doctorinfo}>
-								{'Doctor Rating: ' + serverData.rating}
-							</Text>
-							<Text style={styles.doctorinfo}>
-								{'Verified: ' + serverData.verified}
-							</Text>
-							<Text style={styles.doctorinfo}>
-								{'Years of Experience: ' + serverData.years_of_experience}
-							</Text>
-						</View>
+			<ScrollView>
+				<View style={styles.container}>
+					<Text style={styles.header}>Doctors Found</Text>
+					<View>
+					{this.state.specs.map((spec, count) => (
+							<View style={styles.header} key={spec.password}>
+								<Text>{spec}</Text>
+								{this.state.specs_data[count].map((value, index) => (
+									<View style={styles.doctor} key={value.password}>
+										<Text style={styles.doctorinfo}>
+											{'Doctor Name: ' +
+												// value.undefined[0].first_name +
+												value.first_name +
+												' ' +
+												value.last_name}
+										</Text>
+										<Text style={styles.doctorinfo}>
+											{'Specialisation: ' + value.specialization}
+										</Text>
+										<Text style={styles.doctorinfo}>
+											{'Doctor Email: ' + value.email}
+										</Text>
+										<Text style={styles.doctorinfo}>
+											{'Doctor Rating: ' + value.rating}
+										</Text>
+										<Text style={styles.doctorinfo}>
+											{'Verified: ' + value.verified}
+										</Text>
+										<Text style={styles.doctorinfo}>
+											{'Years of Experience: ' + value.years_of_experience}
+										</Text>
+									</View>
+								))}
+							</View>
 					))}
+					</View>
 				</View>
-			</View>
+			</ScrollView>
 		);
 	}
 }
