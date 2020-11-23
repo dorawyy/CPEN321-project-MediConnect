@@ -42,7 +42,7 @@ router.get("/pay", stripeController.createPaymentIntent);
  */
 router.get("/:id", userController.getUserById);
 
-router.put("/:id", userController.putUserById);
+router.put("/:id", userController.putPatientById);
 
 router.delete("/:id", userController.deletePatientById);
 

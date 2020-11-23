@@ -201,7 +201,7 @@ test("Expect weight of Lucy Stank to change from 40 to 50 and then back to 40", 
     });
 
   lucy = await User.findById(id);
-  expect(lucy.weight).toBe(22);
+  expect(lucy.weight).toBe(40);
   expect(lucy.first_name).toBe("Lucy");
   expect(lucy.last_name).toBe("Stank");
 });
