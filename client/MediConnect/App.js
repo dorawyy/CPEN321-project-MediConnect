@@ -28,6 +28,8 @@ import DoctorSettingsPage from './components/doctor_settings';
 import DoctorHomeNavigatorPage from './components/doctor_home_navigator';
 import DoctorAppointmentsPage from './components/doctor_appointments';
 import DoctorNotificationsPage from './components/doctor_notifications';
+import CreateAppointmentPage from './components/create_appointments';
+import SlotBookingPage from './components/slot_booking';
 
 // export const SymptomsContext = React.createContext(); 
 
@@ -103,6 +105,18 @@ const App: () => React$Node = () => {
 					<Stack.Screen
 						name="DoctorNotifications"
 						component={DoctorNotificationsPage}
+						options={{headerTitle: false}}
+					/>
+
+					<Stack.Screen
+						name="CreateAppointment"
+						component={CreateAppointmentPage}
+						options={{headerTitle: false}}
+					/>
+
+					<Stack.Screen
+						name="SlotBooking"
+						component={SlotBookingPage}
 						options={{headerTitle: false}}
 					/>
 				</Stack.Navigator>

@@ -2,8 +2,31 @@ import React from 'react';
 import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import axios from 'axios';
 
 class DoctorAppointments extends Component {
+
+	/*
+	componentDidMount = () => {
+		axios
+			.get("http://54.183.200.234:5000/patient/appointment", {
+			//.post('http://10.0.2.2:5000/patient/search', {
+				//symptoms: this.state.symptom,
+			})
+			.then((res) => {
+				console.log(res.data);
+				this.setState({
+					serverData: res.data,
+				});
+				this.props.navigation.navigate('Doctors');
+			})
+			.catch((err) => {
+				console.log(err.response.data);
+			});
+	};
+	*/
+
+
 	render() {
 		return (
 			<LinearGradient
@@ -14,30 +37,16 @@ class DoctorAppointments extends Component {
 			>
 				<View style={styles.container}>
 					<View>
-						<TouchableOpacity style={styles.option}>
-							<Text style={styles.optionText}>Notification 1</Text>
-						</TouchableOpacity>
+						<Text style={styles.headerText}>Appointments</Text>
 					</View>
+
 					<View>
 						<TouchableOpacity style={styles.option}>
-							<Text style={styles.optionText}>Notification 2</Text>
+							<Text style={styles.optionText}
+							onPress={() => this.props.navigation.navigate('CreateAppointment')}>Create an appointment</Text>
 						</TouchableOpacity>
 					</View>
-					<View>
-						<TouchableOpacity style={styles.option}>
-							<Text style={styles.optionText}>Notification 3</Text>
-						</TouchableOpacity>
-					</View>
-					<View>
-						<TouchableOpacity style={styles.option}>
-							<Text style={styles.optionText}>Notification 4</Text>
-						</TouchableOpacity>
-					</View>
-					<View>
-						<TouchableOpacity style={styles.option}>
-							<Text style={styles.optionText}>Notification 5</Text>
-						</TouchableOpacity>
-					</View>
+
 				</View>
 			</LinearGradient>
 		);
@@ -60,7 +69,7 @@ const styles = StyleSheet.create({
 	},
 
 	option: {
-		padding: 10,
+		padding: 20,
 		borderColor: '#02f0c8',
 		borderRadius: 7,
 		backgroundColor: '#d9d9d9',
@@ -71,9 +80,33 @@ const styles = StyleSheet.create({
 
 	optionText: {
 		fontFamily: 'Iowan Old Style',
-		fontSize: 12,
+		fontSize: 16,
 		color: 'black',
 	},
+
+	headerText: {
+		//textAlign: 'center',
+    	fontWeight: 'bold',
+    	//fontStyle: 'italic',
+    	fontSize: 20,
+    	textDecorationLine: 'underline',
+		fontFamily: 'Iowan Old Style',
+		//fontSize: 20,
+		color: 'black',
+		//padding:20
+	},
+
+	containerBox: {
+		alignSelf: 'center',
+		backgroundColor: '#02f0c8',
+		borderRadius: 10,
+		shadowColor: 'black',
+		shadowOpacity: 1,
+		shadowRadius: 4.65,
+		elevation: 8,
+		width: 270,
+		padding: 5,
+	}
 });
 
 export default DoctorAppointments;

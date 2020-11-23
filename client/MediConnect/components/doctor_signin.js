@@ -34,9 +34,8 @@ class DoctorSignIn extends Component {
 	async signin() {
 		// var current_user = '';
 		// CookieManager.clearAll();
-		axios.post("http://54.183.200.234:5000/doctor/signin", {
-		// axios
-		// 	.post('http://10.0.2.2:5000/doctor/signin', {
+		//axios.post("http://54.183.200.234:5000/doctor/signin", {
+		 axios.post('http://10.0.2.2:5000/doctor/signin', {
 				withCredentials: true,
 				email: this.state.email,
 				password: this.state.password,

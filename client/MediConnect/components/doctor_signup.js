@@ -36,9 +36,8 @@ class DoctorSignUp extends Component {
 	};
 
 	async signup() {
-		axios.post("http://54.183.200.234:5000/doctor/signup", {
-		// axios
-		// 	.post('http://10.0.2.2:5000/doctor/signup', {
+		//axios.post("http://54.183.200.234:5000/doctor/signup", {
+		 axios.post('http://10.0.2.2:5000/doctor/signup', {
 				first_name: this.state.firstName,
 				last_name: this.state.lastName,
 				email: this.state.email,
@@ -79,14 +78,14 @@ class DoctorSignUp extends Component {
 					<View style={styles.toggle}>
 						<View style={styles.toggleDoctor}>
 							<TouchableOpacity
-								testID={doctorToggle}
+								testID="doctorToggle"
 								style={styles.toggletextDoctor}
 							>
 								<Text>DOCTOR</Text>
 							</TouchableOpacity>
 						</View>
 						<View style={styles.togglePatient}>
-							<TouchableOpacity testID={patientToggle}>
+							<TouchableOpacity testID="patientToggle">
 								<Text
 									style={styles.buttonText}
 									onPress={() =>
@@ -144,9 +143,9 @@ class DoctorSignUp extends Component {
 								required
 							/>
 						</View>
-						<View>
+						<View >
 							<TouchableOpacity
-								testID={signup_button}
+								testID="signup_button"
 								style={styles.submitButton}
 								onPress={() =>
 									this.signup(
@@ -157,7 +156,7 @@ class DoctorSignUp extends Component {
 									)
 								}
 							>
-							<Text style={styles.submitButtonText}> SIGN UP </Text>
+							<Text style={styles.submitButtonText} > SIGN UP </Text>
 							</TouchableOpacity>
 						</View>
 					</View>
