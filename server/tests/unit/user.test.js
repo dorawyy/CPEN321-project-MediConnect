@@ -2,16 +2,16 @@ require("dotenv").config();
 const { ExpectationFailed, LengthRequired } = require("http-errors");
 const { TestScheduler } = require("jest");
 const supertest = require("supertest");
-const user = require("../controllers/userController");
+const user = require("../../controllers/userController");
 const express = require("express");
 const fs = require("fs");
-const Doctor = require("../models/doctor");
-const Patient = require("../models/patient");
-const User = require("../models/user");
+const Doctor = require("../../models/doctor");
+const Patient = require("../../models/patient");
+const User = require("../../models/user");
 
-const patientRouter = require("../routes/patientRoutes");
-const doctorRouter = require("../routes/doctorRoutes");
-const { initMongo, closeMongo } = require("../config/db");
+const patientRouter = require("../../routes/patientRoutes");
+const doctorRouter = require("../../routes/doctorRoutes");
+const { initMongo, closeMongo } = require("../../config/db");
 const { forEach } = require("async");
 
 const app = express();
@@ -29,12 +29,12 @@ afterAll((done) => {
   done();
 });
 
-jest.mock("../middleware/authMiddleware");
-jest.mock("../middleware/errMiddleware");
+jest.mock("../../middleware/authMiddleware");
+jest.mock("../../middleware/errMiddleware");
 
-const { requireAuth } = require("../middleware/authMiddleware");
-const { handleErrors } = require("../middleware/errMiddleware");
-const { findById } = require("../models/user");
+const { requireAuth } = require("../../middleware/authMiddleware");
+const { handleErrors } = require("../../middleware/errMiddleware");
+const { findById } = require("../../models/user");
 const { hasUncaughtExceptionCaptureCallback } = require("process");
 
 test("Expect to get all patients when making request to get a list of all patients (no mocking)", async () => {
