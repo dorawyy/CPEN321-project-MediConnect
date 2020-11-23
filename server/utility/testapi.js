@@ -21,19 +21,19 @@ axios.defaults.withCredentials = true;
 //   .then((res) => console.log(res.data))
 //   .catch((err) => console.log(err));
 
-axios
-  .post("http://localhost:5000/patient/signup", {
-    first_name: "Falcon",
-    last_name: "Punch",
-    email: "falcon@gmail.com",
-    password: "smashbros",
-    age: 40,
-    specialization: "Neurology",
-    years_of_experience: 20,
-    verified: true,
-  })
-  .then((res) => console.log(res.data))
-  .catch((err) => console.log(err.response.data));
+// axios
+//   .post("http://localhost:5000/patient/signup", {
+//     first_name: "Falcon",
+//     last_name: "Punch",
+//     email: "falcon@gmail.com",
+//     password: "smashbros",
+//     age: 40,
+//     specialization: "Neurology",
+//     years_of_experience: 20,
+//     verified: true,
+//   })
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err.response.data));
 
 // axios
 //   .post("http://localhost:5000/patient/signin", {
@@ -58,14 +58,14 @@ axios
 //   })
 //   .catch((err) => console.log(err));
 
-// axios
-//   .get("http://localhost:5000/patient/search", {
-//     params: {
-//       symptoms: ["Chest pain"],
-//     },
-//   })
-//   .then((res) => console.log(res.data))
-//   .catch((err) => console.log(err));
+axios
+  .get("http://localhost:5000/patient/search", {
+    params: {
+      symptoms: ["pain chest"],
+    },
+  })
+  .then((res) => console.log(res.data))
+  .catch((err) => console.log(err));
 
 // axios
 //   .put("http://localhost:5000/doctor/5f9a72292614191b8231ce1c", {

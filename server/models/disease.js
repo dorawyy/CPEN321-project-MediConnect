@@ -1,16 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const diseaseSchema = new Schema({
-  disease_name: {
+const symptomSchema = new Schema({
+  symptom: {
     type: String,
     required: true,
   },
-  count: {
-    type: Number,
-    required: true,
-  },
-  symptoms: [{ type: String }],
+  disease: [{ type: String }],
 });
 
-module.exports = mongoose.model("Disease", diseaseSchema);
+module.exports = mongoose.model("Symptom", symptomSchema);

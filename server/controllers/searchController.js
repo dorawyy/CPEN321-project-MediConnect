@@ -1,20 +1,19 @@
 const fs = require("fs").promises;
 const Doctor = require("../models/doctor");
+const Symptom = require("../models/disease");
 
 // map provided symptoms to related diseases
 const symptomToDisease = async (req, res) => {
   const { symptoms } = req.query;
 
-  // reading temporary JSON file containing mappings of symptoms to diseases
-  const data = await fs.readFile(process.env.DISEASE_FILE);
-  const diseases_list = JSON.parse(data);
   let diseases = [];
 
-  // for each given symptom, get the corresponding disease
-  symptoms.forEach((symptom) => {
-    if (diseases_list[symptom])
-      diseases = diseases.concat(diseases_list[symptom]);
-  });
+  // for each given symptom, get the corresponding disease from database
+  for (const symptom of symptoms) {
+    let diseaseList = await Symptom.findOne({ symptom: symptom });
+    diseaseList = diseaseList.disease;
+    if (diseaseList) diseases = diseases.concat(diseaseList);
+  }
 
   return diseases;
 };
