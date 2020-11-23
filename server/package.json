@@ -20,7 +20,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.10",
     "morgan": "~1.9.1",
-    "puppeteer": "^5.5.0",
     "stripe": "^8.117.0",
     "validator": "^13.1.17"
   },

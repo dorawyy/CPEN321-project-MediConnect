@@ -2,40 +2,52 @@ require("dotenv").config();
 const { ExpectationFailed, LengthRequired } = require("http-errors");
 const { TestScheduler } = require("jest");
 const supertest = require("supertest");
+const mongoose = require("mongoose");
 const user = require("../../controllers/userController");
 const express = require("express");
-const fs = require("fs");
 const Doctor = require("../../models/doctor");
 const Patient = require("../../models/patient");
 const User = require("../../models/user");
+const populateDB = require("../../utility/populatedb");
 
 const patientRouter = require("../../routes/patientRoutes");
 const doctorRouter = require("../../routes/doctorRoutes");
-const { initMongo, closeMongo } = require("../../config/db");
-const { forEach } = require("async");
 
 const app = express();
 app.use(express.json());
 app.use("/patient", patientRouter);
 app.use("/doctor", doctorRouter);
 
-beforeAll((done) => {
-  initMongo();
-  done();
-});
-
-afterAll((done) => {
-  closeMongo();
-  done();
-});
-
 jest.mock("../../middleware/authMiddleware");
 jest.mock("../../middleware/errMiddleware");
-
 const { requireAuth } = require("../../middleware/authMiddleware");
 const { handleErrors } = require("../../middleware/errMiddleware");
-const { findById } = require("../../models/user");
-const { hasUncaughtExceptionCaptureCallback } = require("process");
+
+let patients = [];
+let doctors = [];
+
+beforeAll(async () => {
+  await mongoose.connect(process.env.DB_CONNECTION + "/usertest", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  });
+
+  const retval = await populateDB();
+
+  if (retval !== null) {
+    patients = retval.patients;
+    doctors = retval.doctors;
+  }
+});
+
+afterAll(async () => {
+  await mongoose.connection.dropCollection("users");
+  await mongoose.connection.dropCollection("appointments");
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+});
 
 test("Expect to get all patients when making request to get a list of all patients (no mocking)", async () => {
   const res = await supertest(app).get("/patient/");
@@ -63,8 +75,7 @@ test("Expect to get all doctors when making request to get a list of all doctors
 });
 
 test("Expect to get patient with name John Smith when requesting patient with certain id (no mocking)", async () => {
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).patients[0];
+  const id = patients[0];
   const res = await supertest(app).get("/patient/" + id);
   expect(res.body.userkey).toBe("Patient");
   expect(res.body.age).toBe(30);
@@ -84,8 +95,7 @@ test("Expect to get doctor with name Alex Jones when requesting doctor with cert
     next();
   });
 
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).doctors[0];
+  const id = doctors[0];
 
   const res = await supertest(app).get("/doctor/" + id);
   expect(res.body.userkey).toBe("Doctor");
@@ -180,8 +190,7 @@ test("Expect to get no doctors when making request to get a list of all doctors"
 test("Expect weight of Lucy Stank to change from 40 to 50 and then back to 40", async () => {
   handleErrors.mockImplementation((err) => err);
 
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).patients[4];
+  const id = patients[4];
 
   var res = await supertest(app)
     .put("/patient/" + id)
@@ -209,8 +218,7 @@ test("Expect weight of Lucy Stank to change from 40 to 50 and then back to 40", 
 test("Expect no fields of Lucy Stank to change when request body has incorrect field(s)", async () => {
   handleErrors.mockImplementation((err) => err);
 
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).patients[4];
+  const id = patients[4];
 
   const res = await supertest(app)
     .put("/patient/" + id)
@@ -241,10 +249,10 @@ test("Expect to get error and no fields of any user get changed if id is invalid
       age: 50,
     });
 
-  const patients = await Patient.find();
+  const patientsList = await Patient.find();
 
   for (i = 0; i < past.length; i++) {
-    expect(patients[i].age).toBe(past[i].age);
+    expect(patientsList[i].age).toBe(past[i].age);
   }
   expect(res.status).toBe(400);
 });
@@ -255,8 +263,7 @@ test("Expect specialization of Tor Aamodt to change from Oncology to Neurology a
     next();
   });
 
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).doctors[4];
+  const id = doctors[4];
 
   var res = await supertest(app)
     .put("/doctor/" + id)
@@ -265,7 +272,6 @@ test("Expect specialization of Tor Aamodt to change from Oncology to Neurology a
     });
 
   var doc = await User.findById(id);
-  console.log(res.body);
   expect(doc.specialization).toBe("Neurology");
   expect(doc.first_name).toBe("Tor");
   expect(doc.last_name).toBe("Aamodt");
@@ -288,8 +294,7 @@ test("Expect no fields of Tor Aamodt to change when request body has incorrect f
     next();
   });
 
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).doctors[4];
+  const id = doctors[4];
 
   const res = await supertest(app)
     .put("/doctor/" + id)
@@ -306,31 +311,29 @@ test("Expect no fields of Tor Aamodt to change when request body has incorrect f
 });
 
 test("Expect Lucy Stank to get deleted from the database", async () => {
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).patients[4];
+  const id = patients[4];
 
-  const doctors = await Doctor.find();
+  const doctorsList = await Doctor.find();
 
   const res = await supertest(app).delete("/patient/" + id);
 
-  const patients = await Patient.find();
-  expect(patients.length).toBe(7);
-  patients.forEach((patient) => {
+  const patientsList = await Patient.find();
+  expect(patientsList.length).toBe(7);
+  patientsList.forEach((patient) => {
     expect(patient._id).not.toBe(id);
   });
-  doctors.forEach((doctor) => {
+  doctorsList.forEach((doctor) => {
     expect(doctor.appointments).not.toContain(id);
   });
 });
 
 test("Expect no patient to get deleted. Error is thrown (denoted by status 400) because of invalid id", async () => {
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).patients[4];
+  const id = patients[4];
 
   const res = await supertest(app).delete("/patient/" + id);
 
-  const patients = await Patient.find();
-  expect(patients.length).toBe(7);
+  const patientsList = await Patient.find();
+  expect(patientsList.length).toBe(7);
   expect(res.status).toBe(400);
 });
 
@@ -338,19 +341,18 @@ test("Expect Tor Aamodt to get deleted from the database", async () => {
   requireAuth.mockImplementation((req, res, next) => {
     next();
   });
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).doctors[4];
+  const id = doctors[4];
 
-  const patients = await Patient.find();
+  const patientsList = await Patient.find();
 
   const res = await supertest(app).delete("/doctor/" + id);
 
-  const doctors = await Doctor.find();
-  expect(doctors.length).toBe(7);
-  doctors.forEach((doctor) => {
+  const doctorsList = await Doctor.find();
+  expect(doctorsList.length).toBe(7);
+  doctorsList.forEach((doctor) => {
     expect(doctor._id).not.toBe(id);
   });
-  patients.forEach((patient) => {
+  patientsList.forEach((patient) => {
     expect(patient.appointments).not.toContain(id);
   });
 });
@@ -360,12 +362,11 @@ test("Expect no doctor to get deleted. Error is thrown (denoted by status 400) b
     next();
   });
 
-  const data = fs.readFileSync("./public/data/dbArrays.json");
-  const id = JSON.parse(data).doctors[4];
+  const id = doctors[4];
 
   const res = await supertest(app).delete("/doctor/" + id);
 
-  const doctors = await Patient.find();
-  expect(doctors.length).toBe(7);
+  const doctorsList = await Patient.find();
+  expect(doctorsList.length).toBe(7);
   expect(res.status).toBe(400);
 });

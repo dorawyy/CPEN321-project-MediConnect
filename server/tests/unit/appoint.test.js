@@ -1,13 +1,13 @@
 require("dotenv").config();
 const { ExpectationFailed } = require("http-errors");
 const { TestScheduler } = require("jest");
-const fs = require("fs").promises;
 const supertest = require("supertest");
 const mongoose = require("mongoose");
 const express = require("express");
 const Doctor = require("../../models/doctor");
 const Patient = require("../../models/patient");
 const Appointment = require("../../models/appointment");
+const populateDB = require("../../utility/populatedb");
 
 const patientRouter = require("../../routes/patientRoutes");
 const doctorRouter = require("../../routes/doctorRoutes");
@@ -25,21 +25,26 @@ let doctors = [];
 let appointments = [];
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.DB_CONNECTION, {
+  await mongoose.connect(process.env.DB_CONNECTION + "/appoint", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
     useFindAndModify: false,
   });
 
-  const data = await fs.readFile("./public/data/dbArrays.json");
-  const jsonData = JSON.parse(data);
-  patients = jsonData.patients;
-  doctors = jsonData.doctors;
-  appointments = jsonData.appointments;
+  const retval = await populateDB();
+
+  if (retval !== null) {
+    patients = retval.patients;
+    doctors = retval.doctors;
+    appointments = retval.appointments;
+  }
 });
 
 afterAll(async () => {
+  await mongoose.connection.dropCollection("users");
+  await mongoose.connection.dropCollection("appointments");
+  await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
 });
 
