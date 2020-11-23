@@ -25,7 +25,7 @@ let doctors = [];
 let appointments = [];
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.DB_CONNECTION + "/appoint", {
+  await mongoose.connect(process.env.DB_CONNECTION + "/appointtest", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
