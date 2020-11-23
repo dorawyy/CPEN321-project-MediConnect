@@ -56,7 +56,7 @@ test("Expect to get all appointments of a patient, successful case (no mocking n
   });
 });
 
-test("Expect to get appointment of patient that doesn't exist (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when get appointment of patient that doesn't exist (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     if (err.message === "Invalid user ID") {
@@ -72,7 +72,7 @@ test("Expect to get appointment of patient that doesn't exist (mocking handleApp
   expect(res.body.patient).toBe("User account doesn't exist");
 });
 
-test("Expect to get appointment of patient with invalid ID (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when get appointment of patient with invalid ID (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -111,7 +111,7 @@ test("Expect to get all appointments of a doctor, successful case (no mocking)",
   });
 });
 
-test("Expect to get appointment of doctor that doesn't exist (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when get appointment of doctor that doesn't exist (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     if (err.message === "Invalid user ID") {
@@ -127,7 +127,7 @@ test("Expect to get appointment of doctor that doesn't exist (mocking handleAppo
   expect(res.body.doctor).toBe("User account doesn't exist");
 });
 
-test("Expect to get appointment of doctor with invalid ID (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when get appointment of doctor with invalid ID (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -200,7 +200,7 @@ test("Expect to post valid appointment for patient (no mocking needed)", async (
   await appointment.deleteOne();
 });
 
-test("Expect to post appointment with invalid IDs (mocking handleAppontmentErrors)", async () => {
+test("Expect error 400 when post appointment with invalid IDs (mocking handleAppontmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -249,7 +249,7 @@ test("Expect to post appointment with invalid IDs (mocking handleAppontmentError
   );
 });
 
-test("Expected to post appointment with non dates (mocking handleAppointmentErrors)", async () => {
+test("Expected error 400 when post appointment with non dates (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -298,7 +298,7 @@ test("Expected to post appointment with non dates (mocking handleAppointmentErro
   );
 });
 
-test("Expected to post appointment with missing fields (mocking handleAppointmentErrors)", async () => {
+test("Expected error 400 when post appointment with missing fields (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -396,7 +396,7 @@ test("Expect to put valid appointment for patient (no mocking needed)", async ()
   expect(addedToPatient && addedToDoctor).toBe(true);
 });
 
-test("Expect to put appointment with invalid ID (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when put appointment with invalid ID (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // incorrect appointment ID
@@ -442,7 +442,7 @@ test("Expect to put appointment with invalid ID (mocking handleAppointmentErrors
   expect(res.body.end_time).toBe("Appointment doesn't exist");
 });
 
-test("Expect to put appointment with non dates (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when put appointment with non dates (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -490,7 +490,7 @@ test("Expect to put appointment with non dates (mocking handleAppointmentErrors)
 /**
  * deleteAppointment testing
  */
-test("Expected to delete existing appointment twice, and delete appointment with invalid ID (mocking handleAppointmentErrors)", async () => {
+test("Expected to delete existing appointment twice, and error 400 when delete appointment with invalid ID (mocking handleAppointmentErrors)", async () => {
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // incorrect appointment ID
@@ -539,7 +539,6 @@ test("Expected to delete existing appointment twice, and delete appointment with
   expect(res.status).toBe(400);
   expect(res.body.start_time).toBe("Appointment doesn't exist");
   expect(res.body.end_time).toBe("Appointment doesn't exist");
-  console.log(res.body);
 
   // deleting appointment with invalid ID
   res = await supertest(app).delete("/patient/appointment/0");

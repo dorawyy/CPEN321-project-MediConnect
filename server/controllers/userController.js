@@ -29,7 +29,7 @@ const getUserById = async (req, res) => {
 
     res.status(200).json(user);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(400).json(err);
   }
 };
@@ -42,7 +42,7 @@ const putUserById = async (req, res) => {
     await User.findByIdAndUpdate(id, req.body, { runValidators: true });
     res.status(200).json({ user: id });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     const errors = handleErrors(err);
     res.status(400).json(errors);
   }
@@ -88,7 +88,7 @@ const deletePatientById = async (req, res) => {
 
     res.status(200).json({ message: "Delete patient account successful" });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(400).json(err);
   }
 };
@@ -128,7 +128,7 @@ const deleteDoctorById = async (req, res) => {
 
     res.status(200).json({ message: "Delete doctor account successful" });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(400).json(err);
   }
 };

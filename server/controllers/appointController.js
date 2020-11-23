@@ -39,7 +39,6 @@ const getAppointments = async (req, res) => {
 
     res.status(200).json(appointments);
   } catch (err) {
-    console.log(err);
     const errors = handleAppointmentErrors(err);
     res.status(400).json(errors);
   }
@@ -78,7 +77,6 @@ const postAppointment = async (req, res) => {
 
     res.status(200).json({ appointment: newAppointment._id });
   } catch (err) {
-    console.log(err);
     const errors = handleAppointmentErrors(err);
     res.status(400).json(errors);
   }
@@ -129,7 +127,6 @@ const putAppointment = async (req, res) => {
 
     res.status(200).json({ appointment: appointmentId });
   } catch (err) {
-    console.log(err);
     const errors = handleAppointmentErrors(err);
     res.status(400).json(errors);
   }
@@ -158,7 +155,6 @@ const deleteAppointment = async (req, res) => {
 
     res.status(200).json({ message: "Delete appointment successful" });
   } catch (err) {
-    console.log(err);
     const errors = handleAppointmentErrors(err);
     res.status(400).json(errors);
   }
