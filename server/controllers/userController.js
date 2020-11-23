@@ -35,11 +35,11 @@ const getUserById = async (req, res) => {
 };
 
 // Put user by id
-const putUserById = async (req, res) => {
+const putUserById = async (req, res, model) => {
   const id = req.params.id;
 
   try {
-    await User.findByIdAndUpdate(id, req.body, { runValidators: true });
+    await model.findByIdAndUpdate(id, req.body, { runValidators: true });
     res.status(200).json({ user: id });
   } catch (err) {
     // console.log(err);

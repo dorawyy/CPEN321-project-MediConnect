@@ -27,7 +27,7 @@ router.get("/signout", authController.signoutDoctor);
  */
 router.get("/:id", auth.requireAuth, userController.getUserById);
 
-router.put("/:id", auth.requireAuth, userController.putUserById);
+router.put("/:id", auth.requireAuth, userController.putDoctorById);
 
 router.delete("/:id", auth.requireAuth, userController.deleteDoctorById);
 

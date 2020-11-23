@@ -15,7 +15,7 @@ class StartUp extends Component {
 				colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
 				style={styles.container}
 			>
-				{/* <View testID="startup" style={testView}> */}
+				<View testID="startup">
 				<Image
 					testID="logo"
 					source={require('../assets/logo.png')}
@@ -37,7 +37,7 @@ class StartUp extends Component {
 						Sign In
 					</Text>
 				</TouchableOpacity>
-				{/* </View> */}
+				</View>
 			</LinearGradient>
 			//</View>
 		);

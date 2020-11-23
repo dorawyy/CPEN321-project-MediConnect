@@ -31,16 +31,18 @@ router.get("/search", searchController.findDoctor);
 
 /*
  * Routes relating to patient payment to doctor
- * TODO: Mudit please handle this external API
+ * TODO: Mudit please handle this external API. YES DADDY
  */
 router.get("/pay", stripeController.createPaymentIntent);
+
+// router.post("/checkout", stripeController.createCheckout);
 
 /*
  * Routes relating to patient CRUD database operations
  */
 router.get("/:id", userController.getUserById);
 
-router.put("/:id", userController.putUserById);
+router.put("/:id", userController.putPatientById);
 
 router.delete("/:id", userController.deletePatientById);
 

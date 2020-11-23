@@ -6,12 +6,12 @@ const fs = require("fs").promises;
 const supertest = require("supertest");
 const mongoose = require("mongoose");
 const express = require("express");
-const Doctor = require("../models/doctor");
-const Patient = require("../models/patient");
-const Appointment = require("../models/appointment");
+const Doctor = require("../../models/doctor");
+const Patient = require("../../models/patient");
+const Appointment = require("../../models/appointment");
 
-const patientRouter = require("../routes/patientRoutes");
-const doctorRouter = require("../routes/doctorRoutes");
+const patientRouter = require("../../routes/patientRoutes");
+const doctorRouter = require("../../routes/doctorRoutes");
 
 const app = express();
 app.use(express.json());
@@ -19,8 +19,8 @@ app.use(cookieParser());
 app.use("/patient", patientRouter);
 app.use("/doctor", doctorRouter);
 
-jest.mock("../middleware/authMiddleware");
-const { requireAuth } = require("../middleware/authMiddleware");
+jest.mock("../../middleware/authMiddleware");
+const { requireAuth } = require("../../middleware/authMiddleware");
 
 let patients = [];
 let doctors = [];
