@@ -4,7 +4,7 @@ const Symptom = require("../models/disease");
 
 // map provided symptoms to related diseases
 const symptomToDisease = async (req, res) => {
-  const { symptoms } = req.query;
+  const { symptoms } = req.body;
 
   let diseases = [];
 
@@ -78,24 +78,25 @@ const findDoctor = async (req, res) => {
     // of decreasing ratings
     await Promise.all(
       specializations.map(async (specialization) => {
-        const verifiedDoc = [];
-        const unverifiedDoc = [];
+        if (specialization) {
+          const verifiedDoc = [];
+          const unverifiedDoc = [];
 
-        const doctors = await Doctor.find({
-          specialization: specialization,
-        }).sort({
-          rating: -1,
-        });
+          const doctors = await Doctor.find({
+            specialization: specialization,
+          }).sort({
+            rating: -1,
+          });
 
-        doctors.forEach((doctor) => {
-          if (doctor.verified) {
-            verifiedDoc.push(doctor);
-          } else {
-            unverifiedDoc.push(doctor);
-          }
-        });
-
-        sortedDocs[specialization] = verifiedDoc.concat(unverifiedDoc);
+          doctors.forEach((doctor) => {
+            if (doctor.verified) {
+              verifiedDoc.push(doctor);
+            } else {
+              unverifiedDoc.push(doctor);
+            }
+          });
+          sortedDocs[specialization] = verifiedDoc.concat(unverifiedDoc);
+        }
       })
     );
 
@@ -106,4 +107,4 @@ const findDoctor = async (req, res) => {
   }
 };
 
-module.exports = { findDoctor, symptomToDisease, diseaseToSpecialization };
+module.exports = { findDoctor };

@@ -10,6 +10,7 @@ const Doctor = require("../../models/doctor");
 const Patient = require("../../models/patient");
 const Appointment = require("../../models/appointment");
 const populateDB = require("../../utility/populatedb");
+const fillSymptomDB = require("../../utility/fillDiseaseDb");
 
 const patientRouter = require("../../routes/patientRoutes");
 const doctorRouter = require("../../routes/doctorRoutes");
@@ -34,6 +35,7 @@ beforeAll(async () => {
   });
 
   const retval = await populateDB();
+  await fillSymptomDB();
 
   if (retval !== null) {
     patients = retval.patients;
@@ -43,6 +45,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await mongoose.connection.dropCollection("symptoms");
   await mongoose.connection.dropCollection("users");
   await mongoose.connection.dropCollection("appointments");
   await mongoose.connection.dropDatabase();
@@ -177,12 +180,38 @@ test("User tries to sign in", async () => {
   };
   res = await supertest(app).post("/doctor/signin").send(userFields);
   expect(res.status).toBe(200);
+
+  res = await supertest(app).get("/doctor/signout");
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Logout successful");
 });
 
 /**
  * User signs in, searches for a doctor, and then signs out
  */
-//test("User signs in, searches for doctor, then signs out", async () => {});
+test("User signs in, searches for doctor, then signs out", async () => {
+  let userFields = {
+    email: "maryjoe@gmail.com",
+    password: "password",
+  };
+  let res = await supertest(app).post("/patient/signin").send(userFields);
+  expect(res.status).toBe(200);
+  expect(res.body.user).toBe(patients[1]);
+  const cookie = res.headers["set-cookie"];
+
+  res = await supertest(app)
+    .post("/patient/search")
+    .set("Cookie", cookie)
+    .send({ symptoms: ["pain chest", "shortness of breath", "asthenia"] });
+  expect(res.status).toBe(200);
+  expect(res.body.Oncology[0].first_name).toBe("Mickey");
+  expect(res.body.Oncology[1].first_name).toBe("Tor");
+  expect(res.body.Pulmonology[0].last_name).toBe("Lennon");
+
+  res = await supertest(app).get("/patient/signout");
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Logout successful");
+});
 
 /**
  * User gets appointments, failure cases

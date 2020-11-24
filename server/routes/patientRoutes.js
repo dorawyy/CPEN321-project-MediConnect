@@ -27,7 +27,7 @@ router.get("/signout", authController.signoutPatient);
 /*
  * Routes relating to patient search for doctors based on symptoms
  */
-router.get("/search", requireAuth, searchController.findDoctor);
+router.post("/search", requireAuth, searchController.findDoctor);
 
 /*
  * Routes relating to patient payment to doctor

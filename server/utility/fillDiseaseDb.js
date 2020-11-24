@@ -4,8 +4,8 @@ const Symptom = require("../models/disease");
 
 const userArgs = process.argv.slice(2);
 
-const fillSymptomDb = async () => {
-  const data = await fs.readFile("./symptom-disease.json");
+const fillSymptomDB = async () => {
+  const data = await fs.readFile("./public/data/symptom-disease.json");
   const diseases_list = JSON.parse(data);
 
   try {
@@ -46,3 +46,5 @@ if (require.main === module) {
     console.log(err);
   }
 }
+
+module.exports = fillSymptomDB;
