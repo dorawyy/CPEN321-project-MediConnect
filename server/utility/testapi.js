@@ -46,7 +46,7 @@ axios.defaults.withCredentials = true;
 //     console.log(cookie);
 
 //     axios
-//       .get("http://54.183.200.234:5000/doctor/5f9650255618700869494de3", {
+//       .get("http://localhost:5000/doctor/5fbb9510410d8eb956c9a130", {
 //         headers: {
 //           Accept: "application/json",
 //           "Content-Type": "application/json",
@@ -58,14 +58,14 @@ axios.defaults.withCredentials = true;
 //   })
 //   .catch((err) => console.log(err));
 
-axios
-  .get("http://localhost:5000/patient/search", {
-    params: {
-      symptoms: ["pain chest"],
-    },
-  })
-  .then((res) => console.log(res.data))
-  .catch((err) => console.log(err));
+// axios
+//   .get("http://localhost:5000/patient/search", {
+//     params: {
+//       symptoms: ["pain chest"],
+//     },
+//   })
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err));
 
 // axios
 //   .put("http://localhost:5000/doctor/5f9a72292614191b8231ce1c", {
@@ -89,15 +89,35 @@ axios
 //   .then((res) => console.log(res))
 //   .catch((err) => console.log(err));
 
-// axios
-//   .post("http://localhost:5000/patient/appointment", {
-//     patientId: "5f9d10bc7a3444a4ab75eb6b",
-//     doctorId: "5f9d10bb7a3444a4ab75eb63",
-//     start_time: "new date lol",
-//     //end_time: "end date lol",
-//   })
-//   .then((res) => console.log(res))
-//   .catch((err) => console.log(err));
+axios
+  .post("http://localhost:5000/patient/signin", {
+    email: "johnsmith@gmail.com",
+    password: "password",
+  })
+  .then((res) => {
+    const cookie = res.headers["set-cookie"];
+
+    console.log(cookie);
+
+    axios
+      .post(
+        "http://localhost:5000/patient/appointment",
+        {
+          patientId: "5fbb9510410d8eb956c9a128",
+          doctorId: "5fbb9510410d8eb956c9a130",
+          start_time: new Date(2020, 10, 24, 12, 0),
+          end_time: new Date(2020, 10, 24, 13, 0),
+        },
+        {
+          headers: {
+            Cookie: cookie,
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  })
+  .catch((err) => console.log(err));
 
 // axios
 //   .delete("http://localhost:5000/patient/appointment/5f9d18b8aec0303aa5f6070d")

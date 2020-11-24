@@ -1,9 +1,5 @@
 #! /usr/bin/env node
 
-console.log(
-  "This script populates your database with entries for doctors and patients"
-);
-
 // Get arguments passed on command line
 const userArgs = process.argv.slice(2);
 /*
@@ -20,6 +16,7 @@ const mongoose = require("mongoose");
 const doctors = [];
 const patients = [];
 const appointments = [];
+const nextYear = new Date().getFullYear() + 1;
 
 async function doctorCreate(
   first_name,
@@ -296,62 +293,62 @@ async function createAppointments() {
   await appointmentCreate(
     0,
     0,
-    new Date(2020, 11, 20, 11, 0),
-    new Date(2020, 11, 20, 12, 0)
+    new Date(nextYear, 11, 20, 11, 0),
+    new Date(nextYear, 11, 20, 12, 0)
   );
   await appointmentCreate(
     1,
     0,
-    new Date(2020, 11, 21, 11, 0),
-    new Date(2020, 11, 21, 12, 0)
+    new Date(nextYear, 11, 21, 11, 0),
+    new Date(nextYear, 11, 21, 12, 0)
   );
   await appointmentCreate(
     2,
     0,
-    new Date(2020, 11, 22, 11, 0),
-    new Date(2020, 11, 22, 12, 0)
+    new Date(nextYear, 11, 22, 11, 0),
+    new Date(nextYear, 11, 22, 12, 0)
   );
   await appointmentCreate(
     3,
     1,
-    new Date(2020, 11, 20, 11, 0),
-    new Date(2020, 11, 20, 12, 0)
+    new Date(nextYear, 11, 20, 11, 0),
+    new Date(nextYear, 11, 20, 12, 0)
   );
   await appointmentCreate(
     0,
     1,
-    new Date(2020, 11, 21, 11, 0),
-    new Date(2020, 11, 21, 12, 0)
+    new Date(nextYear, 11, 21, 11, 0),
+    new Date(nextYear, 11, 21, 12, 0)
   );
   await appointmentCreate(
     0,
     2,
-    new Date(2020, 11, 22, 11, 0),
-    new Date(2020, 11, 22, 12, 0)
+    new Date(nextYear, 11, 22, 11, 0),
+    new Date(nextYear, 11, 22, 12, 0)
   );
   await appointmentCreate(
     3,
     0,
-    new Date(2020, 11, 23, 11, 0),
-    new Date(2020, 11, 23, 12, 0)
+    new Date(nextYear, 11, 23, 11, 0),
+    new Date(nextYear, 11, 23, 12, 0)
   );
   await appointmentCreate(
     0,
     0,
-    new Date(2020, 11, 24, 11, 0),
-    new Date(2020, 11, 24, 12, 0)
+    new Date(nextYear, 11, 24, 11, 0),
+    new Date(nextYear, 11, 24, 12, 0)
   );
   await appointmentCreate(
     5,
     5,
-    new Date(2020, 11, 24, 11, 0),
-    new Date(2020, 11, 24, 12, 0)
+    new Date(nextYear, 11, 24, 11, 0),
+    new Date(nextYear, 11, 24, 12, 0)
   );
   await appointmentCreate(
     5,
     0,
-    new Date(2020, 11, 26, 11, 0),
-    new Date(2020, 11, 26, 12, 0)
+    new Date(nextYear, 11, 26, 11, 0),
+    new Date(nextYear, 11, 26, 12, 0)
   );
 }
 
@@ -393,7 +390,10 @@ const main = async () => {
 
 // this part only gets executed if running populatedb.js as the main file
 if (require.main === module) {
-  console.log("Running populatedb.js as the main file");
+  console.log(
+    "This script populates your database with entries for doctors and patients"
+  );
+
   main();
 }
 

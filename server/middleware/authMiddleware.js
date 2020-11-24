@@ -8,43 +8,43 @@ const requireAuth = (req, res, next) => {
   if (token) {
     jwt.verify(token, "mediconnect sneaky secret", (err, decodedToken) => {
       if (err) {
-        console.log(err.message);
-        res.status(400).send("Token not valid");
+        // console.log(err.message);
+        res.status(400).json({ message: "Token not valid" });
       } else {
-        console.log(decodedToken);
+        // console.log(decodedToken);
         next();
       }
     });
   } else {
-    res.status(400).send("Token not valid");
+    res.status(400).json({ message: "Token not valid" });
   }
 };
 
-// check current user
-const checkUser = (req, res, next) => {
-  const token = req.cookies.jwt;
+// // check current user
+// const checkUser = (req, res, next) => {
+//   const token = req.cookies.jwt;
 
-  if (token) {
-    jwt.verify(
-      token,
-      "mediconnect sneaky secret",
-      async (err, decodedToken) => {
-        if (err) {
-          console.log(err.message);
-          res.locals.user = null;
-          next();
-        } else {
-          console.log(decodedToken);
-          let user = await User.findById(decodedToken.id);
-          res.locals.user = user;
-          next();
-        }
-      }
-    );
-  } else {
-    res.locals.user = null;
-    next();
-  }
-};
+//   if (token) {
+//     jwt.verify(
+//       token,
+//       "mediconnect sneaky secret",
+//       async (err, decodedToken) => {
+//         if (err) {
+//           console.log(err.message);
+//           res.locals.user = null;
+//           next();
+//         } else {
+//           console.log(decodedToken);
+//           let user = await User.findById(decodedToken.id);
+//           res.locals.user = user;
+//           next();
+//         }
+//       }
+//     );
+//   } else {
+//     res.locals.user = null;
+//     next();
+//   }
+// };
 
-module.exports = { requireAuth, checkUser };
+module.exports = { requireAuth };

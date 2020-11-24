@@ -17,12 +17,15 @@ app.use(express.json());
 app.use("/patient", patientRouter);
 app.use("/doctor", doctorRouter);
 
+jest.mock("../../middleware/authMiddleware");
 jest.mock("../../middleware/errMiddleware");
+const { requireAuth } = require("../../middleware/authMiddleware");
 const { handleAppointmentErrors } = require("../../middleware/errMiddleware");
 
 let patients = [];
 let doctors = [];
 let appointments = [];
+const nextYear = new Date().getFullYear() + 1;
 
 beforeAll(async () => {
   await mongoose.connect(process.env.DB_CONNECTION + "/appointtest", {
@@ -51,7 +54,9 @@ afterAll(async () => {
 /**
  * getAppointment testing
  */
-test("Expect to get all appointments of a patient, successful case (no mocking needed)", async () => {
+test("Expect to get all appointments of a patient, successful case", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const res = await supertest(app).get(`/patient/appointment/${patients[0]}`);
   expect(res.status).toBe(200);
   expect(res.body.appointments.length).toBe(4);
@@ -61,7 +66,8 @@ test("Expect to get all appointments of a patient, successful case (no mocking n
   });
 });
 
-test("Expect error 400 when get appointment of patient that doesn't exist (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when get appointment of patient that doesn't exist", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     if (err.message === "Invalid user ID") {
@@ -77,7 +83,8 @@ test("Expect error 400 when get appointment of patient that doesn't exist (mocki
   expect(res.body.patient).toBe("User account doesn't exist");
 });
 
-test("Expect error 400 when get appointment of patient with invalid ID (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when get appointment of patient with invalid ID", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -106,7 +113,9 @@ test("Expect error 400 when get appointment of patient with invalid ID (mocking 
 });
 
 // getAppointment testing for doctors
-test("Expect to get all appointments of a doctor, successful case (no mocking)", async () => {
+test("Expect to get all appointments of a doctor, successful case", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const res = await supertest(app).get(`/doctor/appointment/${doctors[0]}`);
   expect(res.status).toBe(200);
   expect(res.body.appointments.length).toBe(6);
@@ -116,7 +125,8 @@ test("Expect to get all appointments of a doctor, successful case (no mocking)",
   });
 });
 
-test("Expect error 400 when get appointment of doctor that doesn't exist (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when get appointment of doctor that doesn't exist", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     if (err.message === "Invalid user ID") {
@@ -132,7 +142,8 @@ test("Expect error 400 when get appointment of doctor that doesn't exist (mockin
   expect(res.body.doctor).toBe("User account doesn't exist");
 });
 
-test("Expect error 400 when get appointment of doctor with invalid ID (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when get appointment of doctor with invalid ID", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -163,12 +174,14 @@ test("Expect error 400 when get appointment of doctor with invalid ID (mocking h
 /**
  * postAppointment testing
  */
-test("Expect to post valid appointment for patient (no mocking needed)", async () => {
+test("Expect to post valid appointment for patient", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const appointmentFields = {
     patientId: patients[0],
     doctorId: doctors[0],
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
   const res = await supertest(app)
     .post("/patient/appointment")
@@ -205,7 +218,8 @@ test("Expect to post valid appointment for patient (no mocking needed)", async (
   await appointment.deleteOne();
 });
 
-test("Expect error 400 when post appointment with invalid IDs (mocking handleAppontmentErrors)", async () => {
+test("Expect error 400 when post appointment with invalid IDs", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -228,8 +242,8 @@ test("Expect error 400 when post appointment with invalid IDs (mocking handleApp
   let appointmentFields = {
     patientId: "0",
     doctorId: doctors[0],
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
   let res = await supertest(app)
     .post("/patient/appointment")
@@ -242,8 +256,8 @@ test("Expect error 400 when post appointment with invalid IDs (mocking handleApp
   appointmentFields = {
     patientId: patients[0],
     doctorId: "0",
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
   res = await supertest(app)
     .post("/patient/appointment")
@@ -254,7 +268,8 @@ test("Expect error 400 when post appointment with invalid IDs (mocking handleApp
   );
 });
 
-test("Expected error 400 when post appointment with non dates (mocking handleAppointmentErrors)", async () => {
+test("Expected error 400 when post appointment with non dates", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -278,7 +293,7 @@ test("Expected error 400 when post appointment with non dates (mocking handleApp
     patientId: patients[0],
     doctorId: doctors[0],
     start_time: "NOT A DATE",
-    end_time: new Date(2020, 11, 21, 15, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
   let res = await supertest(app)
     .post("/patient/appointment")
@@ -291,7 +306,7 @@ test("Expected error 400 when post appointment with non dates (mocking handleApp
   appointmentFields = {
     patientId: patients[0],
     doctorId: doctors[0],
-    start_time: new Date(2020, 11, 21, 14, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
     end_time: "NOT A DATE",
   };
   res = await supertest(app)
@@ -303,7 +318,8 @@ test("Expected error 400 when post appointment with non dates (mocking handleApp
   );
 });
 
-test("Expected error 400 when post appointment with missing fields (mocking handleAppointmentErrors)", async () => {
+test("Expected error 400 when post appointment with missing fields", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -326,7 +342,7 @@ test("Expected error 400 when post appointment with missing fields (mocking hand
   let appointmentFields = {
     patientId: patients[0],
     doctorId: doctors[0],
-    end_time: new Date(2020, 11, 21, 15, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
   let res = await supertest(app)
     .post("/patient/appointment")
@@ -337,7 +353,7 @@ test("Expected error 400 when post appointment with missing fields (mocking hand
   appointmentFields = {
     patientId: patients[0],
     doctorId: doctors[0],
-    start_time: new Date(2020, 11, 21, 14, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
   };
   res = await supertest(app)
     .post("/patient/appointment")
@@ -349,10 +365,12 @@ test("Expected error 400 when post appointment with missing fields (mocking hand
 /**
  * putAppointment testing
  */
-test("Expect to put valid appointment for patient (no mocking needed)", async () => {
+test("Expect to put valid appointment for patient", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   let appointmentFields = {
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
   let res = await supertest(app)
     .put(`/patient/appointment/${appointments[0]}`)
@@ -376,8 +394,8 @@ test("Expect to put valid appointment for patient (no mocking needed)", async ()
   expect(addedToPatient && addedToDoctor).toBe(true);
 
   appointmentFields = {
-    start_time: new Date(2020, 11, 20, 11, 0),
-    end_time: new Date(2020, 11, 20, 12, 0),
+    start_time: new Date(nextYear, 11, 20, 11, 0),
+    end_time: new Date(nextYear, 11, 20, 12, 0),
   };
   res = await supertest(app)
     .put(`/patient/appointment/${appointments[0]}`)
@@ -401,7 +419,8 @@ test("Expect to put valid appointment for patient (no mocking needed)", async ()
   expect(addedToPatient && addedToDoctor).toBe(true);
 });
 
-test("Expect error 400 when put appointment with invalid ID (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when put appointment with invalid ID", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // incorrect appointment ID
@@ -427,8 +446,8 @@ test("Expect error 400 when put appointment with invalid ID (mocking handleAppoi
   });
 
   let appointmentFields = {
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
   let res = await supertest(app)
     .put("/patient/appointment/0")
@@ -447,7 +466,8 @@ test("Expect error 400 when put appointment with invalid ID (mocking handleAppoi
   expect(res.body.end_time).toBe("Appointment doesn't exist");
 });
 
-test("Expect error 400 when put appointment with non dates (mocking handleAppointmentErrors)", async () => {
+test("Expect error 400 when put appointment with non dates", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // validation errors
@@ -469,7 +489,7 @@ test("Expect error 400 when put appointment with non dates (mocking handleAppoin
 
   let appointmentFields = {
     start_time: "NOT A DATE",
-    end_time: new Date(2020, 11, 21, 15, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
   let res = await supertest(app)
     .put(`/patient/appointment/${appointments[0]}`)
@@ -480,7 +500,7 @@ test("Expect error 400 when put appointment with non dates (mocking handleAppoin
   );
 
   appointmentFields = {
-    start_time: new Date(2020, 11, 21, 14, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
     end_time: "NOT A DATE",
   };
   res = await supertest(app)
@@ -495,7 +515,8 @@ test("Expect error 400 when put appointment with non dates (mocking handleAppoin
 /**
  * deleteAppointment testing
  */
-test("Expected to delete existing appointment twice, and error 400 when delete appointment with invalid ID (mocking handleAppointmentErrors)", async () => {
+test("Expected to delete existing appointment twice, and error 400 when delete appointment with invalid ID", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
     // incorrect appointment ID

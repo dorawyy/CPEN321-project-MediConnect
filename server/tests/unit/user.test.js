@@ -75,6 +75,8 @@ test("Expect to get all doctors when making request to get a list of all doctors
 });
 
 test("Expect to get patient with name John Smith when requesting patient with certain id (no mocking)", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const id = patients[0];
   const res = await supertest(app).get("/patient/" + id);
   expect(res.body.userkey).toBe("Patient");
@@ -91,9 +93,7 @@ test("Expect to get error (denoted by 400 status) when the id is incorrect", asy
 });
 
 test("Expect to get doctor with name Alex Jones when requesting doctor with certain id (mocking auth)", async () => {
-  requireAuth.mockImplementation((req, res, next) => {
-    next();
-  });
+  requireAuth.mockImplementation((req, res, next) => next());
 
   const id = doctors[0];
 
@@ -107,9 +107,7 @@ test("Expect to get doctor with name Alex Jones when requesting doctor with cert
 });
 
 test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
-  requireAuth.mockImplementation((req, res, next) => {
-    next();
-  });
+  requireAuth.mockImplementation((req, res, next) => next());
 
   const res = await supertest(app).get("/doctor/rrrrrrrrrrrrrrrrrrrrrrrr");
   expect(res.status).toBe(400);
@@ -188,6 +186,7 @@ test("Expect to get no doctors when making request to get a list of all doctors"
 });
 
 test("Expect weight of Lucy Stank to change from 40 to 50 and then back to 40", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleErrors.mockImplementation((err) => err);
 
   const id = patients[4];
@@ -216,6 +215,7 @@ test("Expect weight of Lucy Stank to change from 40 to 50 and then back to 40", 
 });
 
 test("Expect no fields of Lucy Stank to change when request body has incorrect field(s)", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleErrors.mockImplementation((err) => err);
 
   const id = patients[4];
@@ -239,6 +239,7 @@ test("Expect no fields of Lucy Stank to change when request body has incorrect f
 });
 
 test("Expect to get error and no fields of any user get changed if id is invalid", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleErrors.mockImplementation((err) => err);
 
   const past = await Patient.find();
@@ -258,10 +259,8 @@ test("Expect to get error and no fields of any user get changed if id is invalid
 });
 
 test("Expect specialization of Tor Aamodt to change from Oncology to Neurology and back to Oncology", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
   handleErrors.mockImplementation((err) => err);
-  requireAuth.mockImplementation((req, res, next) => {
-    next();
-  });
 
   const id = doctors[4];
 
@@ -289,10 +288,9 @@ test("Expect specialization of Tor Aamodt to change from Oncology to Neurology a
 });
 
 test("Expect no fields of Tor Aamodt to change when request body has incorrect field(s)", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   handleErrors.mockImplementation((err) => err);
-  requireAuth.mockImplementation((req, res, next) => {
-    next();
-  });
 
   const id = doctors[4];
 
@@ -311,6 +309,8 @@ test("Expect no fields of Tor Aamodt to change when request body has incorrect f
 });
 
 test("Expect Lucy Stank to get deleted from the database", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const id = patients[4];
 
   const doctorsList = await Doctor.find();
@@ -328,6 +328,8 @@ test("Expect Lucy Stank to get deleted from the database", async () => {
 });
 
 test("Expect no patient to get deleted. Error is thrown (denoted by status 400) because of invalid id", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const id = patients[4];
 
   const res = await supertest(app).delete("/patient/" + id);
@@ -338,9 +340,8 @@ test("Expect no patient to get deleted. Error is thrown (denoted by status 400) 
 });
 
 test("Expect Tor Aamodt to get deleted from the database", async () => {
-  requireAuth.mockImplementation((req, res, next) => {
-    next();
-  });
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const id = doctors[4];
 
   const patientsList = await Patient.find();
@@ -358,9 +359,7 @@ test("Expect Tor Aamodt to get deleted from the database", async () => {
 });
 
 test("Expect no doctor to get deleted. Error is thrown (denoted by status 400) because of invalid id", async () => {
-  requireAuth.mockImplementation((req, res, next) => {
-    next();
-  });
+  requireAuth.mockImplementation((req, res, next) => next());
 
   const id = doctors[4];
 

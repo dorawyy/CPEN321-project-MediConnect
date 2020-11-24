@@ -101,11 +101,9 @@ const putAppointment = async (req, res) => {
     const patient = await Patient.findById(appointment.patientId).populate(
       "appointments"
     );
-    if (!patient) throw Error("Invalid patient ID");
     const doctor = await Doctor.findById(appointment.doctorId).populate(
       "appointments"
     );
-    if (!doctor) throw Error("Invalid doctor ID");
 
     // remove the appointment from both the patient's and doctor's appointments
     patient.appointments.pull({ _id: appointmentId });

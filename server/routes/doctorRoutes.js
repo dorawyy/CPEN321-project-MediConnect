@@ -7,7 +7,7 @@ const express = require("express");
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
 const appointController = require("../controllers/appointController");
-const auth = require("../middleware/authMiddleware");
+const { requireAuth } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // Convenient endpoint for viewing all doctors
@@ -25,19 +25,25 @@ router.get("/signout", authController.signoutDoctor);
 /*
  * Routes relating to doctor CRUB database operations
  */
-router.get("/:id", auth.requireAuth, userController.getUserById);
+router.get("/:id", requireAuth, userController.getUserById);
 
-router.put("/:id", auth.requireAuth, userController.putDoctorById);
+router.put("/:id", requireAuth, userController.putDoctorById);
 
-router.delete("/:id", auth.requireAuth, userController.deleteDoctorById);
+router.delete("/:id", requireAuth, userController.deleteDoctorById);
 
 /*
  * Routes relating to appointment booking
  */
-router.get("/appointment/:id", appointController.getAppointments);
+router.get("/appointment/:id", requireAuth, appointController.getAppointments);
 
-router.put("/appointment/:id", appointController.putAppointment);
+router.post("/appointment", requireAuth, appointController.postAppointment);
 
-router.delete("/appointment/:id", appointController.deleteAppointment);
+router.put("/appointment/:id", requireAuth, appointController.putAppointment);
+
+router.delete(
+  "/appointment/:id",
+  requireAuth,
+  appointController.deleteAppointment
+);
 
 module.exports = router;

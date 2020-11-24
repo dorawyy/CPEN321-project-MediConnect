@@ -25,20 +25,20 @@ const UserSchema = new Schema(
     },
     email: {
       type: String,
-      required: [true, "Please enter an email"],
+      required: [true, "Please enter email"],
       trim: true,
       unique: true,
-      validate: [isEmail, "Please enter a valid email"],
+      validate: [isEmail, "Please enter valid email"],
     },
     password: {
       type: String,
-      required: [true, "Please enter a password"],
+      required: [true, "Please enter password"],
       minlength: [8, "Password must be at least 8 characters long"],
     },
     age: {
       type: Number,
       // required: true,
-      min: [0, "Age must at least 0"],
+      min: [0, "Age must be at least 0"],
     },
     appointments: [{ type: Schema.Types.ObjectId, ref: "Appointment" }],
   },
@@ -58,6 +58,14 @@ UserSchema.pre("save", async function (next) {
 
 // Static method to login user
 UserSchema.statics.login = async function (email, password) {
+  let err = {};
+  if (email === undefined) {
+    throw Error("Please enter email");
+  }
+  if (password === undefined) {
+    throw Error("Please enter password");
+  }
+
   const user = await this.findOne({ email });
 
   if (user) {

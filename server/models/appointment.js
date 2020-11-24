@@ -29,4 +29,35 @@ const AppointmentSchema = new Schema(
   appointmentOptions
 );
 
+const secInHour = 1000 * 60 * 60;
+AppointmentSchema.pre("save", async function (next) {
+  const timeDiff = this.end_time.getTime() - this.start_time.getTime();
+  if (timeDiff / secInHour > 24) {
+    throw Error("Longer than 1 day");
+  }
+  if (timeDiff < 0) {
+    throw Error("Negative time");
+  }
+  if (this.start_time < new Date()) {
+    throw Error("Past appointment");
+  }
+  next();
+});
+
+AppointmentSchema.pre("findOneAndUpdate", async function (next) {
+  const start_time = new Date(this._update.start_time);
+  const end_time = new Date(this._update.end_time);
+  const timeDiff = end_time.getTime() - start_time.getTime();
+  if (timeDiff / secInHour > 24) {
+    throw Error("Longer than 1 day");
+  }
+  if (timeDiff < 0) {
+    throw Error("Negative time");
+  }
+  if (start_time < new Date()) {
+    throw Error("Past appointment");
+  }
+  next();
+});
+
 module.exports = mongoose.model("Appointment", AppointmentSchema);

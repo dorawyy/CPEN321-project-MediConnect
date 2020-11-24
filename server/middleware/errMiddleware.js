@@ -6,18 +6,26 @@ const handleErrors = (err) => {
 
   // incorrect email
   if (err.message === "Incorrect email") {
-    errors.email = "that email is not registered";
+    errors.email = "Email not registered";
   }
 
   // incorrect password
   if (err.message === "Incorrect password") {
-    errors.password = "that password is incorrect";
+    errors.password = err.message;
   }
 
   // duplicate error code
   if (err.code === 11000) {
-    errors.email = "Email already registed";
+    errors.email = "Email already registered";
     return errors;
+  }
+
+  if (err.message === "Please enter email") {
+    errors.email = err.message;
+  }
+
+  if (err.message === "Please enter password") {
+    errors.password = err.message;
   }
 
   // validation errors
@@ -59,6 +67,21 @@ const handleAppointmentErrors = (err) => {
     errors.end_time = "Appointment doesn't exist";
   }
 
+  // Appointment longer than 1 day
+  if (err.message === "Longer than 1 day") {
+    errors.start_time = "Appointment cannot be longer than 1 day";
+  }
+
+  // Appointment end_time earlier than start_time
+  if (err.message === "Negative time") {
+    errors.start_time = "Appointment end time earlier than start time";
+  }
+
+  // Appointment start time in the past
+  if (err.message === "Past appointment") {
+    errors.start_time = "Must make future appointments";
+  }
+
   // CastError
   if (err.name === "CastError") {
     errors[err.path] = err.message;
@@ -67,11 +90,7 @@ const handleAppointmentErrors = (err) => {
   // validation errors
   if (err.message.includes("Appointment validation failed")) {
     Object.values(err.errors).forEach((error) => {
-      if (error.name === "CastError") {
-        errors[error.path] = error.message;
-      } else {
-        errors[error.path] = error.message;
-      }
+      errors[error.path] = error.message;
     });
   }
 

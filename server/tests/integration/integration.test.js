@@ -20,12 +20,10 @@ app.use(cookieParser());
 app.use("/patient", patientRouter);
 app.use("/doctor", doctorRouter);
 
-jest.mock("../../middleware/authMiddleware");
-const { requireAuth } = require("../../middleware/authMiddleware");
-
 let patients = [];
 let doctors = [];
 let appointments = [];
+const nextYear = new Date().getFullYear() + 1;
 
 beforeAll(async () => {
   await mongoose.connect(process.env.DB_CONNECTION + "/integrationtest", {
@@ -55,17 +53,18 @@ afterAll(async () => {
  * User tries to sign up
  */
 test("User tries to sign up", async () => {
+  // first test for patient sign up
   let userFields = {
     first_name: "firstName",
     last_name: "lastName",
     email: "firstName@gmail.com",
     password: "12345678",
   };
-  let res = await supertest(app).post("patient/signup").send(userFields);
+  let res = await supertest(app).post("/patient/signup").send(userFields);
   expect(res.status).toBe(201);
 
   // email already registered
-  res = await supertest(app).post("patient/signup").send(userFields);
+  res = await supertest(app).post("/patient/signup").send(userFields);
   expect(res.status).toBe(400);
   expect(res.body.email).toBe("Email already registered");
 
@@ -76,7 +75,7 @@ test("User tries to sign up", async () => {
     email: "firstName.com",
     password: "12345678",
   };
-  res = await supertest(app).post("patient/signup").send(userFields);
+  res = await supertest(app).post("/patient/signup").send(userFields);
   expect(res.status).toBe(400);
   expect(res.body.email).toBe("Please enter valid email");
 
@@ -87,7 +86,7 @@ test("User tries to sign up", async () => {
     email: "firstName.com",
     password: "123678",
   };
-  res = await supertest(app).post("patient/signup").send(userFields);
+  res = await supertest(app).post("/patient/signup").send(userFields);
   expect(res.status).toBe(400);
   expect(res.body.password).toBe("Password must be at least 8 characters long");
 
@@ -95,21 +94,46 @@ test("User tries to sign up", async () => {
     first_name: "firstName",
     email: "firstName.com",
     password: "123678",
+    age: -1,
   };
-  res = await supertest(app).post("patient/signup").send(userFields);
+  res = await supertest(app).post("/patient/signup").send(userFields);
   expect(res.status).toBe(400);
   expect(res.body.last_name).toBe("Please enter your last name");
+  expect(res.body.age).toBe("Age must be at least 0");
+
+  // second test for doctor sign up
+  // email already registered
+  userFields = {
+    first_name: "firstName",
+    last_name: "lastName",
+    email: "firstName@gmail.com",
+    password: "12345678",
+  };
+  res = await supertest(app).post("/doctor/signup").send(userFields);
+  expect(res.status).toBe(400);
+  expect(res.body.email).toBe("Email already registered");
+
+  // successful sign up case
+  userFields = {
+    first_name: "firstName",
+    last_name: "lastName",
+    email: "lastName@gmail.com",
+    password: "12345678",
+  };
+  res = await supertest(app).post("/doctor/signup").send(userFields);
+  expect(res.status).toBe(201);
 });
 
 /**
  * User tries to sign in
  */
 test("User tries to sign in", async () => {
+  // first test patient sign in
   let userFields = {
     email: "firstName@gmail.com",
     password: "12345678",
   };
-  let res = await supertest(app).post("patient/signin").send(userFields);
+  let res = await supertest(app).post("/patient/signin").send(userFields);
   expect(res.status).toBe(200);
 
   // password incorrect
@@ -117,48 +141,112 @@ test("User tries to sign in", async () => {
     email: "firstName@gmail.com",
     password: "12345679",
   };
-  res = await supertest(app).post("patient/signin").send(userFields);
+  res = await supertest(app).post("/patient/signin").send(userFields);
   expect(res.status).toBe(400);
-  expect(res.body.password).toBe("That password is incorrect");
+  expect(res.body.password).toBe("Incorrect password");
 
   // Please enter a password
   userFields = {
     email: "firstName@gmail.com",
   };
-  res = await supertest(app).post("patient/signin").send(userFields);
+  res = await supertest(app).post("/patient/signin").send(userFields);
   expect(res.status).toBe(400);
-  expect(res.body.password).toBe("Please enter a password");
+  expect(res.body.password).toBe("Please enter password");
 
   // Please enter a password
   userFields = {
     password: "12345679",
   };
-  res = await supertest(app).post("patient/signin").send(userFields);
+  res = await supertest(app).post("/patient/signin").send(userFields);
   expect(res.status).toBe(400);
-  expect(res.body.email).toBe("Please enter a email");
+  expect(res.body.email).toBe("Please enter email");
 
   // Email is not registered
   userFields = {
     email: "firstNameName@gmail.com",
     password: "12345678",
   };
-  res = await supertest(app).post("patient/signin").send(userFields);
+  res = await supertest(app).post("/patient/signin").send(userFields);
   expect(res.status).toBe(400);
-  expect(res.body.email).toBe("Email is not registered");
+  expect(res.body.email).toBe("Email not registered");
+
+  // second test doctor sign in
+  userFields = {
+    email: "lastName@gmail.com",
+    password: "12345678",
+  };
+  res = await supertest(app).post("/doctor/signin").send(userFields);
+  expect(res.status).toBe(200);
+});
+
+/**
+ * User signs in, searches for a doctor, and then signs out
+ */
+//test("User signs in, searches for doctor, then signs out", async () => {});
+
+/**
+ * User gets appointments, failure cases
+ */
+test("User gets appointments, failure cases", async () => {
+  let userFields = {
+    email: "kylered@gmail.com",
+    password: "passlmao",
+  };
+  let res = await supertest(app).post("/patient/signin").send(userFields);
+  expect(res.status).toBe(200);
+  expect(res.body.user).toBe(patients[3]);
+  const cookie = res.headers["set-cookie"];
+
+  // don't send token, expect error
+  res = await supertest(app).get("/patient/appointment/trololol");
+  expect(res.status).toBe(400);
+  expect(res.body.message).toBe("Token not valid");
+
+  // send wrong token, expect error
+  res = await supertest(app)
+    .get("/patient/appointment/trololol")
+    .set("Cookie", ["jwt=reallyRandomToken"]);
+  expect(res.status).toBe(400);
+  expect(res.body.message).toBe("Token not valid");
+
+  // send wrong user ID, expect error
+  res = await supertest(app)
+    .get("/patient/appointment/trololol")
+    .set("Cookie", cookie);
+  expect(res.status).toBe(400);
+  expect(res.body._id).toBe(
+    'Cast to ObjectId failed for value "trololol" at path "_id" for model "User"'
+  );
+
+  // send wrong user ID, expect error
+  res = await supertest(app)
+    .get("/patient/appointment/5fb2174dc36ef26be53f5b00")
+    .set("Cookie", cookie);
+  expect(res.status).toBe(400);
+  expect(res.body.patient).toBe("User account doesn't exist");
 });
 
 /**
  * User tries to make a new appointment
  */
-test("User tries to make a new appointment, successful case and longer than 1 day case", async () => {
+test("User tries to make a new appointment, successful case and some failure cases", async () => {
+  let userFields = {
+    email: "kylered@gmail.com",
+    password: "passlmao",
+  };
+  let res = await supertest(app).post("/patient/signin").send(userFields);
+  expect(res.status).toBe(200);
+  const cookie = res.headers["set-cookie"];
+
   let appointmentFields = {
     patientId: patients[3],
     doctorId: doctors[1],
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
   };
-  let res = await supertest(app)
+  res = await supertest(app)
     .post("/patient/appointment")
+    .set("Cookie", cookie)
     .send(appointmentFields);
   expect(res.status).toBe(200);
 
@@ -182,62 +270,79 @@ test("User tries to make a new appointment, successful case and longer than 1 da
   appointmentFields = {
     patientId: patients[3],
     doctorId: doctors[1],
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 22, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 22, 15, 0),
   };
   res = await supertest(app)
     .post("/patient/appointment")
+    .set("Cookie", cookie)
     .send(appointmentFields);
   expect(res.status).toBe(400);
-  expect(res.body.message).toBe("Appointments cannot be longer than 1 day");
-});
+  expect(res.body.start_time).toBe("Appointment cannot be longer than 1 day");
 
-test("User tries to make appointment, past case and delete case", async () => {
-  let appointmentFields = {
-    patientId: patients[3],
-    doctorId: doctors[1],
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+  // input end_time is earlier than start_time
+  appointmentFields = {
+    patientId: patients[4],
+    doctorId: doctors[2],
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 20, 15, 0),
   };
-  let res = await supertest(app)
-    .post("/doctor/signin")
-    .send({ email: "micjordan@gmail.com", password: "abcdefghi" });
-  expect(res.status).toBe(200);
-
-  const cookie = res.headers["set-cookie"];
   res = await supertest(app)
-    .delete(`/doctor/${doctors[1]}`)
-    .set("Cookie", `jwt=${cookie};`);
-  expect(res).toBe(200);
-  expect(res.body.message).toBe("Delete doctor account successful");
-
-  res = await supertest(app)
-    .post("/patient/appointment/")
+    .post("/patient/appointment")
+    .set("Cookie", cookie)
     .send(appointmentFields);
-  expect(res).toBe(400);
-  expect(res.body.message).toBe("Appointment doesn't exist");
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment end time earlier than start time"
+  );
 
   // input start_time and end_time is in the past
   appointmentFields = {
-    patientId: patients[3],
+    patientId: patients[4],
     doctorId: doctors[2],
     start_time: new Date(2010, 11, 21, 14, 0),
-    end_time: new Date(2010, 11, 22, 15, 0),
+    end_time: new Date(2010, 11, 21, 15, 0),
   };
   res = await supertest(app)
     .post("/patient/appointment")
+    .set("Cookie", cookie)
     .send(appointmentFields);
   expect(res.status).toBe(400);
-  expect(res.body.message).toBe("Must make future appointments");
+  expect(res.body.start_time).toBe("Must make future appointments");
+
+  // Invalid dates
+  appointmentFields = {
+    patientId: patients[4],
+    doctorId: doctors[2],
+    start_time: "really cool start time",
+    end_time: "really cool end time",
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .set("Cookie", cookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    'Cast to date failed for value "really cool start time" at path "start_time"'
+  );
 });
 
 test("User tries to update appointment, successful case and longer than 1 day case", async () => {
-  let appointmentFields = {
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+  let patientFields = {
+    email: "johnsmith@gmail.com",
+    password: "password",
   };
-  let res = await supertest(app)
-    .put(`/patient/appointment/${appointments[5]}`)
+  let res = await supertest(app).post("/patient/signin").send(patientFields);
+  expect(res.status).toBe(200);
+  const cookie = res.headers["set-cookie"];
+
+  let appointmentFields = {
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+  res = await supertest(app)
+    .put(`/patient/appointment/${appointments[7]}`)
+    .set("Cookie", cookie)
     .send(appointmentFields);
   expect(res.status).toBe(200);
 
@@ -245,61 +350,157 @@ test("User tries to update appointment, successful case and longer than 1 day ca
   // at the correct spot
   const patient = await Patient.findById(patients[0]).populate("appointments");
   const doctor = await Doctor.findById(doctors[0]).populate("appointments");
-  expect(patient.appointments.length).toBe(1);
-  expect(doctor.appointments.length).toBe(1);
+  expect(patient.appointments.length).toBe(4);
+  expect(doctor.appointments.length).toBe(6);
   let addedToPatient = false;
   let addedToDoctor = false;
-  if (String(patient.appointments[0]._id) === String(res.body.appointment)) {
+  if (String(patient.appointments[2]._id) === String(res.body.appointment)) {
     addedToPatient = true;
   }
-  if (String(doctor.appointments[0]._id) === String(res.body.appointment)) {
+  if (String(doctor.appointments[2]._id) === String(res.body.appointment)) {
     addedToDoctor = true;
   }
-  expect(addedToPatient || addedToDoctor).toBe(false);
+  expect(addedToPatient && addedToDoctor).toBe(true);
 
   // input start_time and end_time more than 1 day apart
   appointmentFields = {
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 22, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 22, 15, 0),
   };
   res = await supertest(app)
-    .put(`/patient/appointment/${appointments[8]}`)
+    .put(`/patient/appointment/${appointments[7]}`)
+    .set("Cookie", cookie)
     .send(appointmentFields);
   expect(res.status).toBe(400);
-  expect(res.body.message).toBe("Appointments cannot be longer than 1 day");
-});
+  expect(res.body.start_time).toBe("Appointment cannot be longer than 1 day");
 
-test("User tries to update appointment, past case and delete case", async () => {
-  let appointmentFields = {
-    start_time: new Date(2020, 11, 21, 14, 0),
-    end_time: new Date(2020, 11, 21, 15, 0),
+  // input end_time is earlier than start_time
+  appointmentFields = {
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 20, 15, 0),
   };
-  let res = await supertest(app)
-    .post("/doctor/signin")
-    .send({ email: "micjackson@gmail.com", password: "thriller" });
-  expect(res.status).toBe(200);
-
-  const cookie = res.headers["set-cookie"];
   res = await supertest(app)
-    .delete(`/doctor/${doctors[1]}`)
-    .set("Cookie", `jwt=${cookie};`);
-  expect(res).toBe(200);
-  expect(res.body.message).toBe("Delete doctor account successful");
-
-  res = await supertest(app)
-    .put(`/patient/appointment/${appointments[5]}`)
+    .put(`/patient/appointment/${appointments[7]}`)
+    .set("Cookie", cookie)
     .send(appointmentFields);
-  expect(res).toBe(400);
-  expect(res.body.message).toBe("Appointment doesn't exist");
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment end time earlier than start time"
+  );
 
   // input start_time and end_time is in the past
   appointmentFields = {
     start_time: new Date(2010, 11, 21, 14, 0),
-    end_time: new Date(2010, 11, 22, 15, 0),
+    end_time: new Date(2010, 11, 21, 15, 0),
   };
   res = await supertest(app)
-    .post("/patient/appointment")
+    .put(`/patient/appointment/${appointments[7]}`)
+    .set("Cookie", cookie)
     .send(appointmentFields);
   expect(res.status).toBe(400);
-  expect(res.body.message).toBe("Must make future appointments");
+  expect(res.body.start_time).toBe("Must make future appointments");
+});
+
+test("User tries to make appointment, delete case", async () => {
+  let patientFields = {
+    email: "kylered@gmail.com",
+    password: "passlmao",
+  };
+  let res = await supertest(app).post("/patient/signin").send(patientFields);
+  expect(res.status).toBe(200);
+  const patientCookie = res.headers["set-cookie"];
+
+  // sign in to doctor account to delete
+  let doctorFields = {
+    email: "micjordan@gmail.com",
+    password: "abcdefghi",
+  };
+  res = await supertest(app).post("/doctor/signin").send(doctorFields);
+  expect(res.status).toBe(200);
+  let doctorCookie = res.headers["set-cookie"];
+
+  res = await supertest(app)
+    .delete(`/doctor/${doctors[1]}`)
+    .set("Cookie", doctorCookie);
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Delete doctor account successful");
+
+  // book appointment when doctor already deleted
+  let appointmentFields = {
+    patientId: patients[3],
+    doctorId: doctors[1],
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment/")
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.doctor).toBe("Doctor account doesn't exist");
+
+  // delete patient account this time
+  res = await supertest(app)
+    .delete(`/patient/${patients[3]}`)
+    .set("Cookie", patientCookie);
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Delete patient account successful");
+
+  doctorFields = {
+    email: "micjackson@gmail.com",
+    password: "thriller",
+  };
+  res = await supertest(app).post("/doctor/signin").send(doctorFields);
+  expect(res.status).toBe(200);
+  doctorCookie = res.headers["set-cookie"];
+
+  // book appointment when patient already deleted
+  appointmentFields = {
+    patientId: patients[3],
+    doctorId: doctors[2],
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/doctor/appointment/")
+    .set("Cookie", doctorCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.patient).toBe("Patient account doesn't exist");
+});
+
+test("User tries to update appointment, delete case", async () => {
+  let patientFields = {
+    email: "johnsmith@gmail.com",
+    password: "password",
+  };
+  let res = await supertest(app).post("/patient/signin").send(patientFields);
+  expect(res.status).toBe(200);
+  const patientCookie = res.headers["set-cookie"];
+
+  let doctorFields = {
+    email: "alexjones@gmail.com",
+    password: "12345678",
+  };
+  res = await supertest(app).post("/doctor/signin").send(doctorFields);
+  expect(res.status).toBe(200);
+  let doctorCookie = res.headers["set-cookie"];
+
+  // delete patient account
+  res = await supertest(app)
+    .delete(`/patient/${patients[0]}`)
+    .set("Cookie", patientCookie);
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Delete patient account successful");
+
+  let appointmentFields = {
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+  res = await supertest(app)
+    .put(`/doctor/appointment/${appointments[0]}`)
+    .set("Cookie", doctorCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe("Appointment doesn't exist");
 });
