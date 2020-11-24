@@ -222,6 +222,17 @@ test("Expect error 400 when post appointment with invalid IDs", async () => {
   requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = {};
+
+    // incorrect patient ID
+    if (err.message === "Invalid patient ID") {
+      errors.patient = "Patient account doesn't exist";
+    }
+
+    // incorrect doctor ID
+    if (err.message === "Invalid doctor ID") {
+      errors.doctor = "Doctor account doesn't exist";
+    }
+
     // validation errors
     if (err.message.includes("Appointment validation failed")) {
       Object.values(err.errors).forEach((error) => {
@@ -266,6 +277,30 @@ test("Expect error 400 when post appointment with invalid IDs", async () => {
   expect(res.body._id).toBe(
     'Cast to ObjectId failed for value "0" at path "_id" for model "Doctor"'
   );
+
+  appointmentFields = {
+    patientId: "5fb2174dc36ef26be53f5b00",
+    doctorId: doctors[0],
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.patient).toBe("Patient account doesn't exist");
+
+  appointmentFields = {
+    patientId: patients[0],
+    doctorId: "5fb2174dc36ef26be53f5b00",
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.doctor).toBe("Doctor account doesn't exist");
 });
 
 test("Expected error 400 when post appointment with non dates", async () => {
