@@ -3,4 +3,5 @@ node_modules
 mediconnect.code-workspace
 coverage
 dbArrays.json
+venv
 .env
