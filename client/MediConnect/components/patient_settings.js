@@ -4,17 +4,17 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-class DoctorSettings extends Component {
+class PatientSettings extends Component {
 
-	async signout() {
+    async signout() {
 
         // console.log(global.userID); 
         global.userID = ''; 
         // console.log(global.userID); 
 
         this.props.navigation.navigate('StartUp');
-	}
-	
+    }
+    
 	render() {
 		return (
 			<LinearGradient
@@ -73,7 +73,7 @@ class DoctorSettings extends Component {
 							</View>
 							<Text style={styles.optionText}>Sign Out</Text>
 						</TouchableOpacity>
-					</View>					
+					</View>
 				</View>
 			</LinearGradient>
 		);
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default DoctorSettings;
+export default PatientSettings;

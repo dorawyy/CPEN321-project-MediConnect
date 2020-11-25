@@ -24,13 +24,13 @@ class CreateAppointment extends Component {
         this.setState({
           selected: day.dateString
         });
-        this.props.navigation.navigate('SlotBooking', { bookingDate : day })
+        //this.props.navigation.navigate('SlotBooking', { bookingDate : day })
     }
 
-    _onPressBack(){
-        const {goBack} = this.props.navigation
-          goBack()
-    }
+    // _onPressBack(){
+    //     const {goBack} = this.props.navigation
+    //       goBack()
+    // }
 	render() {
 		return (
 			<LinearGradient
@@ -42,10 +42,10 @@ class CreateAppointment extends Component {
 				<View style={styles.container}>
 
                     <StatusBar barStyle="light-content"/>
-
+{/* 
 					<View>
                         <TouchableOpacity onPress={() => this._onPressBack() }><Text>Back</Text></TouchableOpacity>
-					</View>
+					</View> */}
 
 					<Calendar
                         onDayPress={this.onDayPress}

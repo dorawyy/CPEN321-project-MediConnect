@@ -16,6 +16,8 @@ import LinearGradient from 'react-native-linear-gradient';
 // import AsyncStorage from '@react-native-community/async-storage';
 // const { signIn } = React.useContext(AuthContext);
 
+// import UserContext from './user_context'; 
+
 class PatientSignIn extends Component {
 	state = {
 		email: '',
@@ -23,7 +25,7 @@ class PatientSignIn extends Component {
 		emailList: [],
 		// passwordList: [],
 		serverData: [],
-		user: [],
+		user: '',
 	};
 
 	handleEmail = (text) => {
@@ -34,28 +36,30 @@ class PatientSignIn extends Component {
 		this.setState({password: text});
 	};
 
-	componentDidMount = () => {
-		axios
-			.get('http://54.183.200.234:5000/doctor')
-			.then((response) => {
-				this.setState({
-					serverData: response.data,
-				});
+	// componentDidMount = () => {
+	// 	axios
+	// 		.get('http://54.183.200.234:5000/doctor')
+	// 		.then((response) => {
+	// 			this.setState({
+	// 				serverData: response.data,
+	// 			});
 
-				this.getEmailList();
-				// this.getPasswordList();
-			})
-			.catch((error) => {
-				console.log(error.data);
-			});
-	};
+	// 			this.getEmailList();
+	// 			// this.getPasswordList();
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error.data);
+	// 		});
+	// };
 
 	async signin() {
-		axios.post("http://54.183.200.234:5000/patient/signin", {
-		// axios
-		// 	.post('http://10.0.2.2:5000/patient/signin', {
+		// axios.post("http://54.183.200.234:5000/patient/signin", {
+		axios
+			.post('http://10.0.2.2:5000/patient/signin', {
 				email: this.state.email,
 				password: this.state.password,
+				// email: 'p@gmail.com',
+				// password: '12345678',
 			})
 			.then((res) => {
 				console.log(res.data);
@@ -64,14 +68,16 @@ class PatientSignIn extends Component {
 					user: res.data,
 				});
 
-				console.log('Here' + this.state.user.email);
+				// UserContext.user.id = res.data; 
+				global.userID = res.data.user;
+				console.log(global.userID); 
 
 				// CookieManager.get("http://54.183.200.234:5000/doctor/signin")
 				//     .then((res) => {
 				//         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
 				//     });
 
-				this.props.navigation.navigate('PatientHome');
+				this.props.navigation.navigate('PatientHomeNavigator');
 			})
 			.catch((err) => {
 				console.log(err.response.data);

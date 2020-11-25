@@ -29,19 +29,26 @@ class Home extends Component {
 			<View testID="homepage" style={styles.container}>
 				<View style={styles.infobox}>
 					<View>
-						<Text style={styles.text}>Age : 43 years</Text>
-						<Text style={styles.text}>Gender : M</Text>
-						<Text style={styles.text}>Height : 176 cm</Text>
-						<Text style={styles.text}>Weight : 78 kg</Text>
+						<Text style={styles.text}>First Name : {global.first_name}</Text>
+						<Text style={styles.text}>Last Name : {global.last_name}</Text>
+						<Text style={styles.text}>Age : {global.age} years</Text>
+						<Text style={styles.text}>Email : {global.email}</Text>
+						<Text style={styles.text}>Rating : {global.rating}</Text>
+						<Text style={styles.text}>Specialization : {global.specialization}</Text>
+						<Text style={styles.text}>Verified : {global.verified}</Text>
+						<Text style={styles.text}>Years of Experience : {global.years_of_experience}</Text>
+
+
+
 					</View>
-					<TouchableOpacity style={styles.button} testID="report_symptoms_button">
+					{/* <TouchableOpacity style={styles.button} testID="report_symptoms_button">
 						<Text
 							style={styles.buttonText}
 							onPress={() => this.props.navigation.navigate('Symptoms')}
 						>
 							Report Symptoms
 						</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 			</View>
 		);
@@ -101,7 +108,7 @@ const styles = StyleSheet.create({
 	text: {
 		fontFamily: 'Iowan Old Style',
 		color: '#5c5c5c',
-		fontSize: 20,
+		fontSize: 17,
 	},
 
 	doctor: {

@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import axios from 'axios';
 
-class DoctorAppointments extends Component {
+class PatientAppointments extends Component {
 
 	/*
 	componentDidMount = () => {
@@ -41,10 +41,10 @@ class DoctorAppointments extends Component {
 					</View>
 
 					<View>
-						{/* <TouchableOpacity style={styles.option}>
+						<TouchableOpacity style={styles.option}>
 							<Text style={styles.optionText}
 							onPress={() => this.props.navigation.navigate('CreateAppointment')}>Create an appointment</Text>
-						</TouchableOpacity> */}
+						</TouchableOpacity>
 					</View>
 
 				</View>
@@ -108,4 +108,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default DoctorAppointments;
+export default PatientAppointments;

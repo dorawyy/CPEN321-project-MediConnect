@@ -28,7 +28,7 @@ class PatientHome extends Component {
 			<View style={styles.container}>
 				<View style={styles.infobox}>
 					<View>
-						<Text style={styles.text}>Age : 43 years</Text>
+						<Text style={styles.text}>Age : {global.age} years</Text>
 						<Text style={styles.text}>Gender : M</Text>
 						<Text style={styles.text}>Height : 176 cm</Text>
 						<Text style={styles.text}>Weight : 78 kg</Text>

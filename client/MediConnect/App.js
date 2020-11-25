@@ -25,13 +25,17 @@ import PatientHomePage from './components/patient_home';
 import SymptomsPage from './components/symptoms';
 import DoctorsPage from './components/doctor_result';
 import DoctorSettingsPage from './components/doctor_settings';
+import PatientSettingsPage from './components/patient_settings';
 import DoctorHomeNavigatorPage from './components/doctor_home_navigator';
+import PatientHomeNavigatorPage from './components/patient_home_navigator';
 import DoctorAppointmentsPage from './components/doctor_appointments';
+import PatientAppointmentsPage from './components/patient_appointments';
 import DoctorNotificationsPage from './components/doctor_notifications';
+import PatientNotificationsPage from './components/patient_notifications';
 import CreateAppointmentPage from './components/create_appointments';
-import SlotBookingPage from './components/slot_booking';
+//import SlotBookingPage from './components/slot_booking';
 
-// export const SymptomsContext = React.createContext(); 
+// import {UserContext} from './components/user_context';  
 
 const App: () => React$Node = () => {
 	return (
@@ -40,6 +44,7 @@ const App: () => React$Node = () => {
 		values={{
 			symptom: this.state.symptom
 		}}> */}
+		{/* <UserContext.Provider value={UserContext.user}> */}
 			<NavigationContainer>
 				<Stack.Navigator>
 					<Stack.Screen
@@ -93,8 +98,18 @@ const App: () => React$Node = () => {
 						options={{headerTitle: true}}
 					/>
 					<Stack.Screen
+						name="PatientSettings"
+						component={PatientSettingsPage}
+						options={{headerTitle: true}}
+					/>					
+					<Stack.Screen
 						name="DoctorHomeNavigator"
 						component={DoctorHomeNavigatorPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="PatientHomeNavigator"
+						component={PatientHomeNavigatorPage}
 						options={{headerTitle: false}}
 					/>
 					<Stack.Screen
@@ -103,25 +118,37 @@ const App: () => React$Node = () => {
 						options={{headerTitle: false}}
 					/>
 					<Stack.Screen
+						name="PatientAppointments"
+						component={PatientAppointmentsPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
 						name="DoctorNotifications"
 						component={DoctorNotificationsPage}
 						options={{headerTitle: false}}
 					/>
-
+					<Stack.Screen
+						name="PatientNotifications"
+						component={PatientNotificationsPage}
+						options={{headerTitle: false}}
+					/>
 					<Stack.Screen
 						name="CreateAppointment"
 						component={CreateAppointmentPage}
 						options={{headerTitle: false}}
 					/>
 
-					<Stack.Screen
+			
+					
+				</Stack.Navigator>
+			</NavigationContainer>
+		{/* </UserContext.Provider> */}
+		{/* </SymptomsContext.Provider> 
+		<Stack.Screen
 						name="SlotBooking"
 						component={SlotBookingPage}
 						options={{headerTitle: false}}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
-		{/* </SymptomsContext.Provider> */}
+					/>*/}
 		</>
 	);
 };
