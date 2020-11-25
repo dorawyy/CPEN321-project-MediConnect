@@ -8,7 +8,35 @@ import LinearGradient from 'react-native-linear-gradient';
 
 class Home extends Component {
 
+	state = {
+		first_name: '',
+        last_name: '',
+        email: '',
+        age: 0,
+        specialization: '',
+        years_of_experience: 0,
+    };
+
+    // shouldComponentUpdate() {
+    //     this.setState({first_name: global.first_name});
+    //     this.setState({last_name: global.last_name});
+    //     this.setState({email: global.email});
+    //     this.setState({age: global.age});
+    //     this.setState({specialization: global.specialization});
+    //     this.setState({years_of_experience: global.years_of_experience});
+	// }; 
+
+	componentDidMount() {
+        this.setState({first_name: global.first_name});
+        this.setState({last_name: global.last_name});
+        this.setState({email: global.email});
+        this.setState({age: global.age});
+        this.setState({specialization: global.specialization});
+        this.setState({years_of_experience: global.years_of_experience});
+	}; 
+
 	render() {
+
 		return (
 			<View testID="homepage" style={styles.container}>
 				<View style={styles.welcome} >
@@ -19,7 +47,7 @@ class Home extends Component {
 						colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
 						// style={styles.welcomeTextContainer}
 					>
-						<Text style={styles.welcomeText}>Welcome, {global.first_name} {global.last_name}!</Text>
+						<Text style={styles.welcomeText}>Welcome, {this.state.first_name} {this.state.last_name}!</Text>
 					</LinearGradient>
 				</View>
 				<View style={styles.infobox}>

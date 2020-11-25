@@ -1,86 +1,193 @@
 import React from 'react';
 import {Component} from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
+
 
 class DoctorEditAccount extends Component {
+
+    state = {
+		first_name: '',
+        last_name: '',
+        email: '',
+        age: 0,
+        specialization: '',
+        years_of_experience: 0,
+    };
+    
+    componentDidMount() {
+        this.setState({first_name: global.first_name});
+        this.setState({last_name: global.last_name});
+        this.setState({email: global.email});
+        this.setState({age: global.age});
+        this.setState({specialization: global.specialization});
+        this.setState({years_of_experience: global.years_of_experience});
+
+        // this.state.first_name = global.first_name,
+        // this.state.last_name = global.last_name,
+        // this.state.email = global.email, 
+        // this.state.age = global.age, 
+        // this.state.specialization = global.specialization, 
+        // this.state.years_of_experience = global.years_of_experience
+    }; 
+
+
+    changeFirstName = (text) => {
+        // console.log(this.state.first_name); 
+		this.setState({first_name: text});
+        // console.log(global.first_name); 
+        // console.log(this.state.first_name); 
+    };
+    
+    changeLastName = (text) =>{
+		this.setState({last_name: text});
+    };
+    
+    changeEmail= (text) =>{
+		this.setState({email: text});
+    };
+    
+    changeAge = (text) =>{
+        this.setState({age: text});
+        console.log(this.state.age)
+    };
+    
+    changeSpecialization = (text) =>{
+        this.setState({specialization: text});
+    };
+    
+    changeYOE = (text) =>{
+        this.setState({years_of_experience: text});
+    };
+
+    async saveEdits() {
+
+		axios
+			// .put("http://54.183.200.234:5000/patient/search", {
+			.put('http://10.0.2.2:5000/doctor/' + global.userID, {
+				params: {
+                    first_name: this.state.first_name,
+                    last_name: this.state.last_name,
+                    email: this.state.email,
+                    age: this.state.age,
+                    specialization: this.state.specialization,
+                    years_of_experience: this.state.years_of_experience,
+                },
+                
+
+			})
+			.then((res) => {
+                // console.log(symptom);
+                global.first_name = this.state.first_name; 
+                global.last_name = this.state.last_name; 
+                global.email = this.state.email; 
+                global.age = this.state.age;
+                global.specialization = this.state.specialization; 
+                global.years_of_experience = this.state.years_of_experience; 
+                console.log(global.age);
+                console.log(res);
+
+			})
+			.catch((err) => {
+				console.log(err.response.data);
+            });
+         console.log(this.state.first_name)
+	};
+    
 
 	render() {
 		return (
 
             <View style={styles.container}>
+                <View style={styles.accountHeader}>
+                    <Icon style={styles.icon} name="user" size={30} color={'#5c5c5c'} />
+                    <Text style={styles.accountHeaderText}>Edit Account Details</Text>
+                </View>                
+                    
                 <View style={styles.field}>
                     <Text style={styles.header}>First Name</Text>
                     <TextInput
                         style={styles.text}
                         underlineColorAndroid="gray"
-                        placeholder={global.first_name}
+                        defaultValue={global.first_name}
                         autoCapitalize="none"
-                        // onChangeText={this.handleSymptom}
+                        onChangeText={this.changeFirstName}
                         required
                     />
                 </View>
 
-                <View>
+                <View style={styles.field}>
                     <Text style={styles.header}>Last Name</Text>
                     <TextInput
                         style={styles.text}
                         underlineColorAndroid="gray"
-                        placeholder={global.last_name}
+                        defaultValue={global.last_name}
                         autoCapitalize="none"
-                        // onChangeText={this.handleSymptom}
+                        onChangeText={this.changeLastName}
                         required
                     />
                 </View>
 
-                <View>
+                <View style={styles.field}>
                     <Text style={styles.header}>Email</Text>
                     <TextInput
                         style={styles.text}
                         underlineColorAndroid="gray"
-                        placeholder={global.email}
+                        defaultValue={global.email}
                         autoCapitalize="none"
-                        // onChangeText={this.handleSymptom}
+                        onChangeText={this.changeEmail}
                         required
                     />
                 </View>
-                {/* <View>
+
+                <View style={styles.field}>
                     <Text style={styles.header}>Age</Text>
                     <TextInput
                         style={styles.text}
                         underlineColorAndroid="gray"
-                        placeholder={global.age}
+                        defaultValue={global.age.toString()}
                         autoCapitalize="none"
-                        // onChangeText={this.handleSymptom}
-                        required
-                    />
-                </View> */}
-                {/* <View>
-                    <Text style={styles.header}>Specialization</Text>
-                    <TextInput
-                        style={styles.text}
-                        underlineColorAndroid="gray"
-                        placeholder={global.specialization}
-                        autoCapitalize="none"
-                        // onChangeText={this.handleSymptom}
+                        onChangeText={this.changeAge}
                         required
                     />
                 </View>
 
-                <View>
+                <View style={styles.field}>
+                    <Text style={styles.header}>Specialization</Text>
+                    <TextInput
+                        style={styles.text}
+                        underlineColorAndroid="gray"
+                        defaultValue={global.specialization}
+                        autoCapitalize="none"
+                        onChangeText={this.changeSpecialization}
+                        required
+                    />
+                </View>
+
+                <View style={styles.field}>
                     <Text style={styles.header}>Years of Experience</Text>
                     <TextInput
                         style={styles.text}
                         underlineColorAndroid="gray"
-                        placeholder={global.years_of_experience}
+                        defaultValue={global.years_of_experience.toString()}
                         autoCapitalize="none"
-                        // onChangeText={this.handleSymptom}
+                        onChangeText={this.changeYOE}
                         required
                     />
-                </View> */}
+                </View>
 
-
+                <TouchableOpacity style={styles.button}>
+							<Text
+								style={styles.buttonText}
+								onPress={() => {
+									this.saveEdits()
+								}}
+							>
+								Save
+							</Text>
+				</TouchableOpacity>
             </View>
 
             
@@ -115,9 +222,48 @@ const styles = StyleSheet.create({
     },
     
     field: {
-        paddingBottom: 15, 
+        paddingBottom: 10, 
 
     },
+
+    accountHeader: {
+		flexDirection: 'row',
+		paddingBottom: 25, 
+	}, 
+
+	accountHeaderText: {
+		fontSize: 20,
+		fontFamily: 'Iowan Old Style',
+		color: '#5c5c5c'
+	},
+
+	icon: {
+		paddingRight: 7, 
+    },
+    
+    button: {
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+
+	buttonText: {
+        alignItems: 'center',
+		justifyContent: 'center',
+		fontFamily: 'Iowan Old Style',
+		fontSize: 20,
+        color: 'white', 
+        backgroundColor: '#02f0c8',
+        paddingTop: 5, 
+        paddingBottom: 5, 
+        paddingRight: 20, 
+        paddingLeft: 20, 
+        // padding: 10,
+        margin: 10,
+        borderRadius: 7,
+        // width: 100, 
+
+
+	},
 
 
 });

@@ -11,8 +11,8 @@ global.rating = '';
 global.specialization = ''; 
 global.verified = false; 
 global.appointments = [];
-global.years_of_experience = ''; 
-global.age = ''; 
+global.years_of_experience = 0; 
+global.age = 0; 
 global.gender = '';
 
 
