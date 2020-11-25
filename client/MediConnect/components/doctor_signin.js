@@ -86,6 +86,8 @@ class DoctorSignIn extends Component {
 
 
 			console.log(res.data); 
+			console.log(global.verified); 
+
 
 		})
 		.catch((err) => {

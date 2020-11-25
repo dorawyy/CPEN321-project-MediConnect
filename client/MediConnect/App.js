@@ -33,6 +33,9 @@ import PatientAppointmentsPage from './components/patient_appointments';
 import DoctorNotificationsPage from './components/doctor_notifications';
 import PatientNotificationsPage from './components/patient_notifications';
 import CreateAppointmentPage from './components/create_appointments';
+import DoctorEditAccountPage from './components/doctor_edit_account'; 
+import PatientEditAccountPage from './components/patient_edit_account'; 
+
 //import SlotBookingPage from './components/slot_booking';
 
 // import {UserContext} from './components/user_context';  
@@ -137,6 +140,18 @@ const App: () => React$Node = () => {
 						component={CreateAppointmentPage}
 						options={{headerTitle: false}}
 					/>
+					<Stack.Screen
+						name="DoctorEditAccount"
+						component={DoctorEditAccountPage}
+						options={{headerTitle: false}}
+					/>
+					{/* <Stack.Screen
+						name="PatientEditAccount"
+						component={PatientEditAccountPage}
+						options={{headerTitle: false}}
+					/> */}
+
+					
 
 			
 					
