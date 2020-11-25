@@ -24,7 +24,7 @@ class CreateAppointment extends Component {
         this.setState({
           selected: day.dateString
         });
-        this.props.navigation.navigate('SlotBooking', { bookingDate : day })
+        //this.props.navigation.navigate('SlotBooking', { bookingDate : day })
     }
 
     _onPressBack(){

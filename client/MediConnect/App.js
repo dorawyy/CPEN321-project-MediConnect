@@ -29,7 +29,7 @@ import DoctorHomeNavigatorPage from './components/doctor_home_navigator';
 import DoctorAppointmentsPage from './components/doctor_appointments';
 import DoctorNotificationsPage from './components/doctor_notifications';
 import CreateAppointmentPage from './components/create_appointments';
-import SlotBookingPage from './components/slot_booking';
+//import SlotBookingPage from './components/slot_booking';
 
 // export const SymptomsContext = React.createContext(); 
 
@@ -114,14 +114,16 @@ const App: () => React$Node = () => {
 						options={{headerTitle: false}}
 					/>
 
-					<Stack.Screen
+			
+					
+				</Stack.Navigator>
+			</NavigationContainer>
+		{/* </SymptomsContext.Provider> 
+		<Stack.Screen
 						name="SlotBooking"
 						component={SlotBookingPage}
 						options={{headerTitle: false}}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
-		{/* </SymptomsContext.Provider> */}
+					/>*/}
 		</>
 	);
 };
