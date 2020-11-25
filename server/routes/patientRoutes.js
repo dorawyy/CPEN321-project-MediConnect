@@ -33,14 +33,14 @@ router.post("/search", requireAuth, searchController.findDoctor);
  * Routes relating to patient payment to doctor
  * TODO: Mudit please handle this external API. YES DADDY
  */
-router.get("/pay", requireAuth, stripeController.createPaymentIntent);
+router.post("/pay", requireAuth, stripeController.createPaymentIntent);
 
 // router.post("/checkout", stripeController.createCheckout);
 
 /*
  * Routes relating to patient CRUD database operations
  */
-router.get("/:id", requireAuth, userController.getUserById);
+router.get("/:id", requireAuth, userController.getPatientById);
 
 router.put("/:id", requireAuth, userController.putPatientById);
 

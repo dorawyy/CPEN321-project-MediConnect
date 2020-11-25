@@ -77,8 +77,9 @@ test("Expect error 400 when get appointment of patient that doesn't exist", asyn
     return errors;
   });
 
-  const nonexistentID = "5fb2174dc36ef26be53f5b00";
-  const res = await supertest(app).get(`/patient/appointment/${nonexistentID}`);
+  const res = await supertest(app).get(
+    `/patient/appointment/${appointments[0]}`
+  );
   expect(res.status).toBe(400);
   expect(res.body.patient).toBe("User account doesn't exist");
 });
@@ -136,8 +137,9 @@ test("Expect error 400 when get appointment of doctor that doesn't exist", async
     return errors;
   });
 
-  const nonexistentID = "5fb2174dc36ef26be53f5b00";
-  const res = await supertest(app).get(`/doctor/appointment/${nonexistentID}`);
+  const res = await supertest(app).get(
+    `/doctor/appointment/${appointments[0]}`
+  );
   expect(res.status).toBe(400);
   expect(res.body.doctor).toBe("User account doesn't exist");
 });
@@ -279,7 +281,7 @@ test("Expect error 400 when post appointment with invalid IDs", async () => {
   );
 
   appointmentFields = {
-    patientId: "5fb2174dc36ef26be53f5b00",
+    patientId: appointments[0],
     doctorId: doctors[0],
     start_time: new Date(nextYear, 11, 21, 14, 0),
     end_time: new Date(nextYear, 11, 21, 15, 0),
@@ -292,7 +294,7 @@ test("Expect error 400 when post appointment with invalid IDs", async () => {
 
   appointmentFields = {
     patientId: patients[0],
-    doctorId: "5fb2174dc36ef26be53f5b00",
+    doctorId: appointments[0],
     start_time: new Date(nextYear, 11, 21, 14, 0),
     end_time: new Date(nextYear, 11, 21, 15, 0),
   };
@@ -492,9 +494,8 @@ test("Expect error 400 when put appointment with invalid ID", async () => {
     'Cast to ObjectId failed for value "0" at path "_id" for model "Appointment"'
   );
 
-  const nonexistentID = "5fb2174dc36ef26be53f5b00";
   res = await supertest(app)
-    .put(`/patient/appointment/${nonexistentID}`)
+    .put(`/patient/appointment/${patients[0]}`)
     .send(appointmentFields);
   expect(res.status).toBe(400);
   expect(res.body.start_time).toBe("Appointment doesn't exist");

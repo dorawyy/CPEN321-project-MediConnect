@@ -25,7 +25,7 @@ router.get("/signout", authController.signoutDoctor);
 /*
  * Routes relating to doctor CRUB database operations
  */
-router.get("/:id", requireAuth, userController.getUserById);
+router.get("/:id", requireAuth, userController.getDoctorById);
 
 router.put("/:id", requireAuth, userController.putDoctorById);
 

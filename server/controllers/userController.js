@@ -29,8 +29,8 @@ const getUserById = async (req, res) => {
 
     res.status(200).json(user);
   } catch (err) {
-    // console.log(err);
-    res.status(400).json(err);
+    const errors = handleErrors(err);
+    res.status(400).json(errors);
   }
 };
 
@@ -39,10 +39,12 @@ const putUserById = async (req, res, model) => {
   const id = req.params.id;
 
   try {
+    const user = await User.findById(id);
+    if (!user) throw Error("Invalid user ID");
+
     await model.findByIdAndUpdate(id, req.body, { runValidators: true });
     res.status(200).json({ user: id });
   } catch (err) {
-    // console.log(err);
     const errors = handleErrors(err);
     res.status(400).json(errors);
   }
@@ -88,8 +90,8 @@ const deletePatientById = async (req, res) => {
 
     res.status(200).json({ message: "Delete patient account successful" });
   } catch (err) {
-    // console.log(err);
-    res.status(400).json(err);
+    const errors = handleErrors(err);
+    res.status(400).json(errors);
   }
 };
 
@@ -128,8 +130,8 @@ const deleteDoctorById = async (req, res) => {
 
     res.status(200).json({ message: "Delete doctor account successful" });
   } catch (err) {
-    // console.log(err);
-    res.status(400).json(err);
+    const errors = handleErrors(err);
+    res.status(400).json(errors);
   }
 };
 

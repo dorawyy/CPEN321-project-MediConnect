@@ -7,5 +7,6 @@
   "Pneumonia": ["Internal medicine", "Pulmonology"],
   "Asthma": ["Internal medicine", "Pulmonology"],
   "Popcorn lung disease": ["Internal medicine", "Pulmonology"],
-  "diabetes": ["Oncology", "Pulmonology"]
+  "diabetes": ["Oncology", "Pulmonology"],
+  "obesity": ["Neurology"]
 }

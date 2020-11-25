@@ -102,7 +102,6 @@ const findDoctor = async (req, res) => {
 
     res.json(sortedDocs);
   } catch (err) {
-    console.log(err);
     res.status(400).json(err);
   }
 };

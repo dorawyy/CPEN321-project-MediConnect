@@ -28,6 +28,22 @@ const handleErrors = (err) => {
     errors.password = err.message;
   }
 
+  // incorrect patient ID
+  if (err.message === "Invalid patient ID") {
+    errors.patient = "Patient account doesn't exist";
+  }
+
+  // incorrect doctor ID
+  if (err.message === "Invalid doctor ID") {
+    errors.doctor = "Doctor account doesn't exist";
+  }
+
+  // incorrect user ID
+  if (err.message === "Invalid user ID") {
+    errors.patient = "User account doesn't exist";
+    errors.doctor = "User account doesn't exist";
+  }
+
   // validation errors
   if (
     err.message.includes("Patient validation failed") ||
