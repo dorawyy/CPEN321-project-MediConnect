@@ -12,6 +12,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const Tab = createMaterialBottomTabNavigator();
 
 class DoctorHomeNavigator extends Component {
+	
+	componentDidUpdate() {
+		// this.forceUpdate(); 
+		console.log("Here")
+		return true; 
+	}
+
 	render() {
 		return (
 			<Tab.Navigator

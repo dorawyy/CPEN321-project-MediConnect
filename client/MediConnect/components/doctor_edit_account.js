@@ -50,7 +50,7 @@ class DoctorEditAccount extends Component {
     };
     
     changeAge = (text) =>{
-        this.setState({age: text});
+        this.setState({age: parseInt(text)});
         console.log(this.state.age)
     };
     
@@ -59,7 +59,7 @@ class DoctorEditAccount extends Component {
     };
     
     changeYOE = (text) =>{
-        this.setState({years_of_experience: text});
+        this.setState({years_of_experience: parseInt(text)});
     };
 
     async saveEdits() {
@@ -67,14 +67,14 @@ class DoctorEditAccount extends Component {
 		axios
 			// .put("http://54.183.200.234:5000/patient/search", {
 			.put('http://10.0.2.2:5000/doctor/' + global.userID, {
-				params: {
+				// params: {
                     first_name: this.state.first_name,
                     last_name: this.state.last_name,
                     email: this.state.email,
                     age: this.state.age,
                     specialization: this.state.specialization,
                     years_of_experience: this.state.years_of_experience,
-                },
+                // },
                 
 
 			})
@@ -88,6 +88,8 @@ class DoctorEditAccount extends Component {
                 global.years_of_experience = this.state.years_of_experience; 
                 console.log(global.age);
                 console.log(res);
+                alert("Your account details were successfully updated"); 
+                // this.props.navigation.navigate('DoctorHomeNavigator');
 
 			})
 			.catch((err) => {
