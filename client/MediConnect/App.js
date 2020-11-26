@@ -36,7 +36,7 @@ import CreateAppointmentPage from './components/create_appointments';
 import DoctorEditAccountPage from './components/doctor_edit_account'; 
 import PatientEditAccountPage from './components/patient_edit_account'; 
 
-//import SlotBookingPage from './components/slot_booking';
+import SlotBookingPage from './components/slot_booking';
 
 // import {UserContext} from './components/user_context';  
 
@@ -145,6 +145,12 @@ const App: () => React$Node = () => {
 						component={DoctorEditAccountPage}
 						options={{headerTitle: false}}
 					/>
+
+					<Stack.Screen
+						name="SlotBooking"
+						component={SlotBookingPage}
+						options={{headerTitle: false}}
+					/>
 					{/* <Stack.Screen
 						name="PatientEditAccount"
 						component={PatientEditAccountPage}
@@ -158,12 +164,7 @@ const App: () => React$Node = () => {
 				</Stack.Navigator>
 			</NavigationContainer>
 		{/* </UserContext.Provider> */}
-		{/* </SymptomsContext.Provider> 
-		<Stack.Screen
-						name="SlotBooking"
-						component={SlotBookingPage}
-						options={{headerTitle: false}}
-					/>*/}
+		{/* </SymptomsContext.Provider>*/}
 		</>
 	);
 };
