@@ -5,17 +5,15 @@ import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
+import { NavigationEvents } from "react-navigation";
+
+
+
+// import { Header } from 'react-native/Libraries/NewAppScreen';
+
+
 
 class Home extends Component {
-
-	state = {
-		first_name: '',
-        last_name: '',
-        email: '',
-        age: 0,
-        specialization: '',
-        years_of_experience: 0,
-    };
 
     // shouldComponentUpdate() {
     //     this.setState({first_name: global.first_name});
@@ -26,18 +24,70 @@ class Home extends Component {
     //     this.setState({years_of_experience: global.years_of_experience});
 	// }; 
 
-	componentDidMount() {
-        this.setState({first_name: global.first_name});
-        this.setState({last_name: global.last_name});
-        this.setState({email: global.email});
-        this.setState({age: global.age});
-        this.setState({specialization: global.specialization});
-        this.setState({years_of_experience: global.years_of_experience});
-	}; 
+	constructor(props) {
+		super(props);
+		this.state = {
+			first_name: '',
+			last_name: '',
+			email: '',
+			age: 0,
+			specialization: '',
+			years_of_experience: 0,
+		};	
+		// this will fire every time Page 1 receives navigation focus
+		this.props.navigation.addListener('focus', () => {
+			this.setState({first_name: global.first_name});
+			this.setState({last_name: global.last_name});
+			this.setState({email: global.email});
+			this.setState({age: global.age});
+			this.setState({specialization: global.specialization});
+			this.setState({years_of_experience: global.years_of_experience});
+		})
+	}
+
+		
+	// componentDidUpdate() {
+    //     this.setState({first_name: global.first_name});
+    //     this.setState({last_name: global.last_name});
+    //     this.setState({email: global.email});
+    //     this.setState({age: global.age});
+    //     this.setState({specialization: global.specialization});
+	// 	this.setState({years_of_experience: global.years_of_experience});
+	// 	console.log(this.state.first_name); 
+	// 	// console.log("mounting"); 
+	// }; 
+
+
+	// constructor(props){
+		// state = {
+		// 	first_name: '',
+		// 	last_name: '',
+		// 	email: '',
+		// 	age: 0,
+		// 	specialization: '',
+		// 	years_of_experience: 0,
+		// };
+	  
+	// 	this.forceChange = this.forceChange.bind(this);
+	//  }
+  
+	//  forceChange(){
+	// 	this.setState(prevState => ({
+	// 		temp: prevState.temp++
+	// 	})); 
+	// }
+
+	refresh() {
+		this.forceUpdate(); 
+	}
+	
 
 	render() {
 
+		console.log(global.first_name); 
+
 		return (
+			// <Header forceUpdate={this.forceUpdate}>
 			<View testID="homepage" style={styles.container}>
 				<View style={styles.welcome} >
 					<View style={styles.welcomeImage} ><Image source={require('../assets/logo.png')} /></View>
@@ -47,7 +97,7 @@ class Home extends Component {
 						colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
 						// style={styles.welcomeTextContainer}
 					>
-						<Text style={styles.welcomeText}>Welcome, {this.state.first_name} {this.state.last_name}!</Text>
+						<Text style={styles.welcomeText}>Welcome, {global.first_name} {global.last_name}!</Text>
 					</LinearGradient>
 				</View>
 				<View style={styles.infobox}>
@@ -68,6 +118,7 @@ class Home extends Component {
 					</View>
 				</View>
 			</View>
+			// </Header>
 		);
 	}
 }
@@ -150,7 +201,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'Iowan Old Style',
 		color: '#5c5c5c',
 		fontSize: 20,
-		paddingLeft: 50, 
+		paddingLeft: 40, 
 		paddingTop: 10, 
 		paddingBottom: 10, 
 		// backgroundColor: '#d9d9d9', 

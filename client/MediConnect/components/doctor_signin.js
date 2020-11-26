@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
+
 // import CookieManager from '@react-native-community/cookies';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // const { signIn } = React.useContext(AuthContext);
@@ -88,13 +89,13 @@ class DoctorSignIn extends Component {
 			console.log(res.data); 
 			console.log(global.verified); 
 
+			this.props.navigation.navigate('DoctorHomeNavigator');
+
 
 		})
 		.catch((err) => {
 			console.log(err.response);
 		});
-
-		this.props.navigation.navigate('DoctorHomeNavigator');
 
 	}
 
