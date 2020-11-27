@@ -151,15 +151,15 @@ const App: () => React$Node = () => {
 						component={SlotBookingPage}
 						options={{headerTitle: false}}
 					/>
-					{/* <Stack.Screen
+
+					<Stack.Screen
 						name="PatientEditAccount"
 						component={PatientEditAccountPage}
 						options={{headerTitle: false}}
-					/> */}
+					/>
 
+					{/*  */}
 					
-
-			
 					
 				</Stack.Navigator>
 			</NavigationContainer>

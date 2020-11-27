@@ -33,7 +33,7 @@ class DoctorSettings extends Component {
 						</TouchableOpacity>
 					</View>
 					<View>
-						<TouchableOpacity style={styles.option}>
+						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('DoctorNotifications')}>
 							<View style={styles.icon}>
 								<Icon name="bell" size={30} color={'#5c5c5c'} />
 							</View>

@@ -1,5 +1,6 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
+import '../components/user_info';
 import {Component} from 'react';
 import {
 	Text,

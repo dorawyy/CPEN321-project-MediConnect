@@ -25,7 +25,7 @@ class PatientSettings extends Component {
 			>
 				<View style={styles.container}>
 					<View>
-						<TouchableOpacity style={styles.option}>
+						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('PatientEditAccount')}>
 							<View style={styles.icon}>
 								<Icon name="user" size={30} color={'#5c5c5c'} />
 							</View>
@@ -33,7 +33,7 @@ class PatientSettings extends Component {
 						</TouchableOpacity>
 					</View>
 					<View>
-						<TouchableOpacity style={styles.option}>
+						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('PatientNotifications')}>
 							<View style={styles.icon}>
 								<Icon name="bell" size={30} color={'#5c5c5c'} />
 							</View>

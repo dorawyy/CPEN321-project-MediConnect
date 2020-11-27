@@ -3,52 +3,56 @@ import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import axios from 'axios';
+import '../components/user_info';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class DoctorAppointments extends Component {
 
-	/*
+	state = {
+		serverData: [],
+	}
+
 	componentDidMount = () => {
+		const uid = global.userID
 		axios
-			.get("http://54.183.200.234:5000/patient/appointment", {
-			//.post('http://10.0.2.2:5000/patient/search', {
-				//symptoms: this.state.symptom,
+			.get("http://54.183.200.234:5000/patient/appointment/" + uid, {
+			//.get("http://10.0.2.2:5000/patient/appointment" + uid, {
 			})
 			.then((res) => {
 				console.log(res.data);
 				this.setState({
 					serverData: res.data,
 				});
-				this.props.navigation.navigate('Doctors');
 			})
 			.catch((err) => {
 				console.log(err.response.data);
 			});
 	};
-	*/
+
 
 
 	render() {
-		return (
-			// <LinearGradient
-			// 	start={{x: 0.0, y: 0.25}}
-			// 	end={{x: 0.7, y: 1}}
-			// 	colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
-			// 	style={styles.LinearGradient}
-			// >
-				<View style={styles.container}>
-					<View>
-						<Text style={styles.headerText}>Appointments</Text>
-					</View>
 
-					<View>
-						{/* <TouchableOpacity style={styles.option}>
-							<Text style={styles.optionText}
-							onPress={() => this.props.navigation.navigate('CreateAppointment')}>Create an appointment</Text>
-						</TouchableOpacity> */}
-					</View>
+		
+		return (
+			<ScrollView>
+				<View style={styles.container}>
+					<Text style={styles.header}>Appointments</Text>
+
+						<View>
+							{this.state.serverData.map(serverData =><View style={styles.doctor} key={serverData.password}>
+							
+							<Text style={styles.doctorinfo}>{'Patient Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
+                   			<Text style={styles.doctorinfo}>{'Symptom: ' + serverData.symptom}</Text>
+                    		<Text style={styles.doctorinfo}>{'Patient Email: ' + serverData.email}</Text>
+                    		<Text style={styles.doctorinfo}>{'Appointment Date: ' + serverData.date}</Text>
+                    		<Text style={styles.doctorinfo}>{'Booked Slot: ' + serverData.slot}</Text>
+							
+							</View>)}	
+						</View>
 
 				</View>
-			/* </LinearGradient> */
+			</ScrollView>
 		);
 	}
 }
@@ -60,7 +64,17 @@ const styles = StyleSheet.create({
 	},
 
 	container: {
+		flex: 1,
+		backgroundColor: 'white',
+		fontFamily: 'Iowan Old Style',
+		width: '100%',
+		height: '100%',
 		padding: 30,
+	},
+
+	header: {
+		color: '#02f0c8',
+		fontSize: 20,
 	},
 
 	icon: {
@@ -105,7 +119,49 @@ const styles = StyleSheet.create({
 		elevation: 8,
 		width: 270,
 		padding: 5,
-	}
+	},
+
+	text: {
+		color: '#5c5c5c',
+		fontSize: 15,
+	},
+
+	button: {
+		backgroundColor: 'white',
+		padding: 10,
+		margin: 15,
+		height: 40,
+		alignItems: 'center',
+		justifyContent: 'center',
+		shadowColor: 'black',
+		borderRadius: 7,
+	},
+
+	buttonText: {
+		fontFamily: 'Iowan Old Style',
+		fontSize: 15,
+		color: '#02d9b5',
+	},
+
+	doctor: {
+		backgroundColor: '#d9d9d9',
+		height: 120,
+		width: 270,
+		margin: 15,
+		borderRadius: 5,
+		shadowColor: 'black',
+		shadowOpacity: 1,
+		shadowRadius: 4.65,
+		elevation: 8,
+		padding: 15,
+		alignSelf: 'center',
+	},
+
+	doctorinfo: {
+		fontFamily: 'Iowan Old Style',
+		color: 'black',
+		fontSize: 11,
+	},
 });
 
 export default DoctorAppointments;
