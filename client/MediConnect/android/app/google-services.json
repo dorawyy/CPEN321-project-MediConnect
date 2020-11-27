@@ -1,40 +1,40 @@
 {
-	"project_info": {
-		"project_number": "819153412510",
-		"firebase_url": "https://mediconnect-321.firebaseio.com",
-		"project_id": "mediconnect-321",
-		"storage_bucket": "mediconnect-321.appspot.com"
-	},
-	"client": [
-		{
-			"client_info": {
-				"mobilesdk_app_id": "1:819153412510:android:0c014e176195a292bff68f",
-				"android_client_info": {
-					"package_name": "com.mediconnect"
-				}
-			},
-			"oauth_client": [
-				{
-					"client_id": "819153412510-t4qe44bl8djv15em70tu4q4m5jnrop17.apps.googleusercontent.com",
-					"client_type": 3
-				}
-			],
-			"api_key": [
-				{
-					"current_key": "AIzaSyDkUQkTOGFNksSohoIQb7zR7Uq1fmzlDHA"
-				}
-			],
-			"services": {
-				"appinvite_service": {
-					"other_platform_oauth_client": [
-						{
-							"client_id": "819153412510-t4qe44bl8djv15em70tu4q4m5jnrop17.apps.googleusercontent.com",
-							"client_type": 3
-						}
-					]
-				}
-			}
-		}
-	],
-	"configuration_version": "1"
+  "project_info": {
+    "project_number": "71350623664",
+    "firebase_url": "https://mediconnect-f0c25.firebaseio.com",
+    "project_id": "mediconnect-f0c25",
+    "storage_bucket": "mediconnect-f0c25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71350623664:android:c9d53a1cd7dabd93204a75",
+        "android_client_info": {
+          "package_name": "com.mediconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71350623664-ld5cef91u9522078a8uspco301ji97qo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDILa-J8-MgHoTCVfP2yhP0rkcMubs33UQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71350623664-ld5cef91u9522078a8uspco301ji97qo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
 }
