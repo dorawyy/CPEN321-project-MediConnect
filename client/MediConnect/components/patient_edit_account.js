@@ -1,0 +1,234 @@
+import React from 'react';
+import {Component} from 'react';
+import {Text, View, StyleSheet, TextInput} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
+
+
+class PatientEditAccount extends Component {
+
+    state = {
+		first_name: '',
+        last_name: '',
+        email: '',
+        age: 0,
+    };
+    
+    componentDidMount() {
+        this.setState({first_name: global.first_name});
+        this.setState({last_name: global.last_name});
+        this.setState({email: global.email});
+        this.setState({age: global.age});
+
+        // this.state.first_name = global.first_name,
+        // this.state.last_name = global.last_name,
+        // this.state.email = global.email, 
+        // this.state.age = global.age, 
+        // this.state.specialization = global.specialization, 
+        // this.state.years_of_experience = global.years_of_experience
+    }; 
+
+
+    changeFirstName = (text) => {
+        // console.log(this.state.first_name); 
+		this.setState({first_name: text});
+        // console.log(global.first_name); 
+        // console.log(this.state.first_name); 
+    };
+    
+    changeLastName = (text) =>{
+		this.setState({last_name: text});
+    };
+    
+    changeEmail= (text) =>{
+		this.setState({email: text});
+    };
+    
+    changeAge = (text) =>{
+        this.setState({age: parseInt(text)});
+        console.log(this.state.age)
+    };
+    
+
+    async saveEdits() {
+
+		axios
+			// .put("http://54.183.200.234:5000/patient/search", {
+			.put('http://10.0.2.2:5000/doctor/' + global.userID, {
+				// params: {
+                    first_name: this.state.first_name,
+                    last_name: this.state.last_name,
+                    email: this.state.email,
+                    age: this.state.age,
+                // },
+                
+
+			})
+			.then((res) => {
+                // console.log(symptom);
+                global.first_name = this.state.first_name; 
+                global.last_name = this.state.last_name; 
+                global.email = this.state.email; 
+                global.age = this.state.age;
+                console.log(global.age);
+                console.log(res);
+                alert("Your account details were successfully updated"); 
+                // this.props.navigation.navigate('DoctorHomeNavigator');
+
+			})
+			.catch((err) => {
+				console.log(err.response.data);
+            });
+         console.log(this.state.first_name)
+	};
+    
+
+	render() {
+		return (
+
+            <View style={styles.container}>
+                <View style={styles.accountHeader}>
+                    <Icon style={styles.icon} name="user" size={30} color={'#5c5c5c'} />
+                    <Text style={styles.accountHeaderText}>Edit Account Details</Text>
+                </View>                
+                    
+                <View style={styles.field}>
+                    <Text style={styles.header}>First Name</Text>
+                    <TextInput
+                        style={styles.text}
+                        underlineColorAndroid="gray"
+                        defaultValue={global.first_name}
+                        autoCapitalize="none"
+                        onChangeText={this.changeFirstName}
+                        required
+                    />
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Last Name</Text>
+                    <TextInput
+                        style={styles.text}
+                        underlineColorAndroid="gray"
+                        defaultValue={global.last_name}
+                        autoCapitalize="none"
+                        onChangeText={this.changeLastName}
+                        required
+                    />
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Email</Text>
+                    <TextInput
+                        style={styles.text}
+                        underlineColorAndroid="gray"
+                        defaultValue={global.email}
+                        autoCapitalize="none"
+                        onChangeText={this.changeEmail}
+                        required
+                    />
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Age</Text>
+                    <TextInput
+                        style={styles.text}
+                        underlineColorAndroid="gray"
+                        defaultValue={global.age.toString()}
+                        autoCapitalize="none"
+                        onChangeText={this.changeAge}
+                        required
+                    />
+                </View>
+                
+                <TouchableOpacity style={styles.button}>
+							<Text
+								style={styles.buttonText}
+								onPress={() => {
+									this.saveEdits()
+								}}
+							>
+								Save
+							</Text>
+				</TouchableOpacity>
+            </View>
+
+            
+
+		);
+	}
+}
+
+const styles = StyleSheet.create({
+
+    container: {
+		flex: 1,
+		// alignItems: 'center',
+		// justifyContent: 'center',
+		// margin: "15%",
+		backgroundColor: 'white',
+		fontFamily: 'Iowan Old Style',
+		width: '100%',
+		height: '100%',
+		padding: 30,
+		// backgroundColor: linear-gradient(#00ff99 29%, #00ffff 100%);
+	},
+
+    header: {
+		color: '#02f0c8',
+		fontSize: 18,
+	},
+
+	text: {
+		color: '#5c5c5c',
+		fontSize: 17,
+    },
+    
+    field: {
+        paddingBottom: 10, 
+
+    },
+
+    accountHeader: {
+		flexDirection: 'row',
+		paddingBottom: 25, 
+	}, 
+
+	accountHeaderText: {
+		fontSize: 20,
+		fontFamily: 'Iowan Old Style',
+		color: '#5c5c5c'
+	},
+
+	icon: {
+		paddingRight: 7, 
+    },
+    
+    button: {
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+
+	buttonText: {
+        alignItems: 'center',
+		justifyContent: 'center',
+		fontFamily: 'Iowan Old Style',
+		fontSize: 20,
+        color: 'white', 
+        backgroundColor: '#02f0c8',
+        paddingTop: 5, 
+        paddingBottom: 5, 
+        paddingRight: 20, 
+        paddingLeft: 20, 
+        // padding: 10,
+        margin: 10,
+        borderRadius: 7,
+        // width: 100, 
+
+
+	},
+
+
+});
+
+export default PatientEditAccount;

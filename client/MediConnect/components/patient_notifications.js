@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {CheckBox} from 'react-native-elements';
 
-class DoctorNotifications extends Component {
+class PatientNotifications extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -160,4 +160,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default DoctorNotifications;
+export default PatientNotifications;
