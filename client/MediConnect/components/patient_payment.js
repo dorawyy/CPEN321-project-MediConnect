@@ -85,17 +85,46 @@ class PatientPayment extends Component {
                 requiredBillingAddressFields: 'full',
                 prefilledInformation: {
                   billingAddress: {
-                    name: this.state.name,
-                    line1: this.state.line1,
-                    line2: this.state.line2,
-                    city: this.state.city,
-                    state: this.state.country,
-                    country: this.state.country,
-                    postalCode: this.state.postalCode,
-                    email: global.email,
+                    // name: this.state.name,
+                    // line1: this.state.line1,
+                    // line2: this.state.line2,
+                    // city: this.state.city,
+                    // state: this.state.country,
+                    // country: this.state.country,
+                    // postalCode: this.state.postalCode,
+                    // email: global.email,
+                    name: 'Gunilla Haugeh',
+                    line1: 'Canary Place',
+                    line2: '3',
+                    city: 'Macon',
+                    state: 'Georgia',
+                    country: 'US',
+                    postalCode: '31217',
+                    email: 'ghaugeh0@printfriendly.com',
                   },
                 },
             })
+
+            // console.log(type)
+            // console.log(tokenId)
+            // console.log(card)
+
+            // const { paymentIntentClientSecret } = this.state.intent_id;
+
+            // const result = await stripe.confirmPaymentIntent(paymentIntentClientSecret, {element: card});
+
+            // console.log(result)
+
+            // const { id: paymentMethodId } = paymentMethod; 
+            // const { clientSecret } = this.state.intent_id;
+
+            
+            // const result = stripe.confirmPaymentIntent({
+            //     clientSecret,
+            //     paymentMethod, // Assuming your payment card form has the billingDetails and card: {} properties
+            // });
+
+            // console.log(result)
 
             // if (this.state.update) {
             //     global.line1 = this.state.line1;
@@ -112,11 +141,12 @@ class PatientPayment extends Component {
             // console.log(global.state); 
             // console.log(global.country); 
             // console.log(global.postalCode) ;
-    
 
 
     
-            // console.log(paymentMethod)
+            console.log(paymentMethod)
+            alert('Payment Successful!')
+            // navigate to the home page 
 
             // stripe.confirmPaymentIntent({
             //     state.client_secret,
@@ -125,6 +155,7 @@ class PatientPayment extends Component {
             // });
         } catch (error) {
             console.log(error)
+            console.log("err"); 
 
         }
 
