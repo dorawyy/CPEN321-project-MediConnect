@@ -43,6 +43,10 @@ class Home extends Component {
 			this.setState({specialization: global.specialization});
 			this.setState({years_of_experience: global.years_of_experience});
 		})
+
+		if (global.age == 0 || global.rating == 0) {
+			alert("Don't forget to update your information on the Account Page in the Settings Tab.")
+		}
 	}
 
 		

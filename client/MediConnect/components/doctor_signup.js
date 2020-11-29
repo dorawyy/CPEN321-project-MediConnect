@@ -47,7 +47,19 @@ class DoctorSignUp extends Component {
 				console.log(res.data);
 				global.userID = res.data.user;
 				console.log(global.userID); 
-				this.props.navigation.navigate('DoctorHomeNavigator');
+
+				global.first_name = res.data.first_name; 
+				global.last_name = res.data.last_name; 
+				global.rating = res.data.rating; 
+				global.specialization = res.data.specialization; 
+				global.verified = res.data.verified; 
+				global.age = res.data.age; 
+				global.appointments = res.data.appointments; 
+				global.email = res.data.email; 
+				global.years_of_experience = res.data.years_of_experience; 
+		
+				alert("You have signed up successfully! Please sign in.")
+				// this.props.navigation.navigate('DoctorHomeNavigator');
 			})
 			.catch((err) => {
 				console.log(err.response.data);

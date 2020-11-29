@@ -20,7 +20,7 @@ class DoctorSignIn extends Component {
 	state = {
 		email: '',
 		password: '',
-		emailList: [],
+		// emailList: [],
 		serverData: [],
 		user: '',
 	};
@@ -87,8 +87,9 @@ class DoctorSignIn extends Component {
 			global.years_of_experience = res.data.years_of_experience; 
 
 
-			console.log(res.data); 
-			console.log(global.verified); 
+			// console.log(res.data); 
+			console.log(res.data.age); 
+			console.log(res.data.years_of_experience); 
 
 			this.props.navigation.navigate('DoctorHomeNavigator');
 

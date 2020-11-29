@@ -35,6 +35,8 @@ import PatientNotificationsPage from './components/patient_notifications';
 import CreateAppointmentPage from './components/create_appointments';
 import DoctorEditAccountPage from './components/doctor_edit_account'; 
 import PatientEditAccountPage from './components/patient_edit_account'; 
+import PatientPaymentPage from './components/patient_payment'; 
+
 
 import SlotBookingPage from './components/slot_booking';
 
@@ -158,6 +160,13 @@ const App: () => React$Node = () => {
 						component={PatientEditAccountPage}
 						options={{headerTitle: false}}
 					/>
+
+					<Stack.Screen
+						name="PatientPayment"
+						component={PatientPaymentPage}
+						options={{headerTitle: false}}
+					/>
+					
 
 					{/*  */}
 					

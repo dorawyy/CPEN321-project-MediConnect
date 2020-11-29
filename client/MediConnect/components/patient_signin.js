@@ -67,6 +67,7 @@ class PatientSignIn extends Component {
 
 				this.setState({
 					user: res.data,
+					cookie: res.headers['set-cookie'],
 				});
 
 				// UserContext.user.id = res.data; 
@@ -78,12 +79,41 @@ class PatientSignIn extends Component {
 				//         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
 				//     });
 
-				this.props.navigation.navigate('PatientHomeNavigator');
+				this.getUserInfo(); 
+
+				// this.props.navigation.navigate('PatientHomeNavigator');
 			})
 			.catch((err) => {
 				console.log(err.response.data);
 				alert(err.response.data.email + '\n' + err.response.data.password);
 			});
+	}
+
+	async getUserInfo() {
+
+		axios.get('http://10.0.2.2:5000/patient/' + global.userID, {
+
+		})
+		.then((res) => {
+			console.log(res.data); 
+			global.first_name = res.data.first_name; 
+			global.last_name = res.data.last_name; 
+			global.age = res.data.age; 
+			global.appointments = res.data.appointments; 
+			global.email = res.data.email; 
+			global.gender = res.data.gender; 
+			global.weight = res.data.weight; 
+
+
+			// console.log(res.data); 
+
+			this.props.navigation.navigate('PatientHomeNavigator');
+
+		})
+		.catch((err) => {
+			console.log(err.response);
+		});
+
 	}
 
 	render() {
