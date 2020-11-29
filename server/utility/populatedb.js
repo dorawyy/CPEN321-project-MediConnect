@@ -204,6 +204,25 @@ async function createDoctors() {
     "Psychiatry",
     7
   );
+  await doctorCreate(
+    "Bob",
+    "Builder",
+    "sendbobs@gmail.com",
+    "bobsandvagene",
+    80,
+    "Family Medicine",
+    50
+  );
+  await doctorCreate(
+    "Ben",
+    "Dover",
+    "mike_oxlong@gmail.com",
+    "bdebdebde",
+    40,
+    "Family Medicine",
+    10,
+    true
+  );
 }
 
 async function createPatients() {
