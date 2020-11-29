@@ -7,7 +7,7 @@ const stripe = require("stripe")(stripeSecretKey);
 
 const createPaymentIntent = async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 2499,
+    amount: 50,
     currency: "cad",
     payment_method_types: ["card"],
     metadata: { integration_check: "accept_a_payment" },
