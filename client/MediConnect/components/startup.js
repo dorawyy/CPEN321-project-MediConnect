@@ -1,13 +1,12 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
 import {Component} from 'react';
-import {Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 class StartUp extends Component {
 	render() {
 		return (
-			//<View >
 				<LinearGradient
 				testID="startup"
 				start={{x: 0.0, y: 0.25}}
@@ -15,7 +14,6 @@ class StartUp extends Component {
 				colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
 				style={styles.container}
 			>
-				<View testID="startup">
 				<Image
 					testID="logo"
 					source={require('../assets/logo.png')}
@@ -37,9 +35,25 @@ class StartUp extends Component {
 						Sign In
 					</Text>
 				</TouchableOpacity>
-				</View>
+
+
+
+
+
+				<TouchableOpacity testID="signin" style={styles.button}>
+					<Text
+						style={styles.buttonText}
+						onPress={() => this.props.navigation.navigate('PatientPayment')}
+					>
+						Payment Test
+					</Text>
+				</TouchableOpacity>
+
+
+
+
+
 			</LinearGradient>
-			//</View>
 		);
 	}
 }

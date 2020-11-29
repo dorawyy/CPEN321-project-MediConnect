@@ -36,9 +36,8 @@ class DoctorSignUp extends Component {
 	};
 
 	async signup() {
-		axios.post("http://54.183.200.234:5000/doctor/signup", {
-		// axios
-		// 	.post('http://10.0.2.2:5000/doctor/signup', {
+		//axios.post("http://54.183.200.234:5000/doctor/signup", {
+		 axios.post('http://10.0.2.2:5000/doctor/signup', {
 				first_name: this.state.firstName,
 				last_name: this.state.lastName,
 				email: this.state.email,
@@ -46,7 +45,21 @@ class DoctorSignUp extends Component {
 			})
 			.then((res) => {
 				console.log(res.data);
-				this.props.navigation.navigate('DoctorHomeNavigator');
+				global.userID = res.data.user;
+				console.log(global.userID); 
+
+				global.first_name = res.data.first_name; 
+				global.last_name = res.data.last_name; 
+				global.rating = res.data.rating; 
+				global.specialization = res.data.specialization; 
+				global.verified = res.data.verified; 
+				global.age = res.data.age; 
+				global.appointments = res.data.appointments; 
+				global.email = res.data.email; 
+				global.years_of_experience = res.data.years_of_experience; 
+		
+				alert("You have signed up successfully! Please sign in.")
+				// this.props.navigation.navigate('DoctorHomeNavigator');
 			})
 			.catch((err) => {
 				console.log(err.response.data);
@@ -79,14 +92,14 @@ class DoctorSignUp extends Component {
 					<View style={styles.toggle}>
 						<View style={styles.toggleDoctor}>
 							<TouchableOpacity
-								testID={doctorToggle}
+								testID="doctorToggle"
 								style={styles.toggletextDoctor}
 							>
 								<Text>DOCTOR</Text>
 							</TouchableOpacity>
 						</View>
 						<View style={styles.togglePatient}>
-							<TouchableOpacity testID={patientToggle}>
+							<TouchableOpacity testID="patientToggle">
 								<Text
 									style={styles.buttonText}
 									onPress={() =>
@@ -144,9 +157,9 @@ class DoctorSignUp extends Component {
 								required
 							/>
 						</View>
-						<View>
+						<View >
 							<TouchableOpacity
-								testID={signup_button}
+								testID="signup_button"
 								style={styles.submitButton}
 								onPress={() =>
 									this.signup(
@@ -157,7 +170,7 @@ class DoctorSignUp extends Component {
 									)
 								}
 							>
-							<Text style={styles.submitButtonText}> SIGN UP </Text>
+							<Text style={styles.submitButtonText} > SIGN UP </Text>
 							</TouchableOpacity>
 						</View>
 					</View>

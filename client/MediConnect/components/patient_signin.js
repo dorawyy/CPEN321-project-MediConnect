@@ -1,5 +1,6 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
+import '../components/user_info';
 import {Component} from 'react';
 import {
 	Text,
@@ -16,6 +17,8 @@ import LinearGradient from 'react-native-linear-gradient';
 // import AsyncStorage from '@react-native-community/async-storage';
 // const { signIn } = React.useContext(AuthContext);
 
+// import UserContext from './user_context'; 
+
 class PatientSignIn extends Component {
 	state = {
 		email: '',
@@ -23,7 +26,7 @@ class PatientSignIn extends Component {
 		emailList: [],
 		// passwordList: [],
 		serverData: [],
-		user: [],
+		user: '',
 	};
 
 	handleEmail = (text) => {
@@ -34,49 +37,83 @@ class PatientSignIn extends Component {
 		this.setState({password: text});
 	};
 
-	componentDidMount = () => {
-		axios
-			.get('http://54.183.200.234:5000/doctor')
-			.then((response) => {
-				this.setState({
-					serverData: response.data,
-				});
+	// componentDidMount = () => {
+	// 	axios
+	// 		.get('http://54.183.200.234:5000/doctor')
+	// 		.then((response) => {
+	// 			this.setState({
+	// 				serverData: response.data,
+	// 			});
 
-				this.getEmailList();
-				// this.getPasswordList();
-			})
-			.catch((error) => {
-				console.log(error.data);
-			});
-	};
+	// 			this.getEmailList();
+	// 			// this.getPasswordList();
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error.data);
+	// 		});
+	// };
 
 	async signin() {
-		axios.post("http://54.183.200.234:5000/patient/signin", {
-		// axios
-		// 	.post('http://10.0.2.2:5000/patient/signin', {
-				email: this.state.email,
-				password: this.state.password,
+		// axios.post("http://54.183.200.234:5000/patient/signin", {
+		axios
+			.post('http://10.0.2.2:5000/patient/signin', {
+				// email: this.state.email,
+				// password: this.state.password,
+				email: 'p@gmail.com',
+				password: '12345678',
 			})
 			.then((res) => {
 				console.log(res.data);
 
 				this.setState({
 					user: res.data,
+					cookie: res.headers['set-cookie'],
 				});
 
-				console.log('Here' + this.state.user.email);
+				// UserContext.user.id = res.data; 
+				global.userID = res.data.user;
+				console.log(global.userID); 
 
 				// CookieManager.get("http://54.183.200.234:5000/doctor/signin")
 				//     .then((res) => {
 				//         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
 				//     });
 
-				this.props.navigation.navigate('PatientHome');
+				this.getUserInfo(); 
+
+				// this.props.navigation.navigate('PatientHomeNavigator');
 			})
 			.catch((err) => {
 				console.log(err.response.data);
 				alert(err.response.data.email + '\n' + err.response.data.password);
 			});
+	}
+
+	async getUserInfo() {
+
+		axios.get('http://10.0.2.2:5000/patient/' + global.userID, {
+
+		})
+		.then((res) => {
+			console.log(res.data); 
+			global.first_name = res.data.first_name; 
+			global.last_name = res.data.last_name; 
+			global.age = res.data.age; 
+			global.appointments = res.data.appointments; 
+			global.email = res.data.email; 
+			global.gender = res.data.gender; 
+			global.weight = res.data.weight; 
+
+
+			// console.log(res.data); 
+
+			this.props.navigation.navigate('PatientHomeNavigator');
+
+		})
+		.catch((err) => {
+			console.log(err.response);
+		});
+
 	}
 
 	render() {

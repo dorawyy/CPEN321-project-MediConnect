@@ -3,22 +3,20 @@ import React from 'react';
 import 'react-native-paper';
 import {Component} from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import DoctorSettingsPage from './doctor_settings';
-import DoctorHome from './doctor_home';
-import DoctorAppointments from './doctor_appointments';
+import PatientSettingsPage from './patient_settings'; 
+import PatientHome from './patient_home';
+import PatientAppointments from './patient_appointments';
 import DoctorNotifications from './doctor_notifications';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createMaterialBottomTabNavigator();
 
-class DoctorHomeNavigator extends Component {
-	
+class PatientHomeNavigator extends Component {
 	componentDidUpdate() {
 		// this.forceUpdate(); 
 		console.log("Here")
 		return true; 
 	}
-
 	render() {
 		return (
 			<Tab.Navigator
@@ -34,7 +32,7 @@ class DoctorHomeNavigator extends Component {
 			>
 				<Tab.Screen
 					name="Home"
-					component={DoctorHome}
+					component={PatientHome}
 					options={{
 						tabBarLabel: 'Home',
 						tabBarIcon: ({color}) => (
@@ -44,7 +42,7 @@ class DoctorHomeNavigator extends Component {
 				/>
 				<Tab.Screen
 					name="Appointments"
-					component={DoctorAppointments}
+					component={PatientAppointments}
 					options={{
 						tabBarLabel: 'Appointments',
 						tabBarIcon: ({color}) => (
@@ -64,7 +62,7 @@ class DoctorHomeNavigator extends Component {
 				/>
 				<Tab.Screen
 					name="Settings"
-					component={DoctorSettingsPage}
+					component={PatientSettingsPage}
 					options={{
 						tabBarLabel: 'Settings',
 						tabBarIcon: ({color}) => (
@@ -77,4 +75,4 @@ class DoctorHomeNavigator extends Component {
 	}
 }
 
-export default DoctorHomeNavigator;
+export default PatientHomeNavigator;

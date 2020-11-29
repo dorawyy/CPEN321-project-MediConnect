@@ -4,28 +4,28 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-class DoctorSettings extends Component {
+class PatientSettings extends Component {
 
-	async signout() {
+    async signout() {
 
         // console.log(global.userID); 
         global.userID = ''; 
         // console.log(global.userID); 
 
         this.props.navigation.navigate('StartUp');
-	}
-	
+    }
+    
 	render() {
 		return (
-			<LinearGradient
-				start={{x: 0.0, y: 0.25}}
-				end={{x: 0.7, y: 1}}
-				colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
-				style={styles.LinearGradient}
-			>
+			// <LinearGradient
+			// 	start={{x: 0.0, y: 0.25}}
+			// 	end={{x: 0.7, y: 1}}
+			// 	colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
+			// 	style={styles.LinearGradient}
+			// >
 				<View style={styles.container}>
 					<View>
-						<TouchableOpacity style={styles.option}  onPress={() => this.props.navigation.navigate('DoctorEditAccount')}>
+						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('PatientEditAccount')}>
 							<View style={styles.icon}>
 								<Icon name="user" size={30} color={'#5c5c5c'} />
 							</View>
@@ -33,7 +33,7 @@ class DoctorSettings extends Component {
 						</TouchableOpacity>
 					</View>
 					<View>
-						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('DoctorNotifications')}>
+						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('PatientNotifications')}>
 							<View style={styles.icon}>
 								<Icon name="bell" size={30} color={'#5c5c5c'} />
 							</View>
@@ -73,9 +73,9 @@ class DoctorSettings extends Component {
 							</View>
 							<Text style={styles.optionText}>Sign Out</Text>
 						</TouchableOpacity>
-					</View>					
+					</View>
 				</View>
-			</LinearGradient>
+			// </LinearGradient>
 		);
 	}
 }
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
 
 	container: {
 		padding: 30,
+		backgroundColor: 'white'
 	},
 
 	icon: {
@@ -113,4 +114,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default DoctorSettings;
+export default PatientSettings;

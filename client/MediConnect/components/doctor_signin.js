@@ -9,7 +9,9 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
+import '../components/user_info';
 import LinearGradient from 'react-native-linear-gradient';
+
 // import CookieManager from '@react-native-community/cookies';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // const { signIn } = React.useContext(AuthContext);
@@ -18,9 +20,9 @@ class DoctorSignIn extends Component {
 	state = {
 		email: '',
 		password: '',
-		emailList: [],
+		// emailList: [],
 		serverData: [],
-		user: [],
+		user: '',
 	};
 
 	handleEmail = (text) => {
@@ -34,14 +36,13 @@ class DoctorSignIn extends Component {
 	async signin() {
 		// var current_user = '';
 		// CookieManager.clearAll();
-		axios.post("http://54.183.200.234:5000/doctor/signin", {
-		// axios
-		// 	.post('http://10.0.2.2:5000/doctor/signin', {
+		//axios.post("http://54.183.200.234:5000/doctor/signin", {
+		 axios.post('http://10.0.2.2:5000/doctor/signin', {
 				withCredentials: true,
-				email: this.state.email,
-				password: this.state.password,
-				// email: "alexjones@gmail.com",
-				// password: "12345678",
+				 email: this.state.email,
+				 password: this.state.password,
+				//email: "alexjones@gmail.com",
+				//password: "12345678",
 				headers: {
 					// "Content-Type": "application/x-www-form-urlencoded",
 					Accept: 'application/json',
@@ -53,44 +54,51 @@ class DoctorSignIn extends Component {
 				// current_user = res.user;
 
 				this.setState({
-					user: res.data,
-					// cookie: res.headers['set-cookie'],
+					user: res.data.user,
+					cookie: res.headers['set-cookie'],
 				});
 
-				// console.log(res.headers['set-cookie']);
-
-				// CookieManager.clearAll() //clearing cookies stored
-
-				// const cookie = AsyncStorage.getItem('cookie')
-				// fetch('api/data', {
-				//     headers: {
-				//         'cookie': cookie
-				//     }
-				// })
-
-				// CookieManager.setFromResponse(
-				//     '{{res.data.url}}',
-				//     'user_session=abcdefg; path=/he; expires=Thu, 1 Jan 2030 00:00:00 -0000; secure; HttpOnly')
-				//       .then((success) => {
-				//         console.log('CookieManager.setFromResponse =>', success);
-				//       });
-
-				// CookieManager.get("http://10.0.2.2:5000/doctor")
-				//     .then((res) => {
-				//         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
-				//     });
-
-				// // Get cookies for a url
-				// CookieManager.get('http://10.0.2.2:5000/doctor/signin')
-				// .then((cookies) => {
-				// console.log('CookieManager.get =>', cookies);
-				// });
-				this.props.navigation.navigate('DoctorHomeNavigator');
+				global.userID = res.data.user;
+				// global.jwt = res.headers['set-cookie'][0]; 	// FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				// console.log(this.state.cookie); 
+				// console.log(global.jwt); 
+				this.getUserInfo(); 
 			})
 			.catch((err) => {
 				console.log(err.response);
 				alert(err.response.data.email + '\n' + err.response.data.password);
 			});
+	}
+
+	async getUserInfo() {
+
+		axios.get('http://10.0.2.2:5000/doctor/' + this.state.user, {
+
+		})
+		.then((res) => {
+			global.first_name = res.data.first_name; 
+			global.last_name = res.data.last_name; 
+			global.rating = res.data.rating; 
+			global.specialization = res.data.specialization; 
+			global.verified = res.data.verified; 
+			global.age = res.data.age; 
+			global.appointments = res.data.appointments; 
+			global.email = res.data.email; 
+			global.years_of_experience = res.data.years_of_experience; 
+
+
+			// console.log(res.data); 
+			console.log(res.data.age); 
+			console.log(res.data.years_of_experience); 
+
+			this.props.navigation.navigate('DoctorHomeNavigator');
+
+
+		})
+		.catch((err) => {
+			console.log(err.response);
+		});
+
 	}
 
 	render() {
