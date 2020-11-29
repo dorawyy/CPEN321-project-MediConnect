@@ -29,7 +29,8 @@
 		"react-native-safe-area-context": "^3.1.8",
 		"react-native-screens": "^2.12.0",
 		"react-native-vector-icons": "^7.1.0",
-		"react-navigation": "^4.4.3"
+		"react-navigation": "^4.4.3",
+		"tipsi-stripe": "^7.5.3"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.3",

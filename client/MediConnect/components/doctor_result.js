@@ -23,23 +23,25 @@ class Doctors extends Component {
 	};
 
 	componentDidMount = () => {
+		console.log(this.props.route.params.symptoms)
 
 		axios
-			.get("http://54.183.200.234:5000/patient/search", {
-			// .post('http://10.0.2.2:5000/patient/search', {
+			// .get("http://54.183.200.234:5000/patient/search", {
+			.post('http://10.0.2.2:5000/patient/search', {
 				params: {
 					symptoms: [this.props.route.params.symptoms],
 				},
 			})
 			.then((res) => {
-				// console.log(res.data.at);
+				console.log("hi")
+				console.log(res);
 				this.setState({
 					specs: Object.keys(res.data),
 					specs_data: Object.values(res.data),				
 				});
 			})
 			.catch((err) => {
-				console.log(err.response.data);
+				console.log(err.response);
 			});
 	};
 
@@ -47,7 +49,7 @@ class Doctors extends Component {
 
 		// const { serverData } = this.state;
 
-		console.log(this.state.specs);
+		// console.log(this.state.specs);
 
 		return (
 			<ScrollView>

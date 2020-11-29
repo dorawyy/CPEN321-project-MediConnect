@@ -16,6 +16,8 @@ target 'MediConnect' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
+  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
+
   target 'MediConnectTests' do
     inherit! :complete
     # Pods for testing
