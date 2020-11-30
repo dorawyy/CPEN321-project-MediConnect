@@ -1,5 +1,7 @@
 import React from 'react';
 import {Component} from 'react';
+import '../components/user_info';
+import axios from 'axios';
 import {
     AppRegistry,
     StyleSheet,
@@ -23,14 +25,28 @@ import {
   }
 
  class SlotBooking extends Component {
-   /*
+   
     constructor(props) {
         super(props);
+        /* 
        this.state ={
         bookingDate: this.props.navigation.state.params.bookingDate
        }
+       */
       }
-    */
+    
+
+   state = {
+    serverData: [],
+    bookingDate: this.props.route.params.bookingDate, 
+    //specs_data: [{spec0: [], spec1: [], spec2: []}], 
+    screenHeight: 0,
+  };
+
+  onContentSizeChange = (contentWidth, contentHeight) => {
+		// Save the content height in state
+		this.setState({ screenHeight: contentHeight });
+	};
 
     _onPressBack(){
       const {goBack} = this.props.navigation
@@ -39,15 +55,60 @@ import {
 
   
     _bookSlot(status,key,value){
-      //const month = this.state.bookingDate.month
-      //const date = this.state.bookingDate.day
-      //const user = firebase.auth().currentUser
-      //const uid = user.uid
-      let userDataJson = {}
+      console.log(this.state.bookingDate)
+      const min = 0
+      const sec = 0
+      const month = this.state.bookingDate.month
+      const year = this.state.bookingDate.year
+      const date = this.state.bookingDate.day
+      var start_hour = 0
+      var end_hour = 0
+
+      if(key=0){
+        start_hour = 9
+        end_hour = 10
+      }
+      else if(key=1){
+        start_hour = 10
+        end_hour = 11
+      }
+      else if(key=2){
+        start_hour = 11
+        end_hour = 12
+      }
+      else if(key=3){
+        start_hour = 13
+        end_hour = 14
+      }
+      else if(key=4){
+        start_hour = 14
+        end_hour = 15
+      }
+      else if(key=5){
+        start_hour = 15
+        end_hour = 16
+      }
+     
+      var uid = ''
       if(status)
-      userDataJson[key] = 0
+      uid = global.userID
       else
-      userDataJson[key] = null
+      uid = '0'
+
+      axios
+			// .post("http://54.183.200.234:5000/patient/appointment", {
+			.post('http://10.0.2.2:5000/patient/appointment', {
+			  patientId: uid,
+        doctorId: '5f9bc47ffb8e8538dc0b5254',
+        start_time:  new Date(year, month, date, start_hour, min, sec),
+        end_time: new Date(year, month, date, end_hour, min, sec)
+			})
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err.response);
+			});
    
       //firebase.database().ref('users').child(uid).child("appointments").child(month).child(date).update(userDataJson)
     }
