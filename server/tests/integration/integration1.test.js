@@ -6,6 +6,8 @@ const supertest = require("supertest");
 const mongoose = require("mongoose");
 const express = require("express");
 const populateDB = require("../../utility/populatedb");
+const fillSymptomDB = require("../../utility/fillDiseaseDb");
+const fillSpecialtyDB = require("../../utility/fillSpecialtyDb");
 
 const patientRouter = require("../../routes/patientRoutes");
 
@@ -19,7 +21,7 @@ let doctors = [];
 let appointments = [];
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.DB_CONNECTION + "/stripetest", {
+  await mongoose.connect(process.env.DB_CONNECTION + "/integrationtest1", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -27,6 +29,8 @@ beforeAll(async () => {
   });
 
   const retval = await populateDB();
+  await fillSymptomDB();
+  await fillSpecialtyDB();
 
   if (retval !== null) {
     patients = retval.patients;
@@ -36,6 +40,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await mongoose.connection.dropCollection("symptoms");
+  await mongoose.connection.dropCollection("specialties");
   await mongoose.connection.dropCollection("users");
   await mongoose.connection.dropCollection("appointments");
   await mongoose.connection.dropDatabase();
@@ -57,4 +63,42 @@ test("User signs in and makes a payment intent", async () => {
 
   res = await supertest(app).post("/patient/pay").set("Cookie", cookie);
   expect(res.status).toBe(200);
+});
+
+/**
+ * User signs in, searches for a doctor, and then signs out
+ */
+test("User signs in, searches for doctor, then signs out", async () => {
+  let userFields = {
+    email: "maryjoe@gmail.com",
+    password: "password",
+  };
+  let res = await supertest(app).post("/patient/signin").send(userFields);
+  expect(res.status).toBe(200);
+  expect(res.body.user).toBe(patients[1]);
+  const cookie = res.headers["set-cookie"];
+
+  // send invalid symptoms first, expect error
+  res = await supertest(app).post("/patient/search").set("Cookie", cookie);
+  expect(res.status).toBe(400);
+
+  // send valid symptoms now
+  res = await supertest(app)
+    .post("/patient/search")
+    .set("Cookie", cookie)
+    .send({
+      symptoms: [
+        "pain chest",
+        "shortness of breath",
+        "asthenia",
+        "random symptom",
+      ],
+    });
+  expect(res.status).toBe(200);
+  expect(res.body["Family Medicine"][0].first_name).toBe("Ben");
+  expect(res.body["Family Medicine"][1].first_name).toBe("Bob");
+
+  res = await supertest(app).get("/patient/signout");
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Logout successful");
 });
