@@ -6,6 +6,7 @@ import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationEvents } from "react-navigation";
+import {Notifications} from 'react-native-notifications';
 
 
 
@@ -45,7 +46,14 @@ class Home extends Component {
 		})
 
 		if (global.age == 0 || global.rating == 0) {
-			alert("Don't forget to update your information on the Account Page in the Settings Tab.")
+			// alert("Don't forget to update your information on the Account Page in the Settings Tab.")
+			Notifications.postLocalNotification({
+				title: "Update Account Information",
+				body: "Don't forget to update your information on the Account Page in the Settings Tab.",
+				// sound: "chime.aiff",
+				silent: false,
+	
+			})
 		}
 	}
 
