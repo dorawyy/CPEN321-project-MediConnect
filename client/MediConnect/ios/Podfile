@@ -14,6 +14,12 @@ target 'MediConnect' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
+  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
+
+  pod 'react-native-notifications', :path => '../node_modules/react-native-notifications'
+
   target 'MediConnectTests' do
     inherit! :complete
     # Pods for testing

@@ -41,9 +41,9 @@ class PatientSignUp extends Component {
 	// }
 
 	async signup() {
-		axios.post("http://54.183.200.234:5000/patient/signup", {
-		// axios
-		// 	.post('http://10.0.2.2:5000/patient/signup', {
+		// axios.post("http://54.183.200.234:5000/patient/signup", {
+		axios
+			.post('http://10.0.2.2:5000/patient/signup', {
 				first_name: this.state.firstName,
 				last_name: this.state.lastName,
 				email: this.state.email,
@@ -51,7 +51,9 @@ class PatientSignUp extends Component {
 			})
 			.then((res) => {
 				console.log(res.data);
-				this.props.navigation.navigate('PatientHome');
+				global.userID = res.data.user;
+				console.log(global.userID); 
+				this.props.navigation.navigate('PatientHomeNavigator');
 			})
 			.catch((err) => {
 				console.log(err.response.data);

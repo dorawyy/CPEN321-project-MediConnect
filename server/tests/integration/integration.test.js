@@ -10,6 +10,7 @@ const Patient = require("../../models/patient");
 const Appointment = require("../../models/appointment");
 const populateDB = require("../../utility/populatedb");
 const fillSymptomDB = require("../../utility/fillDiseaseDb");
+const fillSpecialtyDB = require("../../utility/fillSpecialtyDb");
 
 const patientRouter = require("../../routes/patientRoutes");
 const doctorRouter = require("../../routes/doctorRoutes");
@@ -35,6 +36,7 @@ beforeAll(async () => {
 
   const retval = await populateDB();
   await fillSymptomDB();
+  await fillSpecialtyDB();
 
   if (retval !== null) {
     patients = retval.patients;
@@ -47,6 +49,7 @@ afterAll(async () => {
   await mongoose.connection.dropCollection("symptoms");
   await mongoose.connection.dropCollection("users");
   await mongoose.connection.dropCollection("appointments");
+  await mongoose.connection.dropCollection("specialties");
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
 });
@@ -262,7 +265,7 @@ test("User signs in, gets own info, tries to update, then deletes", async () => 
   // get all doctors
   res = await supertest(app).get("/doctor");
   expect(res.status).toBe(200);
-  expect(res.body.length).toBe(9);
+  expect(res.body.length).toBe(11);
   expect(res.body[0]._id).toBe(doctors[0]);
 
   // get own info, failure case
@@ -335,9 +338,8 @@ test("User signs in, searches for doctor, then signs out", async () => {
     .set("Cookie", cookie)
     .send({ symptoms: ["pain chest", "shortness of breath", "asthenia"] });
   expect(res.status).toBe(200);
-  expect(res.body.Oncology[0].first_name).toBe("Mickey");
-  expect(res.body.Oncology[1].first_name).toBe("Tor");
-  expect(res.body.Pulmonology[0].last_name).toBe("Lennon");
+  expect(res.body.Family_Medicine[0].first_name).toBe("Ben");
+  expect(res.body.Family_medicine[1].first_name).toBe("Bob");
 
   res = await supertest(app).get("/patient/signout");
   expect(res.status).toBe(200);

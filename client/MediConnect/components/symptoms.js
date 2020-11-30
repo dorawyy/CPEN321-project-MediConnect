@@ -64,16 +64,17 @@ class Symptoms extends Component {
 							onChangeText={this.handleSymptom}
 							required
 						/>
-						<TouchableOpacity style={styles.button} testID="report_button">
+						<TouchableOpacity style={styles.button} testID="report_button"
+							onPress={() => {
+								// const {symptom} = this.state;
+								// this.props.navigation.navigate('Doctors');
+								this.reportSymptom(
+									this.state.symptom,
+								)
+							}}
+						>
 							<Text
 								style={styles.buttonText}
-								onPress={() => {
-									// const {symptom} = this.state;
-									// this.props.navigation.navigate('Doctors');
-									this.reportSymptom(
-										this.state.symptom,
-									)
-								}}
 							>
 								Report Symptoms
 							</Text>

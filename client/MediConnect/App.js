@@ -25,11 +25,23 @@ import PatientHomePage from './components/patient_home';
 import SymptomsPage from './components/symptoms';
 import DoctorsPage from './components/doctor_result';
 import DoctorSettingsPage from './components/doctor_settings';
+import PatientSettingsPage from './components/patient_settings';
 import DoctorHomeNavigatorPage from './components/doctor_home_navigator';
+import PatientHomeNavigatorPage from './components/patient_home_navigator';
 import DoctorAppointmentsPage from './components/doctor_appointments';
+import PatientAppointmentsPage from './components/patient_appointments';
 import DoctorNotificationsPage from './components/doctor_notifications';
+import PatientNotificationsPage from './components/patient_notifications';
+import CreateAppointmentPage from './components/create_appointments';
+import DoctorEditAccountPage from './components/doctor_edit_account'; 
+import PatientEditAccountPage from './components/patient_edit_account'; 
+import PatientPaymentPage from './components/patient_payment'; 
 
-// export const SymptomsContext = React.createContext(); 
+
+import SlotBookingPage from './components/slot_booking';
+
+// import {UserContext} from './components/user_context';  
+
 
 const App: () => React$Node = () => {
 	return (
@@ -38,6 +50,7 @@ const App: () => React$Node = () => {
 		values={{
 			symptom: this.state.symptom
 		}}> */}
+		{/* <UserContext.Provider value={UserContext.user}> */}
 			<NavigationContainer>
 				<Stack.Navigator>
 					<Stack.Screen
@@ -91,8 +104,18 @@ const App: () => React$Node = () => {
 						options={{headerTitle: true}}
 					/>
 					<Stack.Screen
+						name="PatientSettings"
+						component={PatientSettingsPage}
+						options={{headerTitle: true}}
+					/>					
+					<Stack.Screen
 						name="DoctorHomeNavigator"
 						component={DoctorHomeNavigatorPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="PatientHomeNavigator"
+						component={PatientHomeNavigatorPage}
 						options={{headerTitle: false}}
 					/>
 					<Stack.Screen
@@ -101,13 +124,57 @@ const App: () => React$Node = () => {
 						options={{headerTitle: false}}
 					/>
 					<Stack.Screen
+						name="PatientAppointments"
+						component={PatientAppointmentsPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
 						name="DoctorNotifications"
 						component={DoctorNotificationsPage}
 						options={{headerTitle: false}}
 					/>
+					<Stack.Screen
+						name="PatientNotifications"
+						component={PatientNotificationsPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="CreateAppointment"
+						component={CreateAppointmentPage}
+						options={{headerTitle: false}}
+					/>
+					<Stack.Screen
+						name="DoctorEditAccount"
+						component={DoctorEditAccountPage}
+						options={{headerTitle: false}}
+					/>
+
+					<Stack.Screen
+						name="SlotBooking"
+						component={SlotBookingPage}
+						options={{headerTitle: false}}
+					/>
+
+					<Stack.Screen
+						name="PatientEditAccount"
+						component={PatientEditAccountPage}
+						options={{headerTitle: false}}
+					/>
+
+					<Stack.Screen
+						name="PatientPayment"
+						component={PatientPaymentPage}
+						options={{headerTitle: false}}
+					/>
+					
+
+					{/*  */}
+					
+					
 				</Stack.Navigator>
 			</NavigationContainer>
-		{/* </SymptomsContext.Provider> */}
+		{/* </UserContext.Provider> */}
+		{/* </SymptomsContext.Provider>*/}
 		</>
 	);
 };

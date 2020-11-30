@@ -1,6 +1,7 @@
 const fs = require("fs").promises;
 const Doctor = require("../models/doctor");
 const Symptom = require("../models/disease");
+const Specialty = require("../models/specialty");
 
 // map provided symptoms to related diseases
 const symptomToDisease = async (req, res) => {
@@ -21,8 +22,6 @@ const symptomToDisease = async (req, res) => {
 // map diseases to specializations
 const diseaseToSpecialization = async (diseases) => {
   // read temporary JSON file containing mappings of disease to specializations
-  const data = await fs.readFile(process.env.SPECIAL_FILE);
-  const specializations_list = JSON.parse(data);
   let specializations = {};
   let mostCommon = {
     common1: [0, undefined],
@@ -32,7 +31,9 @@ const diseaseToSpecialization = async (diseases) => {
 
   // for each possible disease, return the 3 most common specializations
   diseases.forEach((disease) => {
-    let specs = specializations_list[disease];
+    let specs = Specialty.findOne({ disease: disease });
+    specs = specs.specialty;
+
     // disease has no specialization match, continue to next disease
     if (!specs) return;
 
@@ -69,7 +70,6 @@ const diseaseToSpecialization = async (diseases) => {
 const findDoctor = async (req, res) => {
   try {
     const diseases = await symptomToDisease(req, res);
-
     const specializations = await diseaseToSpecialization(diseases);
 
     const sortedDocs = {};
