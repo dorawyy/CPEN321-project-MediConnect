@@ -52,13 +52,13 @@ class Doctors extends Component {
 		// console.log(this.state.specs);
 
 		return (
-			<ScrollView>
+			<ScrollView style={styles.scrollView}>
 				<View style={styles.container}>
 					<Text style={styles.header}>Doctors Found</Text>
 					<View>
 					{this.state.specs.map((spec, count) => (
-							<View style={styles.header} key={count}>
-								<Text>{spec}</Text>
+							<View key={count}>
+								<Text style={styles.spec}>Specialization {count+1} : {spec}</Text>
 								{this.state.specs_data[count].map((value, index) => (
 									<View style={styles.doctor} key={value.password}>
 										<Text style={styles.doctorinfo}>
@@ -104,8 +104,12 @@ const styles = StyleSheet.create({
 		padding: 30,
 	},
 
+	scrollView: {
+		backgroundColor: 'white'
+	},
+
 	header: {
-		color: '#02f0c8',
+		color: '#02d9b5',
 		fontSize: 20,
 	},
 
@@ -147,9 +151,18 @@ const styles = StyleSheet.create({
 
 	doctorinfo: {
 		fontFamily: 'Iowan Old Style',
-		color: 'black',
+		color: '#5c5c5c',
 		fontSize: 11,
 	},
+
+	spec: {
+		marginTop: 15,
+		fontFamily: 'Iowan Old Style',
+		fontSize: 15,
+		color: '#5c5c5c'
+
+
+	}
 });
 
 export default Doctors;
