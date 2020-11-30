@@ -10,27 +10,65 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 class DoctorAppointments extends Component {
 
+	
+
+
 	state = {
 		serverData: [],
 	}
 
-	componentDidMount = () => {
-		const uid = global.userID
-		axios
-			.get("http://54.183.200.234:5000/patient/appointment/" + uid, {
-			//.get("http://10.0.2.2:5000/patient/appointment" + uid, {
-			})
-			.then((res) => {
-				console.log(res.data);
-				this.setState({
-					serverData: res.data,
-				});
-			})
-			.catch((err) => {
-				console.log(err.response.data);
-			});
+	constructor(props) {
+		super(props);
+		this.state = {
+			serverData: []
+		};
+	}
+
+	onContentSizeChange = (contentWidth, contentHeight) => {
+		// Save the content height in state
+		this.setState({ screenHeight: contentHeight });
 	};
 
+	componentDidMount = () => {
+		const uid = global.userID
+		/*axios
+			//.get("http://54.183.200.234:5000/patient/appointment/" + uid, {
+			.post("http://10.0.2.2:5000/doctor/signin", {
+				//email: global.email,
+				email: "alexjones@gmail.com",
+				password: "12345678",
+				
+			})
+			.then((res) => {
+				const cookie = res.headers["set-cookie"];
+				console.log(cookie);
+		*/
+				   
+				axios
+				 .get("http://10.0.2.2:5000/patient/appointment/" + uid,
+				  {
+					
+				  },
+
+				  {
+					headers: {
+						//Accept: "application/json",
+						//"Content-Type": "application/json",
+					  	Cookie: global.jwt,
+					},
+				  }
+				)
+
+				.then((res) => {
+					console.log(res.data);
+					this.setState({
+						serverData: res.data,
+					});
+				}).catch((err) => console.log(err));
+			//}).catch((err) => console.log(err));		
+	};
+
+	
 
 	notif = () => {
 		LocalNotification();
@@ -40,26 +78,45 @@ class DoctorAppointments extends Component {
 	render() {
 
 		
+		if(this.state.serverData.appointments && this.state.serverData.appointments.length > 0){
+			return (
+				<ScrollView>
+					<View style={styles.container}>
+						<Text style={styles.header}>Appointments</Text>
+	
+							<View>
+								{this.state.serverData.map(serverData =><View style={styles.doctor} key={serverData.userkey}>
+								
+								{/*<Text style={styles.doctorinfo}>{'Patient Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
+									<Text style={styles.doctorinfo}>{'Patient Email: ' + serverData.email}</Text>
+									<Text style={styles.doctorinfo}>{'Booked Slot: ' + serverData.slot}</Text>
+								*/}
+								<Text style={styles.doctorinfo}>{'Appointment: ' + serverData.appointments}</Text>
+									
+								</View>)}
+									
+							</View>
+	
+					</View>
+				</ScrollView>
+				);
+		}
+
 		return (
-			<ScrollView>
-				<View style={styles.container}>
-					<Text style={styles.header}>Appointments</Text>
-
-						<View>
-							{this.state.serverData.map(serverData =><View style={styles.doctor} key={serverData.password}>
-							
-							<Text style={styles.doctorinfo}>{'Patient Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
-                   			<Text style={styles.doctorinfo}>{'Symptom: ' + serverData.symptom}</Text>
-                    		<Text style={styles.doctorinfo}>{'Patient Email: ' + serverData.email}</Text>
-                    		<Text style={styles.doctorinfo}>{'Appointment Date: ' + serverData.date}</Text>
-                    		<Text style={styles.doctorinfo}>{'Booked Slot: ' + serverData.slot}</Text>
-							
-							</View>)}	
-						</View>
-
-				</View>
-			</ScrollView>
-		);
+				<ScrollView>
+					<View style={styles.container}>
+						<Text style={styles.header}>Appointments</Text>
+	
+						<Text style={styles.body}>No appointments found</Text>
+	
+					</View>
+				</ScrollView>
+			);
+			
+			
+	
+		
+		
 	}
 }
 
@@ -81,6 +138,11 @@ const styles = StyleSheet.create({
 	header: {
 		color: '#02f0c8',
 		fontSize: 20,
+	},
+
+	body: {
+		color: 'black',
+		fontSize: 15,
 	},
 
 	icon: {
