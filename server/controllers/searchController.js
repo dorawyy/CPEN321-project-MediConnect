@@ -12,8 +12,10 @@ const symptomToDisease = async (req, res) => {
   // for each given symptom, get the corresponding disease from database
   for (const symptom of symptoms) {
     let diseaseList = await Symptom.findOne({ symptom: symptom });
-    diseaseList = diseaseList.disease;
-    if (diseaseList) diseases = diseases.concat(diseaseList);
+    if (diseaseList) {
+      diseaseList = diseaseList.disease;
+      diseases = diseases.concat(diseaseList);
+    }
   }
 
   return diseases;
@@ -30,14 +32,11 @@ const diseaseToSpecialization = async (diseases) => {
   };
 
   // for each possible disease, return the 3 most common specializations
-  diseases.forEach((disease) => {
-    let specs = Specialty.findOne({ disease: disease });
+  for (const disease of diseases) {
+    let specs = await Specialty.findOne({ disease: disease });
     specs = specs.specialty;
 
-    // disease has no specialization match, continue to next disease
-    if (!specs) return;
-
-    specs.forEach((spec) => {
+    for (const spec of specs) {
       if (specializations[spec]) {
         specializations[spec] += 1;
         let num = specializations[spec];
@@ -60,8 +59,8 @@ const diseaseToSpecialization = async (diseases) => {
           mostCommon.common3 = [1, spec];
         }
       }
-    });
-  });
+    }
+  }
 
   return [mostCommon.common1[1], mostCommon.common2[1], mostCommon.common3[1]];
 };
@@ -78,25 +77,23 @@ const findDoctor = async (req, res) => {
     // of decreasing ratings
     await Promise.all(
       specializations.map(async (specialization) => {
-        if (specialization) {
-          const verifiedDoc = [];
-          const unverifiedDoc = [];
+        const verifiedDoc = [];
+        const unverifiedDoc = [];
 
-          const doctors = await Doctor.find({
-            specialization: specialization,
-          }).sort({
-            rating: -1,
-          });
+        const doctors = await Doctor.find({
+          specialization: specialization,
+        }).sort({
+          rating: -1,
+        });
 
-          doctors.forEach((doctor) => {
-            if (doctor.verified) {
-              verifiedDoc.push(doctor);
-            } else {
-              unverifiedDoc.push(doctor);
-            }
-          });
-          sortedDocs[specialization] = verifiedDoc.concat(unverifiedDoc);
-        }
+        doctors.forEach((doctor) => {
+          if (doctor.verified) {
+            verifiedDoc.push(doctor);
+          } else {
+            unverifiedDoc.push(doctor);
+          }
+        });
+        sortedDocs[specialization] = verifiedDoc.concat(unverifiedDoc);
       })
     );
 

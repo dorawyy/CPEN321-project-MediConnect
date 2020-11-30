@@ -328,23 +328,27 @@ test("Expect specialization of Tor Aamodt to change from Oncology to Neurology a
     .put("/doctor/" + id)
     .send({
       specialization: "Neurology",
+      years_of_experience: 40,
     });
 
   var doc = await User.findById(id);
   expect(doc.specialization).toBe("Neurology");
   expect(doc.first_name).toBe("Tor");
   expect(doc.last_name).toBe("Aamodt");
+  expect(doc.rating).toBe(40);
 
   res = await supertest(app)
     .put("/doctor/" + id)
     .send({
       specialization: "Oncology",
+      verified: true,
     });
 
   doc = await User.findById(id);
   expect(doc.specialization).toBe("Oncology");
   expect(doc.first_name).toBe("Tor");
   expect(doc.last_name).toBe("Aamodt");
+  expect(doc.rating).toBe(80);
 });
 
 test("Expect no fields of Tor Aamodt to change when request body has incorrect field(s)", async () => {

@@ -6,9 +6,13 @@ const Schema = mongoose.Schema;
 const Patient = User.discriminator(
   "Patient",
   Schema({
-    gender: { type: String, enum: ["Female", "Male", "Other"] },
-    height: { type: Number },
-    weight: { type: Number },
+    gender: {
+      type: String,
+      default: "Other",
+      enum: ["Female", "Male", "Other"],
+    },
+    height: { type: Number, default: 0 },
+    weight: { type: Number, default: 0 },
   })
 );
 

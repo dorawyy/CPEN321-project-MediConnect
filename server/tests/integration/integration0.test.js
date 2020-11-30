@@ -7,10 +7,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const Doctor = require("../../models/doctor");
 const Patient = require("../../models/patient");
-const Appointment = require("../../models/appointment");
 const populateDB = require("../../utility/populatedb");
-const fillSymptomDB = require("../../utility/fillDiseaseDb");
-const fillSpecialtyDB = require("../../utility/fillSpecialtyDb");
 
 const patientRouter = require("../../routes/patientRoutes");
 const doctorRouter = require("../../routes/doctorRoutes");
@@ -27,7 +24,7 @@ let appointments = [];
 const nextYear = new Date().getFullYear() + 1;
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.DB_CONNECTION + "/integrationtest", {
+  await mongoose.connect(process.env.DB_CONNECTION + "/integrationtest0", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -35,8 +32,6 @@ beforeAll(async () => {
   });
 
   const retval = await populateDB();
-  await fillSymptomDB();
-  await fillSpecialtyDB();
 
   if (retval !== null) {
     patients = retval.patients;
@@ -46,10 +41,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.dropCollection("symptoms");
   await mongoose.connection.dropCollection("users");
   await mongoose.connection.dropCollection("appointments");
-  await mongoose.connection.dropCollection("specialties");
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
 });
@@ -140,6 +133,16 @@ test("User tries to sign in", async () => {
   };
   let res = await supertest(app).post("/patient/signin").send(userFields);
   expect(res.status).toBe(200);
+  const userID = res.body.user;
+  const userCookie = res.headers["set-cookie"];
+
+  res = await supertest(app)
+    .get(`/patient/${userID}`)
+    .set("Cookie", userCookie);
+  expect(res.status).toBe(200);
+  expect(res.body.gender).toBe("Other");
+  expect(res.body.height).toBe(0);
+  expect(res.body.weight).toBe(0);
 
   // password incorrect
   userFields = {
@@ -281,6 +284,7 @@ test("User signs in, gets own info, tries to update, then deletes", async () => 
     .set("Cookie", doctorCookie);
   expect(res.status).toBe(200);
   expect(res.body._id).toBe(doctors[0]);
+  expect(res.body.years_of_experience).toBe(20);
 
   newAge = res.body.age + 1;
   updateFields = {
@@ -307,43 +311,51 @@ test("User signs in, gets own info, tries to update, then deletes", async () => 
   expect(res.body._id).toBe(doctors[0]);
   expect(res.body.age).toBe(newAge);
 
+  updateFields = {
+    years_of_experience: 25,
+  };
+
+  res = await supertest(app)
+    .put(`/doctor/${doctors[0]}`)
+    .set("Cookie", doctorCookie)
+    .send(updateFields);
+  expect(res.status).toBe(200);
+
+  // get own info
+  res = await supertest(app)
+    .get(`/doctor/${doctors[0]}`)
+    .set("Cookie", doctorCookie);
+  expect(res.status).toBe(200);
+  expect(res.body._id).toBe(doctors[0]);
+  expect(res.body.years_of_experience).toBe(25);
+  expect(res.body.rating).toBe(50);
+
+  updateFields = {
+    years_of_experience: 30,
+    verified: false,
+  };
+
+  res = await supertest(app)
+    .put(`/doctor/${doctors[0]}`)
+    .set("Cookie", doctorCookie)
+    .send(updateFields);
+  expect(res.status).toBe(200);
+
+  // get own info
+  res = await supertest(app)
+    .get(`/doctor/${doctors[0]}`)
+    .set("Cookie", doctorCookie);
+  expect(res.status).toBe(200);
+  expect(res.body._id).toBe(doctors[0]);
+  expect(res.body.years_of_experience).toBe(30);
+  expect(res.body.rating).toBe(30);
+
   // unsuccessful delete account
   res = await supertest(app)
     .delete(`/doctor/${appointments[1]}`)
     .set("Cookie", doctorCookie);
   expect(res.status).toBe(400);
   expect(res.body.doctor).toBe("Doctor account doesn't exist");
-});
-
-/**
- * User signs in, searches for a doctor, and then signs out
- */
-test("User signs in, searches for doctor, then signs out", async () => {
-  let userFields = {
-    email: "maryjoe@gmail.com",
-    password: "password",
-  };
-  let res = await supertest(app).post("/patient/signin").send(userFields);
-  expect(res.status).toBe(200);
-  expect(res.body.user).toBe(patients[1]);
-  const cookie = res.headers["set-cookie"];
-
-  // send invalid symptoms first, expect error
-  res = await supertest(app).post("/patient/search").set("Cookie", cookie);
-  expect(res.status).toBe(400);
-
-  // send valid symptoms now
-  res = await supertest(app)
-    .post("/patient/search")
-    .set("Cookie", cookie)
-    .send({ symptoms: ["pain chest", "shortness of breath", "asthenia"] });
-  expect(res.status).toBe(200);
-  expect(res.body.Family_Medicine[0].first_name).toBe("Ben");
-  expect(res.body.Family_medicine[1].first_name).toBe("Bob");
-
-  res = await supertest(app).get("/patient/signout");
-  expect(res.status).toBe(200);
-  expect(res.body.message).toBe("Logout successful");
 });
 
 /**

@@ -37,6 +37,7 @@ const UserSchema = new Schema(
     },
     age: {
       type: Number,
+      default: 0,
       // required: true,
       min: [0, "Age must be at least 0"],
     },
