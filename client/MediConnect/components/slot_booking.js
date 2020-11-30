@@ -40,6 +40,7 @@ import {
     serverData: [],
     bookingDate: this.props.route.params.bookingDate, 
     //specs_data: [{spec0: [], spec1: [], spec2: []}], 
+    //bookingDate: this.props.navigation.state.params.bookingDate,
     screenHeight: 0,
   };
 
@@ -58,7 +59,7 @@ import {
       console.log(this.state.bookingDate)
       const min = 0
       const sec = 0
-      const month = this.state.bookingDate.month
+      const month = this.state.bookingDate.month-1
       const year = this.state.bookingDate.year
       const date = this.state.bookingDate.day
       var start_hour = 0

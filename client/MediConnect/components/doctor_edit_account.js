@@ -113,19 +113,25 @@ class DoctorEditAccount extends Component {
           }, {
             value: 'Colon and Rectal Surgery',
           }, {
+            value: 'Cardiology',
+          }, {
             value: 'Dermatology',
           }, {
             value: 'ENT',
           }, {
             value: 'Emergency Medicine',
           }, {
-            value: 'Family Medicine',
+            value: 'General and Family Medicine',
           }, {
+            value: 'General Surgery',
+          },{
             value: 'Internal Medicine',
           }, {
             value: 'Medical Genetics and Genomics',
           }, {
-            value: 'Neurology',
+            value: 'Neurology and Psychiatry',
+          }, {
+            value: 'Nuclear Medicine',
           }, {
             value: 'Obstetrics and Gynecology',
           }, {
@@ -136,6 +142,12 @@ class DoctorEditAccount extends Component {
             value: 'Pathology',
           }, {
             value: 'Pediatrics',
+          }, {
+            value: 'Physical Medicine and Rehabilitation',
+          }, {
+            value: 'Plastic Surgery',
+          }, {
+            value: 'Preventative Medicine',
           }, {
             value: 'Radiology',
           }, {
