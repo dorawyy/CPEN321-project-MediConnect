@@ -2,11 +2,13 @@
 import React from 'react';
 import 'react-native-paper';
 import {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationEvents } from "react-navigation";
 import {Notifications} from 'react-native-notifications';
+import {Calendar} from 'react-native-calendars';
+
 
 
 
@@ -34,6 +36,7 @@ class Home extends Component {
 			age: 0,
 			specialization: '',
 			years_of_experience: 0,
+			appointmentDates: [null],
 		};	
 		// this will fire every time Page 1 receives navigation focus
 		this.props.navigation.addListener('focus', () => {
@@ -55,6 +58,14 @@ class Home extends Component {
 	
 			})
 		}
+
+		var dates = ['2020-11-03', '2020-11-29', '2020-11-17']; 
+		// var obj = Object.assign(...this.state.appointmentDates.map(o => ({[o]: {selected: true}})));
+
+		var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
+
+		this.state.appointmentDates = obj; 
+		// console.log(this.state.appointmentDates)
 	}
 
 		
@@ -89,17 +100,13 @@ class Home extends Component {
 	// 	})); 
 	// }
 
-	refresh() {
-		this.forceUpdate(); 
-	}
-	
-
 	render() {
 
 		console.log(global.first_name); 
 
 		return (
 			// <Header forceUpdate={this.forceUpdate}>
+			<ScrollView>
 			<View testID="homepage" style={styles.container}>
 				<View style={styles.welcome} >
 					<View style={styles.welcomeImage} ><Image source={require('../assets/logo.png')} /></View>
@@ -112,12 +119,12 @@ class Home extends Component {
 						<Text style={styles.welcomeText}>Welcome, {global.first_name} {global.last_name}!</Text>
 					</LinearGradient>
 				</View>
+				<View style={styles.header}>
+					<Icon style={styles.icon} name="user" size={25} color={'#5c5c5c'} />
+					<Text style={styles.headerText}>Account Details</Text>
+				</View>
 				<View style={styles.infobox}>
 					<View>
-						<View style={styles.accountHeader}>
-							<Icon style={styles.icon} name="user" size={30} color={'#5c5c5c'} />
-							<Text style={styles.accountHeaderText}>Account Details</Text>
-						</View>
 						{/* <Text style={styles.text}>First Name : {global.first_name}</Text>
 						<Text style={styles.text}>Last Name : {global.last_name}</Text> */}
 						<Text style={styles.text}>Age : {global.age} years</Text>
@@ -129,8 +136,27 @@ class Home extends Component {
 
 					</View>
 				</View>
+				<View style={styles.header}>
+						<Icon style={styles.icon} name="calendar" size={25} color={'#5c5c5c'} />
+						<Text style={styles.headerText}>Upcoming Appointments</Text>
+				</View>
+				<View style={styles.appointmentsContainer}>
+					<Calendar
+						// onDayPress={this.onDayPress}
+						style={styles.calendar}
+						hideExtraDays
+						markedDates={this.state.appointmentDates}
+						theme={{
+						selectedDayBackgroundColor: '#02d9b5',
+						todayTextColor: '#02d9b5',
+						arrowColor: '#02d9b5',
+						}}
+					/>
+					
+				</View>
+
 			</View>
-			// </Header>
+			</ScrollView>
 		);
 	}
 }
@@ -149,7 +175,7 @@ const styles = StyleSheet.create({
 	welcome: {
 		width: '100%', 
 		height: 220, 
-		marginBottom: 10, 
+		// marginBottom: 10, 
 		marginTop: 10, 
 	},
 
@@ -184,6 +210,7 @@ const styles = StyleSheet.create({
 		elevation: 8,
 		width: 330,
 		padding: 20,
+		marginBottom: 10,
 	},
 
 	button: {
@@ -241,12 +268,15 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 
-	accountHeader: {
+	header: {
 		flexDirection: 'row',
 		paddingBottom: 10, 
+		marginTop: 20,
+		width: '100%', 
+		paddingLeft: 40, 
 	}, 
 
-	accountHeaderText: {
+	headerText: {
 		fontSize: 20,
 		fontFamily: 'Iowan Old Style',
 		color: '#5c5c5c'
@@ -254,6 +284,19 @@ const styles = StyleSheet.create({
 
 	icon: {
 		paddingRight: 10, 
+	},
+
+	calendar: {
+        borderTopWidth: 1,
+        paddingTop: 5,
+        borderBottomWidth: 1,
+        borderColor: '#eee',
+        height: 350
+	},
+	
+	appointmentsContainer: {
+		marginTop: 20
+
 	}
 });
 

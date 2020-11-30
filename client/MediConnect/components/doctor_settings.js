@@ -32,14 +32,14 @@ class DoctorSettings extends Component {
 							<Text style={styles.optionText}>Account</Text>
 						</TouchableOpacity>
 					</View>
-					<View>
+					{/* <View>
 						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('DoctorNotifications')}>
 							<View style={styles.icon}>
 								<Icon name="bell" size={30} color={'#5c5c5c'} />
 							</View>
 							<Text style={styles.optionText}>Notifications</Text>
 						</TouchableOpacity>
-					</View>
+					</View> */}
 					<View>
 						<TouchableOpacity style={styles.option}>
 							<View style={styles.icon}>
