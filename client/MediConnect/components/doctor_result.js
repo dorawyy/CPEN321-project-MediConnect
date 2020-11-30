@@ -28,13 +28,13 @@ class Doctors extends Component {
 		axios
 			// .get("http://54.183.200.234:5000/patient/search", {
 			.post('http://10.0.2.2:5000/patient/search', {
-				params: {
+				// params: {
 					symptoms: [this.props.route.params.symptoms],
-				},
+				// },
 			})
 			.then((res) => {
 				console.log("hi")
-				console.log(res);
+				console.log(res.data);
 				this.setState({
 					specs: Object.keys(res.data),
 					specs_data: Object.values(res.data),				
@@ -57,7 +57,7 @@ class Doctors extends Component {
 					<Text style={styles.header}>Doctors Found</Text>
 					<View>
 					{this.state.specs.map((spec, count) => (
-							<View style={styles.header} key={spec.password}>
+							<View style={styles.header} key={count}>
 								<Text>{spec}</Text>
 								{this.state.specs_data[count].map((value, index) => (
 									<View style={styles.doctor} key={value.password}>

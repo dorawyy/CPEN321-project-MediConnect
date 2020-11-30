@@ -102,8 +102,6 @@ class Home extends Component {
 
 	render() {
 
-		console.log(global.first_name); 
-
 		return (
 			// <Header forceUpdate={this.forceUpdate}>
 			<ScrollView>
