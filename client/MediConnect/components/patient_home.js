@@ -1,7 +1,7 @@
 import React from 'react';
 import 'react-native-paper';
 import {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import axios from 'axios';
 import { NavigationEvents } from "react-navigation";
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,6 +16,9 @@ class PatientHome extends Component {
 			last_name: '',
 			email: '',
 			age: 0,
+			gender: '', 
+			weight: 0, 
+			height: 0, 
 		};	
 		// this will fire every time Page 1 receives navigation focus
 		this.props.navigation.addListener('focus', () => {
@@ -23,6 +26,9 @@ class PatientHome extends Component {
 			this.setState({last_name: global.last_name});
 			this.setState({email: global.email});
 			this.setState({age: global.age});
+			this.setState({gender: global.gender});
+			this.setState({weight: global.weight});
+			this.setState({height: global.height});
 		})
 	}
 
@@ -33,6 +39,7 @@ class PatientHome extends Component {
 	render() {
 		console.log(global.first_name); 
 		return (
+			// <ScrollView>
 			<View testID="homepage" style={styles.container}>
 				<View style={styles.welcome} >
 					<View style={styles.welcomeImage} ><Image source={require('../assets/logo.png')} /></View>
@@ -53,8 +60,12 @@ class PatientHome extends Component {
 						</View>
 						{/* <Text style={styles.text}>First Name : {global.first_name}</Text>
 						<Text style={styles.text}>Last Name : {global.last_name}</Text> */}
-						<Text style={styles.text}>Age : {global.age} years</Text>
 						<Text style={styles.text}>Email : {global.email}</Text>
+						<Text style={styles.text}>Age : {global.age} years</Text>
+						<Text style={styles.text}>Gender : {global.gender}</Text>
+						<Text style={styles.text}>Height : {global.height} cm</Text>
+						<Text style={styles.text}>Weight : {global.weight} kg</Text>
+
 					</View>
 				</View>
 				<TouchableOpacity style={styles.button}>
@@ -66,6 +77,7 @@ class PatientHome extends Component {
 					</Text>
 				</TouchableOpacity>
 			</View>
+			// </ScrollView>
 		);
 	}
 }

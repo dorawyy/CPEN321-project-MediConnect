@@ -73,7 +73,7 @@ class PatientEditAccount extends Component {
 
 		axios
 			// .put("http://54.183.200.234:5000/patient/search", {
-			.put('http://10.0.2.2:5000/doctor/' + global.userID, {
+			.put('http://10.0.2.2:5000/patient/' + global.userID, {
 				// params: {
                     first_name: this.state.first_name,
                     last_name: this.state.last_name,
@@ -165,7 +165,7 @@ class PatientEditAccount extends Component {
                 </View>
 
                 <View style={styles.field}>
-                    <Text style={styles.header}>Height</Text>
+                    <Text style={styles.header}>Height (cm)</Text>
                     <TextInput
                         style={styles.text}
                         underlineColorAndroid="gray"
@@ -177,7 +177,7 @@ class PatientEditAccount extends Component {
                 </View>
 
                 <View style={styles.field}>
-                    <Text style={styles.header}>Weight</Text>
+                    <Text style={styles.header}>Weight (kg)</Text>
                     <TextInput
                         style={styles.text}
                         underlineColorAndroid="gray"

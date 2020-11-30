@@ -57,10 +57,10 @@ class PatientSignIn extends Component {
 		// axios.post("http://54.183.200.234:5000/patient/signin", {
 		axios
 			.post('http://10.0.2.2:5000/patient/signin', {
-				// email: this.state.email,
-				// password: this.state.password,
-				email: 'p@gmail.com',
-				password: '12345678',
+				email: this.state.email,
+				password: this.state.password,
+				// email: 'p@gmail.com',
+				// password: '12345678',
 			})
 			.then((res) => {
 				console.log(res.data);
@@ -91,10 +91,13 @@ class PatientSignIn extends Component {
 
 	async getUserInfo() {
 
+		console.log("in get user info")
+
 		axios.get('http://10.0.2.2:5000/patient/' + global.userID, {
 
 		})
 		.then((res) => {
+			console.log("Getting patient data")
 			console.log(res.data); 
 			global.first_name = res.data.first_name; 
 			global.last_name = res.data.last_name; 
