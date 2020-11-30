@@ -49,6 +49,15 @@ class StartUp extends Component {
 					</Text>
 				</TouchableOpacity>
 
+				<TouchableOpacity style={styles.button}>
+					<Text
+						style={styles.buttonText}
+						onPress={() => this.props.navigation.navigate('PatientNotifications')}
+					>
+						Notifs Test
+					</Text>
+				</TouchableOpacity>
+
 
 
 

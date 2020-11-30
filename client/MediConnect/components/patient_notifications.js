@@ -3,6 +3,9 @@ import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {CheckBox} from 'react-native-elements';
+// import PushNotification from 'react-native-push-notification'; 
+import {Notifications} from 'react-native-notifications';
+
 
 class PatientNotifications extends Component {
 	constructor(props) {
@@ -10,6 +13,28 @@ class PatientNotifications extends Component {
 		this.state = {
 			isTaskDone: props.checked,
 		};
+
+
+		// PushNotification.configure({
+		// 	// (optional) Called when Token is generated (iOS and Android)
+		// 	onRegister: function (token) {
+		// 	  console.log("TOKEN:", token);
+		// 	},
+		  
+		// 	// (required) Called when a remote is received or opened, or local notification is opened
+		// 	onNotification: function (notification) {
+		// 	  console.log("NOTIFICATION:", notification);
+		// 	},
+
+		// 	permissions: {
+		// 		alert: true,
+		// 		badge: true,
+		// 		sound: true,
+		// 	  },
+		  
+		// 	popInitialNotification: true,
+		// 	requestPermissions: Platform.OS === 'ios'
+		//   });
 	}
 
 	switchTaskDone = () => {
@@ -17,6 +42,20 @@ class PatientNotifications extends Component {
 			isTaskDone: !this.state.isTaskDone,
 		});
 	};
+
+	testNotif = () => {
+		console.log("Inside test notif")
+		// PushNotification.localNotification({
+		// 	title: "My Notification Title", // (optional)
+		// 	message: "My Notification Message", // (required)
+		//   });
+		Notifications.postLocalNotification({
+			title: "Local notification",
+			body: "hey notif!",
+			sound: "chime.aiff",
+
+		})
+	}
 
 	render() {
 		return (
@@ -104,7 +143,12 @@ class PatientNotifications extends Component {
 				<TouchableOpacity style={styles.button}>
 					<Text style={styles.buttonText}>Delete</Text>
 				</TouchableOpacity>
+
+				<TouchableOpacity style={styles.button} onPress={()=>this.testNotif()}>
+					<Text style={styles.buttonText}>test notifffssssssss</Text>
+				</TouchableOpacity>
 			</View>
+			
 		);
 	}
 }
