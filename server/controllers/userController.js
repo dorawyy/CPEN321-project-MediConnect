@@ -7,6 +7,7 @@ const Patient = require("../models/patient");
 const Doctor = require("../models/doctor");
 const User = require("../models/user");
 const { handleErrors } = require("../middleware/errMiddleware");
+const { update } = require("../models/user");
 
 /*
  * Common functions for all users (patients and doctors), the type of user
@@ -37,12 +38,21 @@ const getUserById = async (req, res) => {
 // Put user by id
 const putUserById = async (req, res, model) => {
   const id = req.params.id;
+  const updateFields = req.body;
 
   try {
     const user = await User.findById(id);
     if (!user) throw Error("Invalid user ID");
 
-    await model.findByIdAndUpdate(id, req.body, { runValidators: true });
+    if (!("verified" in updateFields)) {
+      updateFields.verified = user.verified;
+    }
+
+    if (!("years_of_experience" in updateFields)) {
+      updateFields.years_of_experience = user.years_of_experience;
+    }
+
+    await model.findByIdAndUpdate(id, updateFields, { runValidators: true });
     res.status(200).json({ user: id });
   } catch (err) {
     const errors = handleErrors(err);

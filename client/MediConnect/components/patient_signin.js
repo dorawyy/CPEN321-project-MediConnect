@@ -103,6 +103,7 @@ class PatientSignIn extends Component {
 			global.email = res.data.email; 
 			global.gender = res.data.gender; 
 			global.weight = res.data.weight; 
+			global.height = res.data.height; 
 
 
 			// console.log(res.data); 

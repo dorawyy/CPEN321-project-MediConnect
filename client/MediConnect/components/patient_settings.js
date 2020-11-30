@@ -32,14 +32,14 @@ class PatientSettings extends Component {
 							<Text style={styles.optionText}>Account</Text>
 						</TouchableOpacity>
 					</View>
-					<View>
+					{/* <View>
 						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('PatientNotifications')}>
 							<View style={styles.icon}>
 								<Icon name="bell" size={30} color={'#5c5c5c'} />
 							</View>
 							<Text style={styles.optionText}>Notifications</Text>
 						</TouchableOpacity>
-					</View>
+					</View> */}
 					<View>
 						<TouchableOpacity style={styles.option}>
 							<View style={styles.icon}>
@@ -88,7 +88,9 @@ const styles = StyleSheet.create({
 
 	container: {
 		padding: 30,
-		backgroundColor: 'white'
+		backgroundColor: 'white',
+		width: '100%',
+		height: '100%',
 	},
 
 	icon: {

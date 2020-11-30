@@ -6,7 +6,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import PatientSettingsPage from './patient_settings'; 
 import PatientHome from './patient_home';
 import PatientAppointments from './patient_appointments';
-import DoctorNotifications from './doctor_notifications';
+import PatientNotifications from './patient_notifications';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -21,7 +21,7 @@ class PatientHomeNavigator extends Component {
 		return (
 			<Tab.Navigator
 			initialRouteName="Home"
-			activeColor="#00aea2"
+			activeColor='#02d9b5'
 			inactiveColor="#95a5a6"
 			labeled={false}
 			shifting={true}
@@ -52,7 +52,7 @@ class PatientHomeNavigator extends Component {
 				/>
 				<Tab.Screen
 					name="Notifications"
-					component={DoctorNotifications}
+					component={PatientNotifications}
 					options={{
 						tabBarLabel: 'Notifications',
 						tabBarIcon: ({color}) => (

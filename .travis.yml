@@ -4,7 +4,6 @@ before_script:
   - cd server
   - npm install
   - sudo systemctl start mongod
-  - node populatedb.js mongodb://localhost:27017
 script:
   - npm test --coverage
 

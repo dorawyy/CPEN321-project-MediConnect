@@ -17,5 +17,13 @@ global.gender = '';
 
 
 global.weight = '78'; 
+global.height = '78'; 
+
+// global.line1 = '';
+// global.line2 =  '';
+// global.city = ''; 
+// global.state = '';
+// global.country = '';
+// global.postalCode = '';
 
 // export const UserContext = React.createContext();

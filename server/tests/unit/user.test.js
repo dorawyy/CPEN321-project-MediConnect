@@ -50,6 +50,8 @@ afterAll(async () => {
 });
 
 test("Expect to get all patients when making request to get a list of all patients (no mocking)", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const res = await supertest(app).get("/patient/");
   expect(res.body.length).toBe(8);
   res.body.forEach((item) => {
@@ -62,8 +64,10 @@ test("Expect to get all patients when making request to get a list of all patien
 });
 
 test("Expect to get all doctors when making request to get a list of all doctors (no mocking)", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const res = await supertest(app).get("/doctor/");
-  expect(res.body.length).toBe(8);
+  expect(res.body.length).toBe(10);
   res.body.forEach((item) => {
     expect(item.userkey).toBe("Doctor");
     expect(item.age).toBeGreaterThanOrEqual(0);
@@ -88,7 +92,16 @@ test("Expect to get patient with name John Smith when requesting patient with ce
 });
 
 test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const res = await supertest(app).get("/patient/vvvvvvvvvvvvvvvvvvvvvvvv");
+  expect(res.status).toBe(400);
+});
+
+test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  const res = await supertest(app).get("/patient/eeeeeeeeeeeeeeeeeeeeeeee");
   expect(res.status).toBe(400);
 });
 
@@ -113,7 +126,16 @@ test("Expect to get error (denoted by 400 status) when the id is incorrect", asy
   expect(res.status).toBe(400);
 });
 
+test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  const res = await supertest(app).get("/doctor/eeeeeeeeeeeeeeeeeeeeeeee");
+  expect(res.status).toBe(400);
+});
+
 test("Expect to get list of patients with 1 item when making request to get a list of all patients", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const getUserMock = jest.fn(async (req, res, model) =>
     model === Doctor
       ? res.status(200).json([])
@@ -152,6 +174,8 @@ test("Expect to get list of patients with 1 item when making request to get a li
 });
 // comment for travis ci
 test("Expect to get no doctors when making request to get a list of all doctors", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
   const getUserMock = jest.fn(async (req, res, model) =>
     model === Doctor
       ? res.status(200).json([])
@@ -183,6 +207,42 @@ test("Expect to get no doctors when making request to get a list of all doctors"
   const res = await supertest(app).get("/doctor/");
   expect(res.body.length).toBe(0);
   expect(getUserMock.mock.calls.length).toBe(1);
+});
+
+test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  const res = await supertest(app)
+    .put("/patient/eeeeeeeeeeeeeeeeeeeeeeee")
+    .send({ age: 30 });
+  expect(res.status).toBe(400);
+});
+
+test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  const res = await supertest(app)
+    .put("/patient/rrrrrrrrrrrrrrrrrrrrrrrr")
+    .send({ age: 30 });
+  expect(res.status).toBe(400);
+});
+
+test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  const res = await supertest(app)
+    .put("/doctor/eeeeeeeeeeeeeeeeeeeeeeee")
+    .send({ age: 30 });
+  expect(res.status).toBe(400);
+});
+
+test("Expect to get error (denoted by 400 status) when the id is incorrect", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  const res = await supertest(app)
+    .put("/doctor/rrrrrrrrrrrrrrrrrrrrrrrr")
+    .send({ age: 30 });
+  expect(res.status).toBe(400);
 });
 
 test("Expect weight of Lucy Stank to change from 40 to 50 and then back to 40", async () => {
@@ -268,23 +328,27 @@ test("Expect specialization of Tor Aamodt to change from Oncology to Neurology a
     .put("/doctor/" + id)
     .send({
       specialization: "Neurology",
+      years_of_experience: 40,
     });
 
   var doc = await User.findById(id);
   expect(doc.specialization).toBe("Neurology");
   expect(doc.first_name).toBe("Tor");
   expect(doc.last_name).toBe("Aamodt");
+  expect(doc.rating).toBe(40);
 
   res = await supertest(app)
     .put("/doctor/" + id)
     .send({
       specialization: "Oncology",
+      verified: true,
     });
 
   doc = await User.findById(id);
   expect(doc.specialization).toBe("Oncology");
   expect(doc.first_name).toBe("Tor");
   expect(doc.last_name).toBe("Aamodt");
+  expect(doc.rating).toBe(80);
 });
 
 test("Expect no fields of Tor Aamodt to change when request body has incorrect field(s)", async () => {
@@ -327,15 +391,42 @@ test("Expect Lucy Stank to get deleted from the database", async () => {
   });
 });
 
-test("Expect no patient to get deleted. Error is thrown (denoted by status 400) because of invalid id", async () => {
+test("Expect Patient John Smith to get deleted from the database", async () => {
   requireAuth.mockImplementation((req, res, next) => next());
 
-  const id = patients[4];
+  const id = patients[0];
+
+  const doctorsList = await Doctor.find();
 
   const res = await supertest(app).delete("/patient/" + id);
 
   const patientsList = await Patient.find();
-  expect(patientsList.length).toBe(7);
+  expect(patientsList.length).toBe(6);
+  patientsList.forEach((patient) => {
+    expect(patient._id).not.toBe(id);
+  });
+  doctorsList.forEach((doctor) => {
+    expect(doctor.appointments).not.toContain(id);
+  });
+});
+
+test("Expect no patient to get deleted. Error is thrown (denoted by status 400) because of invalid id", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  let id = patients[4];
+
+  let res = await supertest(app).delete("/patient/" + id);
+
+  let patientsList = await Patient.find();
+  expect(patientsList.length).toBe(6);
+  expect(res.status).toBe(400);
+
+  id = patients[0];
+
+  res = await supertest(app).delete("/patient/" + id);
+
+  patientsList = await Patient.find();
+  expect(patientsList.length).toBe(6);
   expect(res.status).toBe(400);
 });
 
@@ -349,7 +440,26 @@ test("Expect Tor Aamodt to get deleted from the database", async () => {
   const res = await supertest(app).delete("/doctor/" + id);
 
   const doctorsList = await Doctor.find();
-  expect(doctorsList.length).toBe(7);
+  expect(doctorsList.length).toBe(9);
+  doctorsList.forEach((doctor) => {
+    expect(doctor._id).not.toBe(id);
+  });
+  patientsList.forEach((patient) => {
+    expect(patient.appointments).not.toContain(id);
+  });
+});
+
+test("Expect Alex Jones to get deleted from the database", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  const id = doctors[0];
+
+  const patientsList = await Patient.find();
+
+  const res = await supertest(app).delete("/doctor/" + id);
+
+  const doctorsList = await Doctor.find();
+  expect(doctorsList.length).toBe(8);
   doctorsList.forEach((doctor) => {
     expect(doctor._id).not.toBe(id);
   });
@@ -361,11 +471,19 @@ test("Expect Tor Aamodt to get deleted from the database", async () => {
 test("Expect no doctor to get deleted. Error is thrown (denoted by status 400) because of invalid id", async () => {
   requireAuth.mockImplementation((req, res, next) => next());
 
-  const id = doctors[4];
+  let id = doctors[4];
 
-  const res = await supertest(app).delete("/doctor/" + id);
+  let res = await supertest(app).delete("/doctor/" + id);
 
-  const doctorsList = await Patient.find();
-  expect(doctorsList.length).toBe(7);
+  let doctorsList = await Doctor.find();
+  expect(doctorsList.length).toBe(8);
+  expect(res.status).toBe(400);
+
+  id = doctors[0];
+
+  res = await supertest(app).delete("/doctor/" + id);
+
+  doctorsList = await Doctor.find();
+  expect(doctorsList.length).toBe(8);
   expect(res.status).toBe(400);
 });
