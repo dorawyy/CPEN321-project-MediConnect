@@ -237,6 +237,10 @@ import {
       fontSize: 20,
       padding:10
     },
+    field: {
+      paddingBottom: 10, 
+
+    },
     button: {
       alignItems: 'center',
       justifyContent: 'center',

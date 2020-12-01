@@ -9,6 +9,8 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
+import { Dropdown } from 'react-native-material-dropdown';
+import {LogBox} from 'react-native';
 
 // export const SymptomsContext = React.createContext(); 
 
@@ -46,6 +48,54 @@ class Symptoms extends Component {
 	};
 
 	render() {
+		let data = [{
+            value: 'pain chest',
+          }, {
+            value: 'shortness of breath',
+          }, {
+            value: 'dizziness',
+          }, {
+            value: 'asthenia',
+          }, {
+            value: 'fall',
+          }, {
+            value: 'syncope',
+          }, {
+            value: 'vertigo',
+          }, {
+            value: 'sweat',
+          }, {
+            value: 'palpitation',
+          },{
+            value: 'nausea',
+          }, {
+            value: 'angina pectoris',
+          }, {
+            value: 'pressure chest',
+          }, {
+            value: 'polyuria',
+          }, {
+            value: 'polydypsia',
+          }, {
+            value: 'orthopnea',
+          }, {
+            value: 'unresponsiveness',
+          }, {
+            value: 'mental status changes',
+          }, {
+            value: 'vomiting',
+          }, {
+            value: 'labored breathing',
+          }, {
+            value: 'feeling suicidal',
+          }, {
+            value: 'suicidal',
+          }, {
+            value: 'hallucinations auditory',
+          }, {
+            value: 'blackout',
+		  }];
+		  
 		return (
 			// <SymptomsContext.Provider
 			// values={{
@@ -55,7 +105,22 @@ class Symptoms extends Component {
 				<View style={styles.container}>
 					<View>
 						<Text style={styles.header}>Enter Your Symptom Here</Text>
-						<TextInput
+
+						<Dropdown
+                    	label='Symptoms'
+                    	data={data}
+                    	useNativeDriver={true}
+                    	onChangeText={
+                      
+                      		(value) => {
+                        	LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
+                       		this.setState({
+                       		symptom: value }
+                      		);
+                       		}}
+                    	/>
+
+						{/*<TextInput
 							testID="report_symptoms_text"
 							style={styles.text}
 							underlineColorAndroid="gray"
@@ -63,7 +128,8 @@ class Symptoms extends Component {
 							autoCapitalize="none"
 							onChangeText={this.handleSymptom}
 							required
-						/>
+						/>*/}
+
 						<TouchableOpacity style={styles.button} testID="report_button"
 							onPress={() => {
 								// const {symptom} = this.state;
