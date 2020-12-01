@@ -77,20 +77,20 @@ class DoctorAppointments extends Component {
 
 	render() {
 
-		
-		if(this.state.serverData.appointments && this.state.serverData.appointments.length > 0){
+		console.log(this.state.serverData.appointments)
+		if(this.state.serverData && this.state.serverData.length > 0){
 			return (
 				<ScrollView>
 					<View style={styles.container}>
 						<Text style={styles.header}>Appointments</Text>
 	
 							<View>
-								{this.state.serverData.map(serverData =><View style={styles.doctor} key={serverData.userkey}>
+								{this.state.serverData.appointments.map(serverData =><View style={styles.doctor}>
 								
-								{/*<Text style={styles.doctorinfo}>{'Patient Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
-									<Text style={styles.doctorinfo}>{'Patient Email: ' + serverData.email}</Text>
-									<Text style={styles.doctorinfo}>{'Booked Slot: ' + serverData.slot}</Text>
-								*/}
+								<Text style={styles.doctorinfo}>{'Patient Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
+								<Text style={styles.doctorinfo}>{'Patient Email: ' + serverData.email}</Text>
+								<Text style={styles.doctorinfo}>{'Booked Slot: ' + serverData.slot}</Text>
+								
 								<Text style={styles.doctorinfo}>{'Appointment: ' + serverData.appointments}</Text>
 									
 								</View>)}

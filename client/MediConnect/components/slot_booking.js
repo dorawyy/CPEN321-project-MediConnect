@@ -154,7 +154,8 @@ import {
         }
 			})
 			.catch((err) => {
-				console.log(err.response);
+        console.log(err.response);
+        alert('Appointment couldnt be booked.')
 			});
    
       //firebase.database().ref('users').child(uid).child("appointments").child(month).child(date).update(userDataJson)

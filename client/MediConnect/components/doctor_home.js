@@ -65,7 +65,7 @@ class Home extends Component {
 		var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
 
 		this.state.appointmentDates = obj; 
-		// console.log(this.state.appointmentDates)
+		console.log(this.state.appointmentDates)
 	}
 
 		
