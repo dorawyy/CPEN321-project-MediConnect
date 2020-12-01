@@ -6,6 +6,8 @@ global.email = '';
 global.first_name = ''; 
 global.last_name = ''; 
 
+global.tempID = '';
+
 
 global.rating = ''; 
 global.specialization = ''; 
