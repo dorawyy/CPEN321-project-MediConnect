@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {Component} from 'react';
-import {Text, View, StyleSheet, TouchableHighlightBase} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -45,6 +45,17 @@ class Doctors extends Component {
 			});
 	};
 
+	async selectDoctor(text) {
+		console.log(text); 
+		global.selectedDoctorID = text; 
+
+			this.props.navigation.navigate('CreateAppointment', {selectedID: text});
+			// })
+			// .catch((err) => {
+			// 	console.log(err.response.data);
+			// });
+	};
+
 	render() {
 
 		// const { serverData } = this.state;
@@ -60,7 +71,13 @@ class Doctors extends Component {
 							<View key={count}>
 								<Text style={styles.spec}>Specialization {count+1} : {spec}</Text>
 								{this.state.specs_data[count].map((value, index) => (
-									<View style={styles.doctor} key={value.password}>
+									<TouchableOpacity style={styles.doctor} key={value.password}
+									onPress={() =>
+										this.selectDoctor(
+											value._id,
+										)
+									}
+									>
 										<Text style={styles.doctorinfo}>
 											{'Doctor Name: ' +
 												// value.undefined[0].first_name +
@@ -83,7 +100,7 @@ class Doctors extends Component {
 										<Text style={styles.doctorinfo}>
 											{'Years of Experience: ' + value.years_of_experience}
 										</Text>
-									</View>
+									</TouchableOpacity>
 								))}
 							</View>
 					))}

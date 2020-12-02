@@ -20,7 +20,8 @@ class DoctorAppointments extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			serverData: []
+			serverData: [], 
+			appointmentsArray: [{id:'', createdAt:'', doctorId:'', end_time: ''}]
 		};
 	}
 
@@ -60,9 +61,10 @@ class DoctorAppointments extends Component {
 				)
 
 				.then((res) => {
-					console.log(res.data);
+					// console.log(res.data);
 					this.setState({
-						serverData: res.data,
+						serverData: Object.keys(res.data),
+						appointmentsArray: Object.values(res.data.appointments),				
 					});
 				}).catch((err) => console.log(err));
 			//}).catch((err) => console.log(err));		
@@ -77,38 +79,43 @@ class DoctorAppointments extends Component {
 
 	render() {
 
-		console.log(this.state.serverData.appointments)
+		let appointments; 
+
+		console.log("len is " + Object.values(this.state.appointmentsArray[0]))	//this works!!!!!!!
+		// console.log("app is " + Object.values(this.state.appointmentsArray))
+
 		if(this.state.serverData && this.state.serverData.length > 0){
-			return (
-				<ScrollView>
-					<View style={styles.container}>
-						<Text style={styles.header}>Appointments</Text>
-	
-							<View>
-								{this.state.serverData.appointments.map(serverData =><View style={styles.doctor}>
-								
-								<Text style={styles.doctorinfo}>{'Patient Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
-								<Text style={styles.doctorinfo}>{'Patient Email: ' + serverData.email}</Text>
-								<Text style={styles.doctorinfo}>{'Booked Slot: ' + serverData.slot}</Text>
-								
-								<Text style={styles.doctorinfo}>{'Appointment: ' + serverData.appointments}</Text>
-									
-								</View>)}
-									
-							</View>
-	
-					</View>
-				</ScrollView>
-				);
+			appointments = 
+				(<View>
+					{Object.values(this.state.appointmentsArray).map((item, count) =><View style={styles.patient} key={count}>
+						<TouchableOpacity style={styles.patientinfo}>
+							<Text style={styles.appointmentHeader}>
+								{'Appointment ' + (count+1)}
+							</Text>
+							<Text>
+								{'Date: ' + item.start_time.substring(0, 10)}
+							</Text>
+							<Text>
+								{'Start Time: ' + item.start_time.substring(11, 19)}
+							</Text>
+							<Text>
+								{'End Time: ' + item.end_time.substring(11, 19)}
+							</Text>
+						</TouchableOpacity>
+					</View>)}
+						
+				</View>)
+		} else {
+			appointments = (
+				<Text style={styles.body}>No appointments found</Text>
+			)
 		}
 
 		return (
 				<ScrollView>
 					<View style={styles.container}>
 						<Text style={styles.header}>Appointments</Text>
-	
-						<Text style={styles.body}>No appointments found</Text>
-	
+						{appointments}	
 					</View>
 				</ScrollView>
 			);
@@ -136,7 +143,7 @@ const styles = StyleSheet.create({
 	},
 
 	header: {
-		color: '#02f0c8',
+		color: '#02d9b5',
 		fontSize: 20,
 	},
 
@@ -211,9 +218,9 @@ const styles = StyleSheet.create({
 		color: '#02d9b5',
 	},
 
-	doctor: {
+	patient: {
 		backgroundColor: '#d9d9d9',
-		height: 120,
+		// height: 120,
 		width: 270,
 		margin: 15,
 		borderRadius: 5,
@@ -225,11 +232,18 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 	},
 
-	doctorinfo: {
+	patientinfo: {
 		fontFamily: 'Iowan Old Style',
 		color: 'black',
 		fontSize: 11,
 	},
+
+	appointmentHeader: {
+		fontFamily: 'Iowan Old Style',
+		color: 'black',
+		fontSize: 15,
+		textDecorationLine: 'underline'
+	}
 });
 
 export default DoctorAppointments;
