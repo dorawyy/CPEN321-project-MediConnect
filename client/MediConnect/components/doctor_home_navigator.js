@@ -23,7 +23,7 @@ class DoctorHomeNavigator extends Component {
 		return (
 			<Tab.Navigator
 			initialRouteName="Home"
-			activeColor="#00aea2"
+			activeColor='#02d9b5'
 			inactiveColor="#95a5a6"
 			labeled={false}
 			shifting={true}

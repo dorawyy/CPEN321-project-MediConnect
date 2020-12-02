@@ -17,12 +17,12 @@ class DoctorSettings extends Component {
 	
 	render() {
 		return (
-			<LinearGradient
-				start={{x: 0.0, y: 0.25}}
-				end={{x: 0.7, y: 1}}
-				colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
-				style={styles.LinearGradient}
-			>
+			// <LinearGradient
+			// 	start={{x: 0.0, y: 0.25}}
+			// 	end={{x: 0.7, y: 1}}
+			// 	colors={['#ffffff', '#ffffff', 'rgba(2, 217, 188, 0.2)']}
+			// 	style={styles.LinearGradient}
+			// >
 				<View style={styles.container}>
 					<View>
 						<TouchableOpacity style={styles.option}  onPress={() => this.props.navigation.navigate('DoctorEditAccount')}>
@@ -32,14 +32,14 @@ class DoctorSettings extends Component {
 							<Text style={styles.optionText}>Account</Text>
 						</TouchableOpacity>
 					</View>
-					<View>
+					{/* <View>
 						<TouchableOpacity style={styles.option} onPress={() => this.props.navigation.navigate('DoctorNotifications')}>
 							<View style={styles.icon}>
 								<Icon name="bell" size={30} color={'#5c5c5c'} />
 							</View>
 							<Text style={styles.optionText}>Notifications</Text>
 						</TouchableOpacity>
-					</View>
+					</View> */}
 					<View>
 						<TouchableOpacity style={styles.option}>
 							<View style={styles.icon}>
@@ -75,7 +75,7 @@ class DoctorSettings extends Component {
 						</TouchableOpacity>
 					</View>					
 				</View>
-			</LinearGradient>
+			// </LinearGradient>
 		);
 	}
 }

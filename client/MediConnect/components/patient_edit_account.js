@@ -1,9 +1,12 @@
 import React from 'react';
 import {Component} from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native';
+import {Text, View, StyleSheet, TextInput, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
+import { Dropdown } from 'react-native-material-dropdown';
+import '../components/user_info';
+import {LogBox} from 'react-native';
 
 
 class PatientEditAccount extends Component {
@@ -13,6 +16,9 @@ class PatientEditAccount extends Component {
         last_name: '',
         email: '',
         age: 0,
+        height: 0, 
+        weight: 0,
+        gender: '' 
     };
     
     componentDidMount() {
@@ -20,6 +26,10 @@ class PatientEditAccount extends Component {
         this.setState({last_name: global.last_name});
         this.setState({email: global.email});
         this.setState({age: global.age});
+        this.setState({height: global.height});
+        this.setState({weight: global.weight});
+        this.setState({gender: global.gender});
+
 
         // this.state.first_name = global.first_name,
         // this.state.last_name = global.last_name,
@@ -44,23 +54,44 @@ class PatientEditAccount extends Component {
     changeEmail= (text) =>{
 		this.setState({email: text});
     };
+
+    changeGender = (text) =>{
+        this.setState({gender: text});
+    };
     
     changeAge = (text) =>{
         this.setState({age: parseInt(text)});
         console.log(this.state.age)
     };
+
+
+    changeWeight = (text) =>{
+        this.setState({weight: parseInt(text)});
+        console.log(this.state.weight)
+    };
+    
+
+    changeHeight = (text) =>{
+        this.setState({height: parseInt(text)});
+        console.log(this.state.height)
+    };
+    
     
 
     async saveEdits() {
 
 		axios
 			// .put("http://54.183.200.234:5000/patient/search", {
-			.put('http://10.0.2.2:5000/doctor/' + global.userID, {
+			.put('http://10.0.2.2:5000/patient/' + global.userID, {
 				// params: {
                     first_name: this.state.first_name,
                     last_name: this.state.last_name,
                     email: this.state.email,
                     age: this.state.age,
+                    weight: this.state.weight,
+                    height: this.state.height,
+                    gender: this.state.gender,
+
                 // },
                 
 
@@ -71,6 +102,9 @@ class PatientEditAccount extends Component {
                 global.last_name = this.state.last_name; 
                 global.email = this.state.email; 
                 global.age = this.state.age;
+                global.height = this.state.height, 
+                global.weight = this.state.weight, 
+                global.gender = this.state.gender,
                 console.log(global.age);
                 console.log(res);
                 alert("Your account details were successfully updated"); 
@@ -85,9 +119,18 @@ class PatientEditAccount extends Component {
     
 
 	render() {
+
+        let data = [{
+            value: 'Male',
+        }, {
+          value: 'Female',
+        }, {
+          value: 'Other',
+        },];
+        
 		return (
 
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <View style={styles.accountHeader}>
                     <Icon style={styles.icon} name="user" size={30} color={'#5c5c5c'} />
                     <Text style={styles.accountHeaderText}>Edit Account Details</Text>
@@ -140,18 +183,58 @@ class PatientEditAccount extends Component {
                         required
                     />
                 </View>
-                
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Height (cm)</Text>
+                    <TextInput
+                        style={styles.text}
+                        underlineColorAndroid="gray"
+                        defaultValue={global.height.toString()}
+                        autoCapitalize="none"
+                        onChangeText={this.changeHeight}
+                        required
+                    />
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Weight (kg)</Text>
+                    <TextInput
+                        style={styles.text}
+                        underlineColorAndroid="gray"
+                        defaultValue={global.weight.toString()}
+                        autoCapitalize="none"
+                        onChangeText={this.changeWeight}
+                        required
+                    />
+                </View>
+                <View style={styles.field}>
+                    <Text style={styles.header}>Gender</Text>
+                    <Dropdown
+                    label='Gender'
+                    data={data}
+                    useNativeDriver={true}
+                    onChangeText={
+                      
+                      (value) => {
+                        LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
+                       this.setState({
+                       gender: value }
+                      );
+                       }}
+                    />
+                </View>
+
                 <TouchableOpacity style={styles.button}>
-							<Text
-								style={styles.buttonText}
-								onPress={() => {
-									this.saveEdits()
-								}}
-							>
-								Save
-							</Text>
+                    <Text
+                        style={styles.buttonText}
+                        onPress={() => {
+                            this.saveEdits()
+                        }}
+                    >
+                        Save
+                    </Text>
 				</TouchableOpacity>
-            </View>
+            </ScrollView>
 
             
 

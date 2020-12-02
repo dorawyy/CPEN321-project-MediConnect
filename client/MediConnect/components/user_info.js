@@ -6,6 +6,8 @@ global.email = '';
 global.first_name = ''; 
 global.last_name = ''; 
 
+global.tempID = '';
+
 
 global.rating = ''; 
 global.specialization = ''; 
@@ -17,6 +19,7 @@ global.gender = '';
 
 
 global.weight = '78'; 
+global.height = '78'; 
 
 // global.line1 = '';
 // global.line2 =  '';

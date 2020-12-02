@@ -53,7 +53,9 @@ class PatientSignUp extends Component {
 				console.log(res.data);
 				global.userID = res.data.user;
 				console.log(global.userID); 
-				this.props.navigation.navigate('PatientHomeNavigator');
+				alert("You have signed up successfully! Please sign in.")
+
+				
 			})
 			.catch((err) => {
 				console.log(err.response.data);
