@@ -116,8 +116,8 @@ test("User signs in, posts new notifications, then deletes them", async () => {
   let res = await supertest(app).post("/doctor/signin").send(userFields);
   expect(res.status).toBe(200);
   expect(res.body.user).toBe(doctors[4]);
-  const cookie = res.headers["set-cookie"];
-  const userId = res.body.user;
+  let cookie = res.headers["set-cookie"];
+  let userId = res.body.user;
 
   // POST new notification, successful case
   let notifFields = {
@@ -179,7 +179,7 @@ test("User signs in, posts new notifications, then deletes them", async () => {
   expect(res.body.notifications.length).toBe(2);
   expect(res.body.notifications[0].title).toBe("Notif title");
   expect(res.body.notifications[1].text).toBe("Another text");
-  const notifId = res.body.notifications[0]._id;
+  let notifId = res.body.notifications[0]._id;
 
   // DELETE notification, cast ERROR
   res = await supertest(app)
@@ -201,4 +201,41 @@ test("User signs in, posts new notifications, then deletes them", async () => {
     .set("Cookie", cookie);
   expect(res.status).toBe(400);
   expect(res.body.notification).toBe("Notification doesn't exist");
+
+  // new notif for patient
+  userFields = {
+    email: "maryjoe@gmail.com",
+    password: "password",
+  };
+  res = await supertest(app).post("/patient/signin").send(userFields);
+  expect(res.status).toBe(200);
+  expect(res.body.user).toBe(patients[1]);
+  cookie = res.headers["set-cookie"];
+  userId = res.body.user;
+
+  notifFields = {
+    userId: userId,
+    title: "Cool title",
+    text: "Notif text",
+  };
+  res = await supertest(app)
+    .post("/patient/notif")
+    .set("Cookie", cookie)
+    .send(notifFields);
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Notification posted");
+
+  res = await supertest(app)
+    .get(`/patient/notif/${userId}`)
+    .set("Cookie", cookie);
+  expect(res.status).toBe(200);
+  expect(res.body.notifications.length).toBe(1);
+  expect(res.body.notifications[0].title).toBe("Cool title");
+  notifId = res.body.notifications[0]._id;
+
+  res = await supertest(app)
+    .delete(`/patient/notif/${notifId}`)
+    .set("Cookie", cookie);
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Delete notification successful");
 });

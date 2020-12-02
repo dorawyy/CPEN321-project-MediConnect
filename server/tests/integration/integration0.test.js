@@ -705,3 +705,32 @@ test("User tries to update appointment, delete case", async () => {
   expect(res.status).toBe(400);
   expect(res.body.start_time).toBe("Appointment doesn't exist");
 });
+
+test("Doctor deletes appointment and checks whether its actually deleted", async () => {
+  let doctorFields = {
+    email: "alexjones@gmail.com",
+    password: "12345678",
+  };
+  let res = await supertest(app).post("/doctor/signin").send(doctorFields);
+  expect(res.status).toBe(200);
+  let doctorCookie = res.headers["set-cookie"];
+
+  res = await supertest(app)
+    .get(`/doctor/appointment/${doctors[0]}`)
+    .set("Cookie", doctorCookie);
+  expect(res.status).toBe(200);
+  expect(res.body.appointments.length).toBe(3);
+  const appointId = res.body.appointments[0]._id;
+
+  res = await supertest(app)
+    .delete(`/doctor/appointment/${appointId}`)
+    .set("Cookie", doctorCookie);
+  expect(res.status).toBe(200);
+  expect(res.body.message).toBe("Delete appointment successful");
+
+  res = await supertest(app)
+    .get(`/doctor/appointment/${doctors[0]}`)
+    .set("Cookie", doctorCookie);
+  expect(res.status).toBe(200);
+  expect(res.body.appointments.length).toBe(2);
+});

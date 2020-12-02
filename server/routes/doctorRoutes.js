@@ -11,7 +11,7 @@ const notifController = require("../controllers/notifController");
 const { requireAuth } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-// Convenient endpoint for viewing all doctors
+// Convenient endpoint for viewing all doctors, not intended to be called by frontend
 router.get("/", userController.getDoctors);
 
 /*
