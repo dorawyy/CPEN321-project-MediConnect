@@ -88,7 +88,9 @@ class DoctorAppointments extends Component {
 			appointments = 
 				(<View>
 					{Object.values(this.state.appointmentsArray).map((item, count) =><View style={styles.patient} key={count}>
-						<TouchableOpacity style={styles.patientinfo}>
+						<TouchableOpacity style={styles.patientinfo}
+							onPress = {() => {this.props.navigation.navigate('AppointmentDetails', {patientID: item.patientId});}}
+						>
 							<Text style={styles.appointmentHeader}>
 								{'Appointment ' + (count+1)}
 							</Text>
