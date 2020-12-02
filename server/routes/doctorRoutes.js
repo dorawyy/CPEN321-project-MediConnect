@@ -7,6 +7,7 @@ const express = require("express");
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
 const appointController = require("../controllers/appointController");
+const notifController = require("../controllers/notifController");
 const { requireAuth } = require("../middleware/authMiddleware");
 const router = express.Router();
 
@@ -45,5 +46,14 @@ router.delete(
   requireAuth,
   appointController.deleteAppointment
 );
+
+/*
+ * Routes relating to push notifications
+ */
+router.get("/notif/:id", requireAuth, notifController.getNotifications);
+
+router.post("/notif", requireAuth, notifController.postNotifications);
+
+router.delete("/notif/:id", requireAuth, notifController.deleteNotifications);
 
 module.exports = router;
