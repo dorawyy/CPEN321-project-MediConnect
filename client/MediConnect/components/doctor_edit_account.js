@@ -212,7 +212,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Specialization</Text>
                     <Dropdown
-                    label='Specialization'
+                    label={global.specialization}
                     data={data}
                     useNativeDriver={true}
                     onChangeText={
