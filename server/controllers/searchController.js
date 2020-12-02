@@ -1,4 +1,3 @@
-const fs = require("fs").promises;
 const Doctor = require("../models/doctor");
 const Symptom = require("../models/disease");
 const Specialty = require("../models/specialty");

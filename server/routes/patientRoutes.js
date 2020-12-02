@@ -9,10 +9,11 @@ const userController = require("../controllers/userController");
 const appointController = require("../controllers/appointController");
 const searchController = require("../controllers/searchController");
 const stripeController = require("../controllers/stripeController");
+const notifController = require("../controllers/notifController");
 const { requireAuth } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-// Convenient endpoint for viewing all patients
+// Convenient endpoint for viewing all patients, not intended to be called by frontend
 router.get("/", userController.getPatients);
 
 /*
@@ -57,5 +58,14 @@ router.delete(
   requireAuth,
   appointController.deleteAppointment
 );
+
+/*
+ * Routes relating to push notifications
+ */
+router.get("/notif/:id", requireAuth, notifController.getNotifications);
+
+router.post("/notif", requireAuth, notifController.postNotifications);
+
+router.delete("/notif/:id", requireAuth, notifController.deleteNotifications);
 
 module.exports = router;

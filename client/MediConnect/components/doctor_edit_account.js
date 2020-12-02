@@ -4,6 +4,9 @@ import {Text, View, StyleSheet, TextInput} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
+import { Dropdown } from 'react-native-material-dropdown';
+import {LogBox} from 'react-native';
+
 
 
 class DoctorEditAccount extends Component {
@@ -102,6 +105,54 @@ class DoctorEditAccount extends Component {
     
 
 	render() {
+        
+        let data = [{
+            value: 'Allergy and Immunology',
+          }, {
+            value: 'Anesthesiology',
+          }, {
+            value: 'Colon and Rectal Surgery',
+          }, {
+            value: 'Cardiology',
+          }, {
+            value: 'Dermatology',
+          }, {
+            value: 'ENT',
+          }, {
+            value: 'Emergency Medicine',
+          }, {
+            value: 'General and Family Medicine',
+          }, {
+            value: 'General Surgery',
+          },{
+            value: 'Internal Medicine',
+          }, {
+            value: 'Medical Genetics and Genomics',
+          }, {
+            value: 'Neurology and Psychiatry',
+          }, {
+            value: 'Nuclear Medicine',
+          }, {
+            value: 'Obstetrics and Gynecology',
+          }, {
+            value: 'Opthalmology',
+          }, {
+            value: 'Orthopedics',
+          }, {
+            value: 'Pathology',
+          }, {
+            value: 'Pediatrics',
+          }, {
+            value: 'Physical Medicine and Rehabilitation',
+          }, {
+            value: 'Plastic Surgery',
+          }, {
+            value: 'Preventative Medicine',
+          }, {
+            value: 'Radiology',
+          }, {
+            value: 'Urology',
+          }];
 		return (
 
             <View style={styles.container}>
@@ -160,14 +211,27 @@ class DoctorEditAccount extends Component {
 
                 <View style={styles.field}>
                     <Text style={styles.header}>Specialization</Text>
-                    <TextInput
+                    <Dropdown
+                    label='Specialization'
+                    data={data}
+                    useNativeDriver={true}
+                    onChangeText={
+                      
+                      (value) => {
+                        LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
+                       this.setState({
+                       specialization: value }
+                      );
+                       }}
+                    />
+                   {/*<TextInput
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.specialization}
                         autoCapitalize="none"
                         onChangeText={this.changeSpecialization}
                         required
-                    />
+                   />*/} 
                 </View>
 
                 <View style={styles.field}>

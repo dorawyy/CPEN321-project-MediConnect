@@ -58,12 +58,12 @@ axios.defaults.withCredentials = true;
 //   })
 //   .catch((err) => console.log(err));
 
-axios
-  .post("http://localhost:5000/patient/search", {
-    symptoms: ["pain chest", "shortness of breath", "asthenia"],
-  })
-  .then((res) => console.log(res.data))
-  .catch((err) => console.log(err));
+// axios
+//   .post("http://localhost:5000/patient/search", {
+//     symptoms: ["pain chest", "shortness of breath", "asthenia"],
+//   })
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log(err));
 
 // axios
 //   .put("http://localhost:5000/doctor/5f9a72292614191b8231ce1c", {
@@ -95,16 +95,14 @@ axios
 //   .then((res) => {
 //     const cookie = res.headers["set-cookie"];
 
-//     console.log(cookie);
-
 //     axios
 //       .post(
 //         "http://localhost:5000/patient/appointment",
 //         {
-//           patientId: "5fbb9510410d8eb956c9a128",
-//           doctorId: "5fbb9510410d8eb956c9a130",
-//           start_time: new Date(2020, 10, 24, 12, 0),
-//           end_time: new Date(2020, 10, 24, 13, 0),
+//           patientId: "5fc487058e7bd6f2ab533d96",
+//           doctorId: "5fc487068e7bd6f2ab533d9e",
+//           start_time: new Date(2021, 10, 24, 13, 0),
+//           end_time: new Date(2021, 10, 24, 14, 0),
 //         },
 //         {
 //           headers: {
@@ -128,4 +126,55 @@ axios
 //     end_time: new Date(2020, 11, 20, 12, 0),
 //   })
 //   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
+
+axios
+  .post("http://localhost:5000/doctor/signin", {
+    email: "toraamodt@gmail.com",
+    password: "CPEN211HELL",
+  })
+  .then((res) => {
+    const cookie = res.headers["set-cookie"];
+    const userId = res.data.user;
+
+    axios
+      .post(
+        "http://localhost:5000/doctor/notif",
+        {
+          userId: userId,
+          title: "Another Title",
+          text: "Another text",
+        },
+        {
+          headers: {
+            Cookie: cookie,
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  })
+  .catch((err) => console.log(err));
+
+// axios
+//   .post("http://localhost:5000/patient/signin", {
+//     email: "johnsmith@gmail.com",
+//     password: "password",
+//   })
+//   .then((res) => {
+//     const cookie = res.headers["set-cookie"];
+//     const userId = res.data.user;
+
+//     axios
+//       .delete(
+//         "http://localhost:5000/patient/notif/555fc77c04048621642b002c16",
+//         {
+//           headers: {
+//             Cookie: cookie,
+//           },
+//         }
+//       )
+//       .then((res) => console.log(res.data))
+//       .catch((err) => console.log(err));
+//   })
 //   .catch((err) => console.log(err));

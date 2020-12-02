@@ -4,6 +4,9 @@ import {Text, View, StyleSheet, TextInput, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
+import { Dropdown } from 'react-native-material-dropdown';
+import '../components/user_info';
+import {LogBox} from 'react-native';
 
 
 class PatientEditAccount extends Component {
@@ -14,7 +17,8 @@ class PatientEditAccount extends Component {
         email: '',
         age: 0,
         height: 0, 
-        weight: 0. 
+        weight: 0,
+        gender: '' 
     };
     
     componentDidMount() {
@@ -24,6 +28,7 @@ class PatientEditAccount extends Component {
         this.setState({age: global.age});
         this.setState({height: global.height});
         this.setState({weight: global.weight});
+        this.setState({gender: global.gender});
 
 
         // this.state.first_name = global.first_name,
@@ -48,6 +53,10 @@ class PatientEditAccount extends Component {
     
     changeEmail= (text) =>{
 		this.setState({email: text});
+    };
+
+    changeGender = (text) =>{
+        this.setState({gender: text});
     };
     
     changeAge = (text) =>{
@@ -81,6 +90,7 @@ class PatientEditAccount extends Component {
                     age: this.state.age,
                     weight: this.state.weight,
                     height: this.state.height,
+                    gender: this.state.gender,
 
                 // },
                 
@@ -94,6 +104,7 @@ class PatientEditAccount extends Component {
                 global.age = this.state.age;
                 global.height = this.state.height, 
                 global.weight = this.state.weight, 
+                global.gender = this.state.gender,
                 console.log(global.age);
                 console.log(res);
                 alert("Your account details were successfully updated"); 
@@ -108,6 +119,15 @@ class PatientEditAccount extends Component {
     
 
 	render() {
+
+        let data = [{
+            value: 'Male',
+        }, {
+          value: 'Female',
+        }, {
+          value: 'Other',
+        },];
+        
 		return (
 
             <ScrollView style={styles.container}>
@@ -185,6 +205,22 @@ class PatientEditAccount extends Component {
                         autoCapitalize="none"
                         onChangeText={this.changeWeight}
                         required
+                    />
+                </View>
+                <View style={styles.field}>
+                    <Text style={styles.header}>Gender</Text>
+                    <Dropdown
+                    label='Gender'
+                    data={data}
+                    useNativeDriver={true}
+                    onChangeText={
+                      
+                      (value) => {
+                        LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
+                       this.setState({
+                       gender: value }
+                      );
+                       }}
                     />
                 </View>
 
