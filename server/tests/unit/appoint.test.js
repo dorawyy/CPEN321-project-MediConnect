@@ -359,7 +359,7 @@ test("Expect error 400 when post appointment with start time and end time that o
   requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = { patientId: "", doctorId: "", start_time: "", end_time: "" };
-    console.log(err.message);
+
     if (err.message === "Time slot already booked") {
       errors.start_time = "Appointment can't be booked for this time slot";
       errors.end_time = "Appointment can't be booked for this time slot";
@@ -381,24 +381,19 @@ test("Expect error 400 when post appointment with start time and end time that o
     end_time: new Date(nextYear, 11, 21, 15, 0),
   };
 
-  // let res = await supertest(app)
-  //   .post("/patient/appointment")
-  //   .send(appointmentFields);
-  // console.log([
-  //   res.body.patientId,
-  //   res.body.doctorId,
-  //   res.body.start_time,
-  //   res.body.end_time,
-  // ]);
-  // expect(res.status).toBe(200);
-
-  // appointmentFields = {
-  //   patientId: patients[4],
-  //   doctorId: doctors[5],
-  //   start_time: new Date(nextYear, 11, 21, 14, 0),
-  //   end_time: new Date(nextYear, 11, 21, 15, 0),
-  // };
   let res = await supertest(app)
+    .post("/patient/appointment")
+    .send(appointmentFields);
+  expect(res.status).toBe(200);
+
+  appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[1],
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+
+  res = await supertest(app)
     .post("/patient/appointment")
     .send(appointmentFields);
   expect(res.status).toBe(400);
@@ -476,10 +471,26 @@ test("Expected error 400 when post appointment with missing fields", async () =>
  */
 test("Expect to put valid appointment for patient", async () => {
   requireAuth.mockImplementation((req, res, next) => next());
+  handleAppointmentErrors.mockImplementation((err) => {
+    let errors = { patientId: "", doctorId: "", start_time: "", end_time: "" };
+    console.log(err);
+    if (err.message === "Time slot already booked") {
+      errors.start_time = "Appointment can't be booked for this time slot";
+      errors.end_time = "Appointment can't be booked for this time slot";
+    }
+
+    if (err.message.includes("Appointment validation failed")) {
+      Object.values(err.errors).forEach((error) => {
+        errors[error.path] = error.message;
+      });
+    }
+
+    return errors;
+  });
 
   let appointmentFields = {
-    start_time: new Date(nextYear, 11, 21, 14, 0),
-    end_time: new Date(nextYear, 11, 21, 15, 0),
+    start_time: new Date(nextYear, 11, 21, 16, 0),
+    end_time: new Date(nextYear, 11, 21, 17, 0),
   };
   let res = await supertest(app)
     .put(`/patient/appointment/${appointments[0]}`)
@@ -490,14 +501,14 @@ test("Expect to put valid appointment for patient", async () => {
   // from position 0 to 1
   let patient = await Patient.findById(patients[0]).populate("appointments");
   let doctor = await Doctor.findById(doctors[0]).populate("appointments");
-  expect(patient.appointments.length).toBe(4);
-  expect(doctor.appointments.length).toBe(6);
+  expect(patient.appointments.length).toBe(5);
+  expect(doctor.appointments.length).toBe(7);
   let addedToPatient = false;
   let addedToDoctor = false;
-  if (String(patient.appointments[1]._id) === String(appointments[0])) {
+  if (String(patient.appointments[2]._id) === String(appointments[0])) {
     addedToPatient = true;
   }
-  if (String(doctor.appointments[1]._id) === String(appointments[0])) {
+  if (String(doctor.appointments[2]._id) === String(appointments[0])) {
     addedToDoctor = true;
   }
   expect(addedToPatient && addedToDoctor).toBe(true);
@@ -515,8 +526,8 @@ test("Expect to put valid appointment for patient", async () => {
   // from position 1 to 0
   patient = await Patient.findById(patients[0]).populate("appointments");
   doctor = await Doctor.findById(doctors[0]).populate("appointments");
-  expect(patient.appointments.length).toBe(4);
-  expect(doctor.appointments.length).toBe(6);
+  expect(patient.appointments.length).toBe(5);
+  expect(doctor.appointments.length).toBe(7);
   addedToPatient = false;
   addedToDoctor = false;
   if (String(patient.appointments[0]._id) === String(appointments[0])) {
@@ -620,6 +631,80 @@ test("Expect error 400 when put appointment with non dates", async () => {
   );
 });
 
+test("Expect to get error 400 when trying to put appointment and changing start_time and end_time so that they are the same as a different appointment", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+  handleAppointmentErrors.mockImplementation((err) => {
+    let errors = { patientId: "", doctorId: "", start_time: "", end_time: "" };
+    console.log(err);
+    if (err.message === "Time slot already booked") {
+      errors.start_time = "Appointment can't be booked for this time slot";
+      errors.end_time = "Appointment can't be booked for this time slot";
+    }
+
+    if (err.message.includes("Appointment validation failed")) {
+      Object.values(err.errors).forEach((error) => {
+        errors[error.path] = error.message;
+      });
+    }
+
+    return errors;
+  });
+
+  const oldAppointment = await Appointment.findById(appointments[1]);
+
+  let appointmentFields = {
+    start_time: new Date(nextYear, 11, 21, 16, 0),
+    end_time: new Date(nextYear, 11, 21, 17, 0),
+  };
+  let res = await supertest(app)
+    .put(`/patient/appointment/${appointments[1]}`)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+  expect(res.body.end_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  let appointment = await Appointment.findById(appointments[1]);
+  expect(appointment._id).toBe(oldAppointment._id);
+  expect(appointment.patientId).toBe(oldAppointment.patientId);
+  expect(appointment.doctorId).toBe(oldAppointment.doctorId);
+  expect(appointment.start_time.getTime()).toBe(
+    oldAppointment.start_time.getTime()
+  );
+  expect(appointment.end_time.getTime()).toBe(
+    oldAppointment.end_time.getTime()
+  );
+
+  appointmentFields = {
+    start_time: new Date(nextYear, 11, 20, 11, 0),
+    end_time: new Date(nextYear, 11, 20, 12, 0),
+  };
+  res = await supertest(app)
+    .put(`/patient/appointment/${appointments[1]}`)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+  expect(res.body.end_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  appointment = await Appointment.findById(appointments[1]);
+  expect(appointment._id).toBe(oldAppointment._id);
+  expect(appointment.patientId).toBe(oldAppointment.patientId);
+  expect(appointment.doctorId).toBe(oldAppointment.doctorId);
+  expect(appointment.start_time.getTime()).toBe(
+    oldAppointment.start_time.getTime()
+  );
+  expect(appointment.end_time.getTime()).toBe(
+    oldAppointment.end_time.getTime()
+  );
+});
+
 /**
  * deleteAppointment testing
  */
@@ -656,8 +741,8 @@ test("Expected to delete existing appointment twice, and error 400 when delete a
   expect(res.body.message).toBe("Delete appointment successful");
   let patient = await Patient.findById(patients[0]).populate("appointments");
   let doctor = await Doctor.findById(doctors[0]).populate("appointments");
-  expect(patient.appointments.length).toBe(3);
-  expect(doctor.appointments.length).toBe(5);
+  expect(patient.appointments.length).toBe(4);
+  expect(doctor.appointments.length).toBe(6);
   addedToPatient = false;
   addedToDoctor = false;
   if (String(patient.appointments[0]._id) === String(appointments[0])) {
