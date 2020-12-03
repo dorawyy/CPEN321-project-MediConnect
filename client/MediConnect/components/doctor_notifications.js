@@ -162,7 +162,7 @@ class DoctorNotifications extends Component {
 
 				</View>
 				<View style={styles.buttonsContainer}>
-					<TouchableOpacity style={styles.button}>
+					<TouchableOpacity style={styles.button} testID='Notifications_Page'>
 						<Text style={styles.buttonText} onPress={() => this.someRead()}>Mark selected as read</Text>
 					</TouchableOpacity>
 

@@ -33,6 +33,7 @@ class PatientHomeNavigator extends Component {
 				<Tab.Screen
 					name="Home"
 					component={PatientHome}
+					testID= 'Home_Tab'
 					options={{
 						tabBarLabel: 'Home',
 						tabBarIcon: ({color}) => (
@@ -43,6 +44,7 @@ class PatientHomeNavigator extends Component {
 				<Tab.Screen
 					name="Appointments"
 					component={PatientAppointments}
+					testID= 'Appointments_Tab'
 					options={{
 						tabBarLabel: 'Appointments',
 						tabBarIcon: ({color}) => (
@@ -53,6 +55,7 @@ class PatientHomeNavigator extends Component {
 				<Tab.Screen
 					name="Notifications"
 					component={PatientNotifications}
+					testID= 'Notifications_Tab'
 					options={{
 						tabBarLabel: 'Notifications',
 						tabBarIcon: ({color}) => (
@@ -62,6 +65,7 @@ class PatientHomeNavigator extends Component {
 				/>
 				<Tab.Screen
 					name="Settings"
+					testID= 'Settings_Tab'
 					component={PatientSettingsPage}
 					options={{
 						tabBarLabel: 'Settings',

@@ -113,23 +113,17 @@ class DoctorEditAccount extends Component {
           }, {
             value: 'Colon and Rectal Surgery',
           }, {
-            value: 'Cardiology',
-          }, {
             value: 'Dermatology',
-          }, {
-            value: 'ENT',
           }, {
             value: 'Emergency Medicine',
           }, {
-            value: 'General and Family Medicine',
-          }, {
-            value: 'General Surgery',
-          },{
+            value: 'Family Medicine',
+          } ,{
             value: 'Internal Medicine',
           }, {
             value: 'Medical Genetics and Genomics',
           }, {
-            value: 'Neurology and Psychiatry',
+            value: 'Neurological Surgery',
           }, {
             value: 'Nuclear Medicine',
           }, {
@@ -137,7 +131,9 @@ class DoctorEditAccount extends Component {
           }, {
             value: 'Opthalmology',
           }, {
-            value: 'Orthopedics',
+            value: 'Orthopaedic Surgery',
+          }, {
+            value: 'Otolaryngology',
           }, {
             value: 'Pathology',
           }, {
@@ -149,7 +145,13 @@ class DoctorEditAccount extends Component {
           }, {
             value: 'Preventative Medicine',
           }, {
+            value: 'Psychiatry and Neurology',
+          }, {
             value: 'Radiology',
+          }, {
+            value: 'Surgery',
+          }, {
+            value: 'Thoracic Surgery',
           }, {
             value: 'Urology',
           }];
@@ -164,6 +166,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>First Name</Text>
                     <TextInput
+                        testID="firstname"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.first_name}
@@ -176,6 +179,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Last Name</Text>
                     <TextInput
+                        testID="lastname"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.last_name}
@@ -188,6 +192,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Email</Text>
                     <TextInput
+                        testID="email"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.email}
@@ -200,6 +205,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Age</Text>
                     <TextInput
+                        testID="age"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={(global.age == 0) ? "-" : global.age.toString()}
@@ -212,7 +218,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Specialization</Text>
                     <Dropdown
-                    label='Specialization'
+                    label={global.specialization}
                     data={data}
                     useNativeDriver={true}
                     onChangeText={
@@ -237,6 +243,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Years of Experience</Text>
                     <TextInput
+                        testID="experience"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.years_of_experience.toString()}
@@ -246,7 +253,7 @@ class DoctorEditAccount extends Component {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} testID='Save_Button'>
 							<Text
 								style={styles.buttonText}
 								onPress={() => {
@@ -316,9 +323,9 @@ const styles = StyleSheet.create({
 
 	buttonText: {
         alignItems: 'center',
-		justifyContent: 'center',
-		fontFamily: 'Iowan Old Style',
-		fontSize: 20,
+		  justifyContent: 'center',
+		  fontFamily: 'Iowan Old Style',
+		  fontSize: 20,
         color: 'white', 
         backgroundColor: '#02f0c8',
         paddingTop: 5, 

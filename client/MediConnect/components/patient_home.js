@@ -6,6 +6,8 @@ import axios from 'axios';
 import { NavigationEvents } from "react-navigation";
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Notifications} from 'react-native-notifications';
+
 
 class PatientHome extends Component {
 
@@ -30,6 +32,17 @@ class PatientHome extends Component {
 			this.setState({weight: global.weight});
 			this.setState({height: global.height});
 		})
+
+		if (global.age == 0 || global.rating == 0) {
+			// alert("Don't forget to update your information on the Account Page in the Settings Tab.")
+			Notifications.postLocalNotification({
+				title: "Update Account Information",
+				body: "Don't forget to update your information on the Account Page in the Settings Tab.",
+				// sound: "chime.aiff",
+				silent: false,
+	
+			})
+		}
 	}
 
 	refresh() {
@@ -68,7 +81,7 @@ class PatientHome extends Component {
 
 					</View>
 				</View>
-				<TouchableOpacity style={styles.button}>
+				<TouchableOpacity testID= "report_symptoms_button" style={styles.button}>
 					<Text
 						style={styles.buttonText}
 						onPress={() => this.props.navigation.navigate('Symptoms')}

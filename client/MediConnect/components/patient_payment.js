@@ -146,6 +146,7 @@ class PatientPayment extends Component {
     
             console.log(paymentMethod)
             alert('Payment Successful!')
+            this.props.navigation.navigate('PatientHomeNavigator');
             // navigate to the home page 
 
             // stripe.confirmPaymentIntent({

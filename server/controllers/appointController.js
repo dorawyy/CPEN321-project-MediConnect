@@ -7,6 +7,7 @@ const Patient = require("../models/patient");
 const Doctor = require("../models/doctor");
 const Appointment = require("../models/appointment");
 const { handleAppointmentErrors } = require("../middleware/errMiddleware");
+const appointment = require("../models/appointment");
 
 /**
  * Helper function for postAppointment and putAppointment to find the correct
@@ -71,6 +72,38 @@ const postAppointment = async (req, res) => {
 
     const newAppointment = await Appointment.create(req.body);
 
+    for (
+      let patientIndex = 0;
+      patientIndex < patient.appointments.length;
+      patientIndex++
+    ) {
+      if (
+        patient.appointments[patientIndex].start_time.getTime() ===
+          newAppointment.start_time.getTime() ||
+        patient.appointments[patientIndex].end_time.getTime() ===
+          newAppointment.end_time.getTime()
+      ) {
+        await newAppointment.deleteOne();
+        throw Error("Time slot already booked");
+      }
+    }
+
+    for (
+      let doctorIndex = 0;
+      doctorIndex < doctor.appointments.length;
+      doctorIndex++
+    ) {
+      if (
+        doctor.appointments[doctorIndex].start_time.getTime() ===
+          newAppointment.start_time.getTime() ||
+        doctor.appointments[doctorIndex].end_time.getTime() ===
+          newAppointment.end_time.getTime()
+      ) {
+        await newAppointment.deleteOne();
+        throw Error("Time slot already booked");
+      }
+    }
+
     // add new appointment to patient and doctor appointments in sorted order
     patient.appointments.splice(
       binarySearch(patient.appointments, newAppointment.start_time),
@@ -82,9 +115,9 @@ const postAppointment = async (req, res) => {
       0,
       newAppointment
     );
+
     await patient.save();
     await doctor.save();
-
     res.status(200).json({ appointment: newAppointment._id });
   } catch (err) {
     const errors = handleAppointmentErrors(err);
@@ -101,6 +134,7 @@ const putAppointment = async (req, res) => {
   const appointmentId = req.params.id;
 
   try {
+    const oldAppointment = await Appointment.findById(appointmentId);
     await Appointment.findByIdAndUpdate(appointmentId, req.body, {
       runValidators: true,
     });
@@ -114,6 +148,48 @@ const putAppointment = async (req, res) => {
     const doctor = await Doctor.findById(appointment.doctorId).populate(
       "appointments"
     );
+
+    for (
+      let patientIndex = 0;
+      patientIndex < patient.appointments.length;
+      patientIndex++
+    ) {
+      if (
+        patient.appointments[patientIndex].start_time.getTime() ===
+          appointment.start_time.getTime() ||
+        patient.appointments[patientIndex].end_time.getTime() ===
+          appointment.end_time.getTime()
+      ) {
+        await Appointment.findByIdAndUpdate(appointmentId, {
+          patientId: oldAppointment.patientId,
+          doctorId: oldAppointment.doctorId,
+          start_time: oldAppointment.start_time,
+          end_time: oldAppointment.end_time,
+        });
+        throw Error("Time slot already booked");
+      }
+    }
+
+    for (
+      let doctorIndex = 0;
+      doctorIndex < doctor.appointments.length;
+      doctorIndex++
+    ) {
+      if (
+        doctor.appointments[doctorIndex].start_time.getTime() ===
+          appointment.start_time.getTime() ||
+        doctor.appointments[doctorIndex].end_time.getTime() ===
+          appointment.end_time.getTime()
+      ) {
+        await Appointment.findByIdAndUpdate(appointmentId, {
+          patientId: oldAppointment.patientId,
+          doctorId: oldAppointment.doctorId,
+          start_time: oldAppointment.start_time,
+          end_time: oldAppointment.end_time,
+        });
+        throw Error("Time slot already booked");
+      }
+    }
 
     // remove the appointment from both the patient's and doctor's appointments
     patient.appointments.pull({ _id: appointmentId });
@@ -132,6 +208,8 @@ const putAppointment = async (req, res) => {
     );
     await patient.save();
     await doctor.save();
+
+    if (isBooked) throw Error("Time slot already booked");
 
     res.status(200).json({ appointment: appointmentId });
   } catch (err) {
