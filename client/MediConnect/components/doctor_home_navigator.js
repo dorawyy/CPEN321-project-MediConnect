@@ -1,7 +1,7 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
 import 'react-native-paper';
-import {Component} from 'react';
+import {Component, StyleSheet} from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import DoctorSettingsPage from './doctor_settings';
 import DoctorHome from './doctor_home';
@@ -27,9 +27,7 @@ class DoctorHomeNavigator extends Component {
 				labeled={false}
 				shifting={true}
 				sceneAnimationEnabled={true}
-				barStyle={{
-					backgroundColor: 'white',
-				}}
+				barStyle={styles.style1}
 			>
 				<Tab.Screen
 					name="Home"
@@ -79,5 +77,11 @@ class DoctorHomeNavigator extends Component {
 		);
 	}
 }
+
+const styles = StyleSheet.create({
+	style1: {
+		backgroundColor: 'white',
+	},
+});
 
 export default DoctorHomeNavigator;

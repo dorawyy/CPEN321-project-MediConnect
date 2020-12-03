@@ -5,7 +5,6 @@ import {Dropdown} from 'react-native-material-dropdown';
 import {LogBox} from 'react-native';
 import axios from 'axios';
 import {
-	AppRegistry,
 	StyleSheet,
 	Text,
 	View,
@@ -13,7 +12,6 @@ import {
 	StatusBar,
 } from 'react-native';
 // import * as firebase from 'firebase'
-import Animbutton from '../components/animbutton';
 // import Commonstyle from '../../components/commonstyle'
 
 /*
@@ -28,16 +26,6 @@ import Animbutton from '../components/animbutton';
   }*/
 
 class SlotBooking extends Component {
-	/* constructor(props) {
-        super(props);
-        
-       this.state ={
-        bookingDate: this.props.navigation.state.params.bookingDate
-       }
-       
-      }
-      */
-
 	state = {
 		//serverData: [],
 		bookingDate: this.props.route.params.bookingDate,
@@ -188,19 +176,9 @@ class SlotBooking extends Component {
 			},
 		];
 
-		// let _this = this
-		//const slots = jsonData.slots
-		/* const slotsarr = Object.keys(slots).map( function(k) {
-        return (  
-                  <View key={k} style={{margin:5}}> 
-                    <Animbutton countCheck={0} onColor={"green"} effect={"pulse"} _onPress={(status) => _this._bookSlot(status,k,slots[k]) } text={slots[k]} />
-                  </View>)
-      });*/
 		return (
 			<View style={styles.container}>
 				<StatusBar barStyle="light-content" />
-				{/* slotsarr */}
-
 				<Text style={styles.header}>Time Slots</Text>
 				<Dropdown
 					label="Select a slot"

@@ -91,10 +91,10 @@ class PatientEditAccount extends Component {
 				global.last_name = this.state.last_name;
 				global.email = this.state.email;
 				global.age = this.state.age;
-				(global.height = this.state.height),
-					(global.weight = this.state.weight),
-					(global.gender = this.state.gender),
-					console.log(global.age);
+				global.height = this.state.height;
+				global.weight = this.state.weight;
+				global.gender = this.state.gender;
+				console.log(global.age);
 				console.log(res);
 				alert('Your account details were successfully updated');
 				// this.props.navigation.navigate('DoctorHomeNavigator');

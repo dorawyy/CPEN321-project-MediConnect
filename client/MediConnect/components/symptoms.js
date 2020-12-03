@@ -1,14 +1,7 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
 import {Component} from 'react';
-import {
-	Text,
-	View,
-	StyleSheet,
-	TextInput,
-	TouchableOpacity,
-} from 'react-native';
-import axios from 'axios';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 import {LogBox} from 'react-native';
 

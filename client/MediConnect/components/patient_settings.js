@@ -1,7 +1,6 @@
 import React from 'react';
 import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 class PatientSettings extends Component {

@@ -7,10 +7,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {CheckBox} from 'react-native-elements';
-// import PushNotification from 'react-native-push-notification';
-import {Notifications} from 'react-native-notifications';
 import axios from 'axios';
 
 class DoctorNotifications extends Component {
@@ -165,7 +162,7 @@ class DoctorNotifications extends Component {
 		}
 
 		return (
-			<ScrollView style={{backgroundColor: 'white'}}>
+			<ScrollView style={styles.scroll}>
 				<View style={styles.container}>{notifsRender}</View>
 				<View style={styles.buttonsContainer}>
 					<TouchableOpacity style={styles.button} testID="Notifications_Page">
@@ -191,10 +188,9 @@ class DoctorNotifications extends Component {
 }
 
 const styles = StyleSheet.create({
-	// LinearGradient: {
-	// 	width: '100%',
-	// 	height: '100%',
-	// },
+	scroll: {
+		backgroundColor: 'white',
+	},
 
 	container: {
 		padding: 30,

@@ -1,7 +1,7 @@
 //import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
 import {Component} from 'react';
-import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 class StartUp extends Component {

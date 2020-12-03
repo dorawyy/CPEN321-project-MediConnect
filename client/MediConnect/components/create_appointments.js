@@ -1,15 +1,6 @@
 import React from 'react';
 import {Component} from 'react';
-import {
-	Text,
-	View,
-	Image,
-	StyleSheet,
-	StatusBar,
-	TextInput,
-	TouchableOpacity,
-} from 'react-native';
-import axios from 'axios';
+import {View, StyleSheet, StatusBar} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Calendar} from 'react-native-calendars';
 
@@ -44,10 +35,6 @@ class CreateAppointment extends Component {
 			>
 				<View style={styles.container}>
 					<StatusBar barStyle="light-content" />
-					{/* 
-					<View>
-                        <TouchableOpacity onPress={() => this._onPressBack() }><Text>Back</Text></TouchableOpacity>
-					</View> */}
 
 					<Calendar
 						onDayPress={this.onDayPress}

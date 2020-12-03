@@ -2,14 +2,7 @@
 import React from 'react';
 import 'react-native-paper';
 import {Component} from 'react';
-import {
-	Text,
-	View,
-	StyleSheet,
-	TouchableOpacity,
-	Image,
-	ScrollView,
-} from 'react-native';
+import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import {Notifications} from 'react-native-notifications';

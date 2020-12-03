@@ -1,10 +1,7 @@
 import React from 'react';
 import {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import {Text, View, StyleSheet} from 'react-native';
 import axios from 'axios';
-// import PushNotification from 'react-native-push-notification';
-import {LocalNotification} from '../services/LocalPushController';
 import '../components/user_info';
 import {ScrollView} from 'react-native-gesture-handler';
 

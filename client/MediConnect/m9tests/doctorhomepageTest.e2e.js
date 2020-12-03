@@ -52,25 +52,4 @@ describe('Doctor Homepage flow test', () => {
 		await expect(element(by.id('Edit_Accounts_Buttons'))).toBeVisible();
 		await element(by.id('Home_Tab')).tap();
 	});
-
-	/*
-    it('should go to “report symptom page” on clicking button', async () => {
-		await element(by.id('report_symptoms_button')).tap();
-		//await expect(element(by.id('report_symptoms_text'))).toBeVisible();
-        await expect(element(by.id('report_button'))).toBeVisible();
-    });
-    
-    it('should show error on invalid input', async () => {
-        //await element(by.id('report_symptoms_text')).clearText();
-        await element(by.id('report_button')).tap();
-        await expect(element(by.text('Error'))).toBeVisible();
-        await element(by.text('OK')).tap();
-    });
-
-    it('should show doctor results on valid input', async () => {
-        await element(by.id('report_symptoms_text')).clearText();
-        await element(by.id('report_symptoms_text')).typeText('Fever');
-        await element(by.id('report_button')).tap();
-        await expect(element(by.id('Doctor_results'))).toBeVisible();
-    });*/
 });
