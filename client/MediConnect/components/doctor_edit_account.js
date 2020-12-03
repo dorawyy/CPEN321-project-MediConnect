@@ -18,12 +18,19 @@ class DoctorEditAccount extends Component {
 	};
 
 	componentDidMount() {
-		this.setState({first_name: global.first_name});
-		this.setState({last_name: global.last_name});
-		this.setState({email: global.email});
-		this.setState({age: global.age});
-		this.setState({specialization: global.specialization});
-		this.setState({years_of_experience: global.years_of_experience});
+		// this.setState({first_name: global.first_name});
+		// this.setState({last_name: global.last_name});
+		// this.setState({email: global.email});
+		// this.setState({age: global.age});
+		// this.setState({specialization: global.specialization});
+		// this.setState({years_of_experience: global.years_of_experience});
+
+		this.state.first_name = global.first_name; 
+		this.state.last_name = global.last_name; 
+		this.state.email = global.email; 
+		this.state.age = global.age;
+		this.state.specialization = global.specialization; 
+		this.state.years_of_experience = global.years_of_experience; 
 
 		console.log(global.age);
 
@@ -51,7 +58,7 @@ class DoctorEditAccount extends Component {
 	};
 
 	changeAge = (text) => {
-		this.setState({age: parseInt(text)});
+		this.setState({age: parseInt(text, 10)});
 		console.log(this.state.age);
 	};
 
@@ -60,7 +67,7 @@ class DoctorEditAccount extends Component {
 	};
 
 	changeYOE = (text) => {
-		this.setState({years_of_experience: parseInt(text)});
+		this.setState({years_of_experience: parseInt(text, 10)});
 	};
 
 	async saveEdits() {
@@ -86,7 +93,7 @@ class DoctorEditAccount extends Component {
 				global.years_of_experience = this.state.years_of_experience;
 				// console.log(global.age);
 				console.log(res);
-				alert('Your account details were successfully updated');
+				// alert('Your account details were successfully updated');
 				// this.props.navigation.navigate('DoctorHomeNavigator');
 			})
 			.catch((err) => {

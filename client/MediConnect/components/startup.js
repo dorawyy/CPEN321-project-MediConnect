@@ -35,25 +35,6 @@ class StartUp extends Component {
 						Sign In
 					</Text>
 				</TouchableOpacity>
-
-				{/* 
-				<TouchableOpacity testID="signin" style={styles.button}>
-					<Text
-						style={styles.buttonText}
-						onPress={() => this.props.navigation.navigate('PatientPayment')}
-					>
-						Payment Test
-					</Text>
-				</TouchableOpacity>
-
-				<TouchableOpacity style={styles.button}>
-					<Text
-						style={styles.buttonText}
-						onPress={() => this.props.navigation.navigate('PatientNotifications')}
-					>
-						Notifs Test
-					</Text>
-				</TouchableOpacity> */}
 			</LinearGradient>
 		);
 	}

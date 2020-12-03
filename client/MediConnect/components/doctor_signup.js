@@ -64,15 +64,15 @@ class DoctorSignUp extends Component {
 			})
 			.catch((err) => {
 				console.log(err.response);
-				alert(
-					err.response.data.first_name +
-						'\n' +
-						err.response.data.last_name +
-						'\n' +
-						err.response.data.email +
-						'\n' +
-						err.response.data.password,
-				);
+				// alert(
+				// 	err.response.data.first_name +
+				// 		'\n' +
+				// 		err.response.data.last_name +
+				// 		'\n' +
+				// 		err.response.data.email +
+				// 		'\n' +
+				// 		err.response.data.password,
+				// );
 			});
 	}
 

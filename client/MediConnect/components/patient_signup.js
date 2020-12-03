@@ -54,19 +54,19 @@ class PatientSignUp extends Component {
 				console.log(res.data);
 				global.userID = res.data.user;
 				console.log(global.userID);
-				alert('You have signed up successfully! Please sign in.');
+				// alert('You have signed up successfully! Please sign in.');
 			})
 			.catch((err) => {
 				console.log(err.response.data);
-				alert(
-					err.response.data.first_name +
-						'\n' +
-						err.response.data.last_name +
-						'\n' +
-						err.response.data.email +
-						'\n' +
-						err.response.data.password,
-				);
+				// alert(
+				// 	err.response.data.first_name +
+				// 		'\n' +
+				// 		err.response.data.last_name +
+				// 		'\n' +
+				// 		err.response.data.email +
+				// 		'\n' +
+				// 		err.response.data.password,
+				// );
 			});
 	}
 

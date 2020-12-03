@@ -74,7 +74,7 @@ class DoctorSignIn extends Component {
 			})
 			.catch((err) => {
 				console.log(err.response);
-				alert(err.response.data.email + '\n' + err.response.data.password);
+				// alert(err.response.data.email + '\n' + err.response.data.password);
 			});
 	}
 

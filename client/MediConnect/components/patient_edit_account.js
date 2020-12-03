@@ -20,20 +20,21 @@ class PatientEditAccount extends Component {
 	};
 
 	componentDidMount() {
-		this.setState({first_name: global.first_name});
-		this.setState({last_name: global.last_name});
-		this.setState({email: global.email});
-		this.setState({age: global.age});
-		this.setState({height: global.height});
-		this.setState({weight: global.weight});
-		this.setState({gender: global.gender});
+		// this.setState({first_name: global.first_name});
+		// this.setState({last_name: global.last_name});
+		// this.setState({email: global.email});
+		// this.setState({age: global.age});
+		// this.setState({height: global.height});
+		// this.setState({weight: global.weight});
+		// this.setState({gender: global.gender});
 
-		// this.state.first_name = global.first_name,
-		// this.state.last_name = global.last_name,
-		// this.state.email = global.email,
-		// this.state.age = global.age,
-		// this.state.specialization = global.specialization,
-		// this.state.years_of_experience = global.years_of_experience
+		this.state.first_name = global.first_name,
+		this.state.last_name = global.last_name,
+		this.state.email = global.email,
+		this.state.age = global.age,
+		this.state.height = global.height,
+		this.state.weight = global.weight,
+		this.state.gender = global.gender, 
 	}
 
 	changeFirstName = (text) => {
@@ -56,17 +57,17 @@ class PatientEditAccount extends Component {
 	};
 
 	changeAge = (text) => {
-		this.setState({age: parseInt(text)});
+		this.setState({age: parseInt(text, 10)});
 		console.log(this.state.age);
 	};
 
 	changeWeight = (text) => {
-		this.setState({weight: parseInt(text)});
+		this.setState({weight: parseInt(text, 10)});
 		console.log(this.state.weight);
 	};
 
 	changeHeight = (text) => {
-		this.setState({height: parseInt(text)});
+		this.setState({height: parseInt(text, 10)});
 		console.log(this.state.height);
 	};
 
@@ -96,7 +97,7 @@ class PatientEditAccount extends Component {
 				global.gender = this.state.gender;
 				console.log(global.age);
 				console.log(res);
-				alert('Your account details were successfully updated');
+				// alert('Your account details were successfully updated');
 				// this.props.navigation.navigate('DoctorHomeNavigator');
 			})
 			.catch((err) => {
