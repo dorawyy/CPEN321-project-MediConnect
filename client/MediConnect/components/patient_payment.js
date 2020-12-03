@@ -62,12 +62,12 @@ class PatientPayment extends Component {
 
 		try {
 			if (
-				this.state.name != '' &&
-				this.state.line1 != '' &&
-				this.state.city != '' &&
-				this.state.state != '' &&
-				this.state.country != '' &&
-				this.state.postalCode != ''
+				this.state.name !== '' &&
+				this.state.line1 !== '' &&
+				this.state.city !== '' &&
+				this.state.state !== '' &&
+				this.state.country !== '' &&
+				this.state.postalCode !== ''
 			) {
 				console.log(this.state.line1);
 				console.log(this.state.line2);
@@ -107,7 +107,7 @@ class PatientPayment extends Component {
 
 				this.props.navigation.navigate('PatientHomeNavigator');
 
-				alert('Payment Successful!');
+				// alert('Payment Successful!');
 			}
 
 			// navigate to the home page
