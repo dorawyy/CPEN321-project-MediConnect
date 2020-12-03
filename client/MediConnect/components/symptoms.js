@@ -107,7 +107,7 @@ class Symptoms extends Component {
 						<Text style={styles.header}>Enter Your Symptom Here</Text>
 
 						<Dropdown
-                    	label='Symptoms'
+                    	label='Select Symptom'
                     	data={data}
                     	useNativeDriver={true}
                     	onChangeText={

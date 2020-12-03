@@ -110,7 +110,6 @@ class PatientSignIn extends Component {
 			global.weight = res.data.weight; 
 			global.height = res.data.height; 
 
-
 			// console.log(res.data); 
 
 			this.props.navigation.navigate('PatientHomeNavigator');
@@ -154,6 +153,7 @@ class PatientSignIn extends Component {
 					<View style={styles.loginbox}>
 						<View>
 							<TextInput
+								testID="email"
 								style={styles.text}
 								underlineColorAndroid="gray"
 								placeholder="Email"
@@ -164,6 +164,7 @@ class PatientSignIn extends Component {
 						</View>
 						<View>
 							<TextInput
+								testID="password"
 								style={styles.text}
 								secureTextEntry={true}
 								underlineColorAndroid="gray"
@@ -175,6 +176,7 @@ class PatientSignIn extends Component {
 						</View>
 
 						<TouchableOpacity
+							testID="signin_button"
 							style={styles.submitButton}
 							onPress={() => this.signin()}
 						>

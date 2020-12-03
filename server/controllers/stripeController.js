@@ -20,17 +20,4 @@ const createPaymentIntent = async (req, res) => {
   });
 };
 
-// const confirmPaymentIntent = async (req, res) => {};
-
-// const createCheckout = async (req, res) => {
-//   const session = await stripe.checkout.sessions.create({
-//     cancel_url: "",
-//     success_url: "",
-//     mode: "payment",
-//     payment_method_types: ["card"],
-//   });
-
-//   res.json({ id: session.id });
-// };
-
 module.exports = { createPaymentIntent };

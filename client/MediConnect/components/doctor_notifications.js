@@ -141,7 +141,7 @@ class DoctorNotifications extends Component {
 			notifsRender = 
 			(<View style={styles.noNotifsContainer}>
 				<Text style={styles.noNotifs}>
-					You have no notifications!
+					You have no notifications
 				</Text>
 			</View>)
 		} else {
@@ -177,7 +177,7 @@ class DoctorNotifications extends Component {
 
 				</View>
 				<View style={styles.buttonsContainer}>
-					<TouchableOpacity style={styles.button}>
+					<TouchableOpacity style={styles.button} testID='Notifications_Page'>
 						<Text style={styles.buttonText} onPress={() => this.someRead()}>Mark selected as read</Text>
 					</TouchableOpacity>
 

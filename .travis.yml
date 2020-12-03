@@ -10,8 +10,3 @@ script:
 branches:
   only:
     - backend_test
-
-  # except:
-  #   - master
-  #   - frontend
-  #   - frontend_test

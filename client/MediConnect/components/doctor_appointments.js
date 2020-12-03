@@ -24,8 +24,8 @@ class DoctorAppointments extends Component {
 		const uid = global.userID
 				   
 		axios
-			// .get("http://10.0.2.2:5000/patient/appointment/" + uid,
-			.get("http://54.176.99.202:5000/patient/appointment/" + uid, {},
+			// .get("http://10.0.2.2:5000/doctor/appointment/" + uid,
+			.get("http://54.176.99.202:5000/doctor/appointment/" + uid, {},
 			{
 				headers: {
 					//Accept: "application/json",
@@ -81,22 +81,9 @@ class DoctorAppointments extends Component {
 		if(this.state.no_appointments == false && this.state.appointmentsArray.length > 0){
 			appointments = 
 				(<View>
-					<View style={styles.appointmentsContainer}>
-						<Calendar
-							// onDayPress={this.onDayPress}
-							style={styles.calendar}
-							hideExtraDays
-							markedDates={this.state.appointmentDates}
-							theme={{
-							selectedDayBackgroundColor: '#02d9b5',
-							todayTextColor: '#02d9b5',
-							arrowColor: '#02d9b5',
-							}}
-						/>
-					</View>
 					{Object.values(this.state.appointmentsArray).map((item, count) =><View style={styles.patient} key={count}>
 						<TouchableOpacity style={styles.patientinfo}
-							onPress = {() => {this.props.navigation.navigate('AppointmentDetails', {patientID: item.patientId});}}
+							onPress = {() => {this.props.navigation.navigate('AppointmentDetails', {id: item.patientId, type: 0});}}
 						>
 							<Text style={styles.appointmentHeader}>
 								{'Appointment ' + (count+1)}
@@ -113,7 +100,7 @@ class DoctorAppointments extends Component {
 							<View style={styles.buttonContainer}>
 								<TouchableOpacity
 								style={styles.button}
-								onPress = {() => {this.props.navigation.navigate('AppointmentDetails', {patientID: item.patientId});}}
+								onPress = {() => {this.props.navigation.navigate('AppointmentDetails', {id: item.patientId, type: 0});}}
 								>
 									<Text style={styles.buttonText}>View Patient Details</Text>
 								</TouchableOpacity>
@@ -124,13 +111,30 @@ class DoctorAppointments extends Component {
 				</View>)
 		} else {
 			appointments = (
-				<Text style={styles.header}>No appointments found</Text>
-			)
+				(<View style={styles.noAppsContainer}>
+					<Text style={styles.noApps}>
+						You have no appointments
+					</Text>
+				</View>))
 		}
 
 		return (
 				<ScrollView style={styles.big}>
 					<View style={styles.container}>
+						<View style={styles.appointmentsContainer}>
+							<Calendar
+								// onDayPress={this.onDayPress}
+								testID='Appointments_Page_Calendar'
+								style={styles.calendar}
+								hideExtraDays
+								markedDates={this.state.appointmentDates}
+								theme={{
+								selectedDayBackgroundColor: '#02d9b5',
+								todayTextColor: '#02d9b5',
+								arrowColor: '#02d9b5',
+								}}
+							/>
+						</View>
 						{/* <Text style={styles.header}>Appointments</Text> */}
 						{appointments}	
 					</View>
@@ -162,7 +166,7 @@ const styles = StyleSheet.create({
 	},
 
 	header: {
-		color: '#02d9b5',
+		color: '#02f0c8',
 		fontSize: 20,
 		padding: 20,
 	},
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
 	},
 
 	button: {
-		backgroundColor: '#02d9b5',
+		backgroundColor: '#02f0c8',
 		padding: 5,
 		margin: 10,
 		height: 30,
@@ -282,7 +286,21 @@ const styles = StyleSheet.create({
 	appointmentsContainer: {
 		marginTop: 20
 
+	},
+
+	noApps: {
+		fontFamily: 'Iowan Old Style',
+		fontSize: 20,
+		color: '#5c5c5c', 
+	},
+
+	
+	noAppsContainer: {
+		marginTop: 20, 
+		alignItems: 'center',
+		justifyContent: 'center',
 	}
+
 });
 
 export default DoctorAppointments;

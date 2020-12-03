@@ -20,41 +20,75 @@ class AppointmentDetails extends Component {
 			email: '',
 			gender: '',
 			weight: '',
-			height: '' 
+			height: '', 
+			rating: 0, 
+			specialization: '', 
+			verified: false, 
+			years_of_experience: 0, 
 		};
 	}
 
 
 	componentDidMount() {
 
-		axios.get("http://54.176.99.202:5000/patient/"+ this.props.route.params.patientID, {
-		// axios.get('http://10.0.2.2:5000/patient/' + this.props.route.params.patientID, {
-		})
-		.then((res) => {
+		if (this.props.route.params.type == 0) {
+			console.log("getting patient detials for app")
+			axios.get("http://54.176.99.202:5000/patient/"+ this.props.route.params.id, {
+			// axios.get('http://10.0.2.2:5000/patient/' + this.props.route.params.patientID, {
+			})
+			.then((res) => {
 
-			// this.setState({ first_name: res.data.first_name });
-			// console.log(res.data); 
-			this.setState({first_name: res.data.first_name});
-			this.setState({last_name: res.data.last_name});
-			this.setState({email: res.data.email});
-			this.setState({age: res.data.age});
-			this.setState({height: res.data.height});
-			this.setState({weight: res.data.weight});
-			this.setState({gender: res.data.gender});
+				// this.setState({ first_name: res.data.first_name });
+				// console.log(res.data); 
+				this.setState({first_name: res.data.first_name});
+				this.setState({last_name: res.data.last_name});
+				this.setState({email: res.data.email});
+				this.setState({age: res.data.age});
+				this.setState({height: res.data.height});
+				this.setState({weight: res.data.weight});
+				this.setState({gender: res.data.gender});
 
-		})
-		.catch((err) => {
-			console.log(err.response);
-		});
+			})
+			.catch((err) => {
+				console.log(err.response);
+			});			
+		} else {
+
+			axios.get("http://54.176.99.202:5000/doctor/"+ this.props.route.params.id, {
+				// axios.get('http://10.0.2.2:5000/patient/' + this.props.route.params.patientID, {
+				})
+				.then((res) => {
+	
+					// this.setState({ first_name: res.data.first_name });
+					// console.log(res.data); 
+					this.setState({first_name: res.data.first_name});
+					this.setState({last_name: res.data.last_name});
+					this.setState({email: res.data.email});
+					this.setState({age: res.data.age});
+					this.setState({rating: res.data.rating});
+					this.setState({specialization: res.data.specialization});
+					this.setState({verified: res.data.verified});
+					this.setState({years_of_experience: res.data.years_of_experience});
+	
+				})
+				.catch((err) => {
+					console.log(err.response);
+				});		
+		}
+
+
 
 	}
 
 	
 
 	render() {
+		
+		let view; 
 
-		return (
-            <ScrollView style={styles.container}>
+		if (this.props.route.params.type == 0) {
+			view = (
+			<View >
                 <View style={styles.accountHeader}>
                     <Text style={styles.accountHeaderText}>Patient Details</Text>
                 </View>                
@@ -87,13 +121,57 @@ class AppointmentDetails extends Component {
                     <Text style={styles.header}>Gender: {this.state.gender}</Text>
                 </View>
 
-            </ScrollView>
+            </View>
 
-			);
-			
-			
-	
-		
+			)
+		} else {
+			view = (
+			<View >
+                <View style={styles.accountHeader}>
+                    <Text style={styles.accountHeaderText}>Doctor Details</Text>
+                </View>                
+                    
+                <View style={styles.field}>
+					<Text style={styles.header}>First Name: {this.state.first_name}</Text>
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Last Name: {this.state.last_name}</Text>
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Specialization: {this.state.specialization}</Text>
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Email: {this.state.email}</Text>
+                </View>
+
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Rating: {this.state.rating}</Text>
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.header}>Verified: {this.state.verified.toString()}</Text>
+
+                </View>
+                <View style={styles.field}>
+                    <Text style={styles.header}>Years of Experience: {this.state.years_of_experience}</Text>
+                </View>
+
+            </View>
+
+
+			)
+		}
+
+		return (
+			<ScrollView style={styles.container}>
+			{view}
+			</ScrollView>
+
+		);
 		
 	}
 }

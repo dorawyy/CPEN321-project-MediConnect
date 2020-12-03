@@ -35,6 +35,7 @@ class DoctorHomeNavigator extends Component {
 				<Tab.Screen
 					name="Home"
 					component={DoctorHome}
+					testID= 'Home_Tab'
 					options={{
 						tabBarLabel: 'Home',
 						tabBarIcon: ({color}) => (
@@ -45,6 +46,7 @@ class DoctorHomeNavigator extends Component {
 				<Tab.Screen
 					name="Appointments"
 					component={DoctorAppointments}
+					testID= 'Appointments_Tab'
 					options={{
 						tabBarLabel: 'Appointments',
 						tabBarIcon: ({color}) => (
@@ -55,6 +57,7 @@ class DoctorHomeNavigator extends Component {
 				<Tab.Screen
 					name="Notifications"
 					component={DoctorNotifications}
+					testID= 'Notifications_Tab'
 					options={{
 						tabBarLabel: 'Notifications',
 						tabBarIcon: ({color}) => (
@@ -65,6 +68,7 @@ class DoctorHomeNavigator extends Component {
 				<Tab.Screen
 					name="Settings"
 					component={DoctorSettingsPage}
+					testID= 'Settings_Tab'
 					options={{
 						tabBarLabel: 'Settings',
 						tabBarIcon: ({color}) => (
