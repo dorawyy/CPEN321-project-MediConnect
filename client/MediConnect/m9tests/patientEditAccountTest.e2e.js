@@ -1,4 +1,4 @@
-describe('Patient Homepage flow test', () => {
+describe('Patient Edit Detail flow test', () => {
 	beforeEach(async () => {
 		//await device.reloadReactNative();
 	});
@@ -40,11 +40,38 @@ describe('Patient Homepage flow test', () => {
 		await expect(element(by.id('homepage'))).toBeVisible();
 	});
 	
-	it('should go to “the settings page”', async () => {
+	it('should go to “the edit page”', async () => {
 		await element(by.id('Settings_Tab')).tap();
 		await expect(element(by.id('Edit_Accounts_Buttons'))).toBeVisible();
-		await element(by.id('Edit_Accounts_Buttons')).tap();
+        await element(by.id('Edit_Accounts_Buttons')).tap();
+        await expect(element(by.id('firstname'))).toBeVisible();
+        await expect(element(by.id('lastname'))).toBeVisible();
+        await expect(element(by.id('email'))).toBeVisible();
+        await expect(element(by.id('age'))).toBeVisible();
+        await expect(element(by.id('height'))).toBeVisible();
+        await expect(element(by.id('weight'))).toBeVisible();
+        await expect(element(by.id('Save_Button'))).toBeVisible();
     });
+
+    it('should save the edits', async () => {
+        await element(by.id('firstname')).clearText();
+        await element(by.id('lastname')).clearText();
+        await element(by.id('age')).clearText();
+        await element(by.id('height')).clearText();
+        await element(by.id('weight')).clearText();
+        await element(by.id('firstname')).typeText('Dick');
+        await element(by.id('lastname')).typeText('Thunder');
+        await element(by.id('age')).typeText('69');
+        await element(by.id('height')).typeText('170');
+        await element(by.id('weight')).typeText('420');
+        await element(by.id('Save_Button')).tap();
+    });
+
+    
+	it('should render success message', async () => {
+    	await expect(element(by.text('Your account details were successfully updated'))).toBeVisible();
+        await element(by.text('OK')).tap();
+	});
 	
 
 });

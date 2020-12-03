@@ -139,6 +139,7 @@ class PatientEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>First Name</Text>
                     <TextInput
+                        testID="firstname"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.first_name}
@@ -151,6 +152,7 @@ class PatientEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Last Name</Text>
                     <TextInput
+                        testID="lastname"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.last_name}
@@ -163,6 +165,7 @@ class PatientEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Email</Text>
                     <TextInput
+                        testID="email"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.email}
@@ -175,6 +178,7 @@ class PatientEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Age</Text>
                     <TextInput
+                        testID="age"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.age.toString()}
@@ -187,6 +191,7 @@ class PatientEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Height (cm)</Text>
                     <TextInput
+                        testID="height"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.height.toString()}
@@ -199,6 +204,7 @@ class PatientEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Weight (kg)</Text>
                     <TextInput
+                        testID="weight"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.weight.toString()}
@@ -224,7 +230,7 @@ class PatientEditAccount extends Component {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} testID='Save_Button'>
                     <Text
                         style={styles.buttonText}
                         onPress={() => {
