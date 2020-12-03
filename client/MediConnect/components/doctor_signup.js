@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
+import {Notifications} from 'react-native-notifications';
+
 
 class DoctorSignUp extends Component {
 	state = {
@@ -57,9 +59,8 @@ class DoctorSignUp extends Component {
 				global.appointments = res.data.appointments; 
 				global.email = res.data.email; 
 				global.years_of_experience = res.data.years_of_experience; 
-		
-				alert("You have signed up successfully! Please sign in.")
-				// this.props.navigation.navigate('DoctorHomeNavigator');
+
+				this.handleNotif(); 
 			})
 			.catch((err) => {
 				console.log(err.response.data);
@@ -73,6 +74,42 @@ class DoctorSignUp extends Component {
 						err.response.data.password,
 				);
 			});
+	}
+
+	handleNotif = () => {
+		alert("You have signed up successfully!"); 
+
+		var title = "Thank you for signing up"; 
+		var body = "We are so glad that you've chosen to join MediConnect!"; 
+
+		Notifications.postLocalNotification({
+			title: title,
+			body: body,
+			// sound: "chime.aiff",
+			silent: false,
+
+		})
+
+		axios.post('http://10.0.2.2:5000/doctor/notif/', {
+			userID: global.userID, 
+			title: title, 
+			text: body, 
+		},
+		{
+			headers: {
+				Cookie: global.jwt
+			}
+		}
+		)
+		.then((res) => {
+			// console.log(res.data); 
+			console.log(res.data); 
+
+			this.props.navigation.navigate('DoctorSignIn');
+		})
+		.catch((err) => {
+			console.log(err.response);
+		});
 	}
 
 	render() {

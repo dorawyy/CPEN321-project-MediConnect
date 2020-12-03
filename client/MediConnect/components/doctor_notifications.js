@@ -5,6 +5,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import {CheckBox} from 'react-native-elements';
 // import PushNotification from 'react-native-push-notification'; 
 import {Notifications} from 'react-native-notifications';
+import axios from 'axios';
+
 
 
 class DoctorNotifications extends Component {
@@ -21,47 +23,23 @@ class DoctorNotifications extends Component {
 			this.state.notifsSelect[i] = false; 
 		}
 
-		// console.log(this.state.isTaskDone[0])
-		// console.log(this.state.isTaskDone[1])
-		// console.log(this.state.isTaskDone[2])
+		axios.get('http://10.0.2.2:5000/doctor/notif/' + global.userID, {}, 
+			{
+				headers: {
+					Cookie: global.jwt,
+				},
+			}
+		)
+		.then((res) => {
+			// console.log(res.data); 
+			console.log("Getting notifications" + res.data); 
 
+			// this.props.navigation.navigate('DoctorSignIn');
+		})
+		.catch((err) => {
+			console.log(err.response.data);
+		});
 
-
-		// PushNotification.configure({
-		// 	// (optional) Called when Token is generated (iOS and Android)
-		// 	onRegister: function (token) {
-		// 	  console.log("TOKEN:", token);
-		// 	},
-		  
-		// 	// (required) Called when a remote is received or opened, or local notification is opened
-		// 	onNotification: function (notification) {
-		// 	  console.log("NOTIFICATION:", notification);
-		// 	},
-
-		// 	permissions: {
-		// 		alert: true,
-		// 		badge: true,
-		// 		sound: true,
-		// 	  },
-		  
-		// 	popInitialNotification: true,
-		// 	requestPermissions: Platform.OS === 'ios'
-		//   });
-
-
-		//// new notifs packae -------------------------------------------
-
-		// Notifications.registerRemoteNotifications();
-
-		// Notifications.events().registerNotificationReceivedForeground((notification: Notification, completion) => {
-		//   console.log(`Notification received in foreground: ${notification.title} : ${notification.body}`);
-		//   completion({alert: false, sound: false, badge: false});
-		// });
-	
-		// Notifications.events().registerNotificationOpened((notification: Notification, completion) => {
-		//   console.log(`Notification opened: ${notification.payload}`);
-		//   completion();
-		// });
 	}
 
 	switchCheck(count) {

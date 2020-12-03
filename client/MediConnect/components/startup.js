@@ -39,7 +39,7 @@ class StartUp extends Component {
 
 
 
-
+{/* 
 				<TouchableOpacity testID="signin" style={styles.button}>
 					<Text
 						style={styles.buttonText}
@@ -56,7 +56,7 @@ class StartUp extends Component {
 					>
 						Notifs Test
 					</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 
 
 

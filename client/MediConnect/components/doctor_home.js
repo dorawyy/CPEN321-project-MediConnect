@@ -73,7 +73,7 @@ class Home extends Component {
 		// console.log(this.state.appointmentDates)
 	}
 
-	getDates = () => {
+	async getDates () {
 		const uid = global.userID
 				   
 		axios
