@@ -33,7 +33,7 @@ class Symptoms extends Component {
 		// 		this.setState({
 		// 			serverData: res.data,
 		// 		});
-		if (this.state.symptom != '') {
+		if (this.state.symptom !== '') {
 			this.props.navigation.navigate('Doctors', {
 				symptoms: text,
 				data: this.state.serverData,

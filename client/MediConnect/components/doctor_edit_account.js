@@ -222,7 +222,7 @@ class DoctorEditAccount extends Component {
 						testID="age"
 						style={styles.text}
 						underlineColorAndroid="gray"
-						defaultValue={global.age == 0 ? '-' : global.age.toString()}
+						defaultValue={global.age === 0 ? '-' : global.age.toString()}
 						autoCapitalize="none"
 						onChangeText={this.changeAge}
 						required

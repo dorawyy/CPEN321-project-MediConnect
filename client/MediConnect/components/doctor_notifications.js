@@ -101,7 +101,7 @@ class DoctorNotifications extends Component {
 
 	someRead = () => {
 		for (var i = 0; i < this.state.notifs.length; i++) {
-			if (this.state.notifsSelect[i] == true) {
+			if (this.state.notifsSelect[i] === true) {
 				axios
 					// .get('http://10.0.2.2:5000/doctor/notif/' + global.userID,
 					.delete(
@@ -133,7 +133,7 @@ class DoctorNotifications extends Component {
 	render() {
 		let notifsRender;
 
-		if (this.state.notifs.length == 0) {
+		if (this.state.notifs.length === 0) {
 			notifsRender = (
 				<View style={styles.noNotifsContainer}>
 					<Text style={styles.noNotifs}>You have no notifications</Text>

@@ -79,7 +79,8 @@ test("Make past appointments, expect get appointment to delete them", async () =
 
   // GLOBAL mock of Date.now because mongoose model uses the Date function
   const realDateNow = Date.now.bind(global.Date);
-  const dateNowStub = jest.fn(() => 1169222400000);
+  const theTime = 1.1692224e12;
+  const dateNowStub = jest.fn(() => theTime);
   global.Date.now = dateNowStub;
 
   let appointmentFields = {
@@ -550,7 +551,6 @@ test("Expect to put valid appointment for patient", async () => {
   requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = { patientId: "", doctorId: "", start_time: "", end_time: "" };
-    console.log(err);
     if (err.message === "Time slot already booked") {
       errors.start_time = "Appointment can't be booked for this time slot";
       errors.end_time = "Appointment can't be booked for this time slot";
@@ -712,7 +712,6 @@ test("Expect to get error 400 when trying to put appointment and changing start_
   requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
     let errors = { patientId: "", doctorId: "", start_time: "", end_time: "" };
-    console.log(err);
     if (err.message === "Time slot already booked") {
       errors.start_time = "Appointment can't be booked for this time slot";
       errors.end_time = "Appointment can't be booked for this time slot";

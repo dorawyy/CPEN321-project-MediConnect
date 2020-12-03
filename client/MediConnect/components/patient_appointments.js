@@ -48,7 +48,7 @@ class PatientAppointments extends Component {
 
 				var dates = [];
 
-				if (this.state.no_appointments == false) {
+				if (this.state.no_appointments === false) {
 					this.setState({
 						appointmentsArray: Object.values(res.data.appointments),
 					});
@@ -84,7 +84,7 @@ class PatientAppointments extends Component {
 		// console.log("app is " + Object.values(this.state.appointmentsArray))
 
 		if (
-			this.state.no_appointments == false &&
+			this.state.no_appointments === false &&
 			this.state.appointmentsArray.length > 0
 		) {
 			appointments = (
