@@ -15,7 +15,7 @@ class DoctorHomeNavigator extends Component {
 	
 	componentDidUpdate() {
 		// this.forceUpdate(); 
-		console.log("Here")
+		// console.log("Here")
 		return true; 
 	}
 

@@ -81,8 +81,8 @@ class PatientEditAccount extends Component {
     async saveEdits() {
 
 		axios
-			// .put("http://54.183.200.234:5000/patient/search", {
-			.put('http://10.0.2.2:5000/patient/' + global.userID, {
+		.put("http://54.176.99.202:5000/patient/" + global.userID, {
+			// .put('http://10.0.2.2:5000/patient/' + global.userID, {
 				// params: {
                     first_name: this.state.first_name,
                     last_name: this.state.last_name,

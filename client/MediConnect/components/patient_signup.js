@@ -43,7 +43,8 @@ class PatientSignUp extends Component {
 	async signup() {
 		// axios.post("http://54.183.200.234:5000/patient/signup", {
 		axios
-			.post('http://10.0.2.2:5000/patient/signup', {
+			// .post('http://10.0.2.2:5000/patient/signup', {
+			.post("http://54.176.99.202:5000/patient/signup/", {
 				first_name: this.state.firstName,
 				last_name: this.state.lastName,
 				email: this.state.email,

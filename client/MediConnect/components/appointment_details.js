@@ -27,7 +27,8 @@ class AppointmentDetails extends Component {
 
 	componentDidMount() {
 
-		axios.get('http://10.0.2.2:5000/patient/' + this.props.route.params.patientID, {
+		axios.get("http://54.176.99.202:5000/patient/"+ this.props.route.params.patientID, {
+		// axios.get('http://10.0.2.2:5000/patient/' + this.props.route.params.patientID, {
 		})
 		.then((res) => {
 

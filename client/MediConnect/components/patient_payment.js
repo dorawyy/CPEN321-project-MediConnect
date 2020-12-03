@@ -42,8 +42,8 @@ class PatientPayment extends Component {
         // })
 
         axios
-	    // .post("http://54.183.200.234:5000/patient/pay", {
-	    .post('http://10.0.2.2:5000/patient/pay', {
+		.post("http://54.176.99.202:5000/patient/pay", {
+	    // .post('http://10.0.2.2:5000/patient/pay', {
 				// params: {
 				// 	// symptoms: [text],
 				// },

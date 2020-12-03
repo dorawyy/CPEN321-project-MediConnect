@@ -26,14 +26,13 @@ class Doctors extends Component {
 		console.log(this.props.route.params.symptoms)
 
 		axios
-			// .get("http://54.183.200.234:5000/patient/search", {
-			.post('http://10.0.2.2:5000/patient/search', {
+			.post("http://54.176.99.202:5000/patient/search", {
+			// .post('http://10.0.2.2:5000/patient/search', {
 				// params: {
 					symptoms: [this.props.route.params.symptoms],
 				// },
 			})
 			.then((res) => {
-				console.log("hi")
 				console.log(res.data);
 				this.setState({
 					specs: Object.keys(res.data),

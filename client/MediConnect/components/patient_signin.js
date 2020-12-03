@@ -56,7 +56,8 @@ class PatientSignIn extends Component {
 	async signin() {
 		// axios.post("http://54.183.200.234:5000/patient/signin", {
 		axios
-			.post('http://10.0.2.2:5000/patient/signin', {
+			// .post('http://10.0.2.2:5000/patient/signin', {
+			.post("http://54.176.99.202:5000/patient/signin", {
 				email: this.state.email,
 				password: this.state.password,
 				// email: 'p@gmail.com',
@@ -93,7 +94,8 @@ class PatientSignIn extends Component {
 
 		console.log("in get user info")
 
-		axios.get('http://10.0.2.2:5000/patient/' + global.userID, {
+		// axios.get('http://10.0.2.2:5000/patient/' + global.userID, {
+		axios.get("http://54.176.99.202:5000/patient/" + global.userID, {
 
 		})
 		.then((res) => {

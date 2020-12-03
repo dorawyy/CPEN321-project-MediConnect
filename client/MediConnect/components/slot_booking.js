@@ -137,7 +137,8 @@ import {
 
       axios
 			// .post("http://54.183.200.234:5000/patient/appointment", {
-			.post('http://10.0.2.2:5000/patient/appointment', {
+			// .post('http://10.0.2.2:5000/patient/appointment', {
+      .post("http://54.176.99.202:5000/patient/appointment", {
 			  patientId: uid,
         // doctorId: '5fc4c13b71d4273cecb76cbe',
         doctorId: doctor,

@@ -70,8 +70,8 @@ class DoctorEditAccount extends Component {
     async saveEdits() {
 
 		axios
-			// .put("http://54.183.200.234:5000/patient/search", {
-			.put('http://10.0.2.2:5000/doctor/' + global.userID, {
+		.put("http://54.176.99.202:5000/doctor/"+ global.userID, {
+			// .put('http://10.0.2.2:5000/doctor/' + global.userID, {
 				// params: {
                     first_name: this.state.first_name,
                     last_name: this.state.last_name,
@@ -91,7 +91,7 @@ class DoctorEditAccount extends Component {
                 global.age = this.state.age;
                 global.specialization = this.state.specialization; 
                 global.years_of_experience = this.state.years_of_experience; 
-                console.log(global.age);
+                // console.log(global.age);
                 console.log(res);
                 alert("Your account details were successfully updated"); 
                 // this.props.navigation.navigate('DoctorHomeNavigator');
@@ -121,7 +121,7 @@ class DoctorEditAccount extends Component {
           }, {
             value: 'Emergency Medicine',
           }, {
-            value: 'General and Family Medicine',
+            value: 'Family Medicine',
           }, {
             value: 'General Surgery',
           },{

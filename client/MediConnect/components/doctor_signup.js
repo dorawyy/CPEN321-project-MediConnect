@@ -38,15 +38,15 @@ class DoctorSignUp extends Component {
 	};
 
 	async signup() {
-		//axios.post("http://54.183.200.234:5000/doctor/signup", {
-		 axios.post('http://10.0.2.2:5000/doctor/signup', {
+		axios.post("http://54.176.99.202:5000/doctor/signup", {
+		//  axios.post('http://10.0.2.2:5000/doctor/signup', {
 				first_name: this.state.firstName,
 				last_name: this.state.lastName,
 				email: this.state.email,
 				password: this.state.password,
 			})
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data);
 				global.userID = res.data.user;
 				console.log(global.userID); 
 
@@ -63,7 +63,7 @@ class DoctorSignUp extends Component {
 				this.handleNotif(); 
 			})
 			.catch((err) => {
-				console.log(err.response.data);
+				console.log(err.response);
 				alert(
 					err.response.data.first_name +
 						'\n' +
@@ -78,6 +78,8 @@ class DoctorSignUp extends Component {
 
 	handleNotif = () => {
 		alert("You have signed up successfully!"); 
+		console.log(global.userID); 
+
 
 		var title = "Thank you for signing up"; 
 		var body = "We are so glad that you've chosen to join MediConnect!"; 
@@ -90,8 +92,9 @@ class DoctorSignUp extends Component {
 
 		})
 
-		axios.post('http://10.0.2.2:5000/doctor/notif/', {
-			userID: global.userID, 
+		axios.post("http://54.176.99.202:5000/doctor/notif/", {
+		// axios.post('http://10.0.2.2:5000/doctor/notif/', {
+			userId: global.userID, 
 			title: title, 
 			text: body, 
 		},

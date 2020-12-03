@@ -40,6 +40,7 @@ class Home extends Component {
 			serverData: [], 
 			appointmentsArray: [{id:'', createdAt:'', doctorId:'', end_time: ''}],
 			appointmentDates: [null],
+			no_appointments: true,
 		};	
 		// this will fire every time Page 1 receives navigation focus
 		this.props.navigation.addListener('focus', () => {
@@ -52,15 +53,41 @@ class Home extends Component {
 		})
 
 		if (global.age == 0 || global.rating == 0) {
+			var title; 
+			var body;
+
+			title=  "Update Account Information";
+			body = "Don't forget to update your information on the Account Page in the Settings Tab.";
 			// alert("Don't forget to update your information on the Account Page in the Settings Tab.")
 			Notifications.postLocalNotification({
-				title: "Update Account Information",
-				body: "Don't forget to update your information on the Account Page in the Settings Tab.",
+				title: title,
+				body: body,
 				// sound: "chime.aiff",
 				silent: false,
 	
 			})
+
+			axios.post("http://54.176.99.202:5000/doctor/notif/", {
+				// axios.post('http://10.0.2.2:5000/doctor/notif/', {
+					userId: global.userID, 
+					title: title, 
+					text: body, 
+				},
+				{
+					headers: {
+						Cookie: global.jwt
+					}
+				}
+				)
+				.then((res) => {
+					// console.log(res.data); 
+					console.log(res.data); 
+				})
+				.catch((err) => {
+					console.log(err.response);
+				});
 		}
+
 
 		this.getDates(); 
 
@@ -77,7 +104,8 @@ class Home extends Component {
 		const uid = global.userID
 				   
 		axios
-			.get("http://10.0.2.2:5000/patient/appointment/" + uid,
+			// .get("http://10.0.2.2:5000/patient/appointment/" + uid,
+			.get("http://54.176.99.202:5000/patient/appointment/" + uid, 
 			{},
 			{
 			headers: {
@@ -86,22 +114,28 @@ class Home extends Component {
 			}
 		)
 		.then((res) => {
-			// console.log(res.data);
+			console.log(global.jwt);
 			this.setState({
 				serverData: Object.keys(res.data),
-				appointmentsArray: Object.values(res.data.appointments),				
+				no_appointments: (res.data.appointments.length > 0) ? false : true,
+
+				// appointmentsArray: Object.values(res.data.appointments),				
 			});
 
 
 			var dates = []; 
 			
-			for (var i = 0; i < Object.values(this.state.appointmentsArray).length; i++) {
-				dates[i] = Object.values(this.state.appointmentsArray)[i].start_time.substring(0, 10)
-			}
-			var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
-			this.setState({appointmentDates: obj});
+			if (this.state.no_appointments == false) {
+				this.setState({appointmentsArray : Object.values(res.data.appointments) })
+				
+				for (var i = 0; i < Object.values(this.state.appointmentsArray).length; i++) {
+					dates[i] = Object.values(this.state.appointmentsArray)[i].start_time.substring(0, 10)
+				}
+				var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
+				this.setState({appointmentDates: obj});
 
-			console.log(this.state.appointmentDates)
+				console.log(this.state.appointmentDates)				
+			}
 		}).catch((err) => console.log(err));
 			//}).catch((err) => console.log(err));		
 	};

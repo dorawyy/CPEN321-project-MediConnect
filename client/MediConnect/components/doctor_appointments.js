@@ -15,6 +15,7 @@ class DoctorAppointments extends Component {
 			serverData: [], 
 			appointmentsArray: [{id:'', createdAt:'', doctorId:'', end_time: ''}],
 			appointmentDates: [null],
+			no_appointments: true,
 		};
 	}
 
@@ -23,37 +24,43 @@ class DoctorAppointments extends Component {
 		const uid = global.userID
 				   
 		axios
-			.get("http://10.0.2.2:5000/patient/appointment/" + uid,
+			// .get("http://10.0.2.2:5000/patient/appointment/" + uid,
+			.get("http://54.176.99.202:5000/patient/appointment/" + uid, {},
 			{
-			
-			},
-
-			{
-			headers: {
-				//Accept: "application/json",
-				//"Content-Type": "application/json",
-				Cookie: global.jwt,
-			},
+				headers: {
+					//Accept: "application/json",
+					//"Content-Type": "application/json",
+					Cookie: global.jwt,
+				},
 			}
 		)
 
 		.then((res) => {
-			// console.log(res.data);
+			console.log(res.data);
 			this.setState({
 				serverData: Object.keys(res.data),
-				appointmentsArray: Object.values(res.data.appointments),				
+				no_appointments: (res.data.appointments.length > 0) ? false : true,
+				appointmentsArray: (this.state.no_appointments)? [] : Object.values(res.data.appointments),				
 			});
+
+			// console.log(res.data.appointments)
+			console.log("no app" + this.state.no_appointments)
 
 
 			var dates = []; 
-			
-			for (var i = 0; i < Object.values(this.state.appointmentsArray).length; i++) {
-				dates[i] = Object.values(this.state.appointmentsArray)[i].start_time.substring(0, 10)
-			}
-			var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
-			this.setState({appointmentDates: obj});
 
-			console.log(this.state.appointmentDates)
+			if (this.state.no_appointments == false) {
+				this.setState({appointmentsArray : Object.values(res.data.appointments) })
+				for (var i = 0; i < Object.values(this.state.appointmentsArray).length; i++) {
+					dates[i] = Object.values(this.state.appointmentsArray)[i].start_time.substring(0, 10)
+				}
+				var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
+				this.setState({appointmentDates: obj});
+
+				console.log("app array" +this.state.appointmentDates)				
+			}
+			
+
 		}).catch((err) => console.log(err));
 			//}).catch((err) => console.log(err));		
 	};
@@ -69,10 +76,9 @@ class DoctorAppointments extends Component {
 
 		let appointments; 
 
-		console.log("len is " + Object.values(this.state.appointmentsArray[0]))	//this works!!!!!!!
 		// console.log("app is " + Object.values(this.state.appointmentsArray))
 
-		if(this.state.serverData && this.state.serverData.length > 0){
+		if(this.state.no_appointments == false && this.state.appointmentsArray.length > 0){
 			appointments = 
 				(<View>
 					<View style={styles.appointmentsContainer}>
@@ -118,12 +124,12 @@ class DoctorAppointments extends Component {
 				</View>)
 		} else {
 			appointments = (
-				<Text style={styles.body}>No appointments found</Text>
+				<Text style={styles.header}>No appointments found</Text>
 			)
 		}
 
 		return (
-				<ScrollView>
+				<ScrollView style={styles.big}>
 					<View style={styles.container}>
 						{/* <Text style={styles.header}>Appointments</Text> */}
 						{appointments}	
@@ -139,9 +145,11 @@ class DoctorAppointments extends Component {
 }
 
 const styles = StyleSheet.create({
-	LinearGradient: {
+	big: {
 		width: '100%',
 		height: '100%',
+		backgroundColor: 'white',
+
 	},
 
 	container: {
@@ -156,6 +164,7 @@ const styles = StyleSheet.create({
 	header: {
 		color: '#02d9b5',
 		fontSize: 20,
+		padding: 20,
 	},
 
 	body: {
