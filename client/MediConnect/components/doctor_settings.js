@@ -25,7 +25,7 @@ class DoctorSettings extends Component {
 			// >
 				<View style={styles.container}>
 					<View>
-						<TouchableOpacity style={styles.option}  onPress={() => this.props.navigation.navigate('DoctorEditAccount')}>
+						<TouchableOpacity testID='Edit_Accounts_Buttons' style={styles.option}  onPress={() => this.props.navigation.navigate('DoctorEditAccount')}>
 							<View style={styles.icon}>
 								<Icon name="user" size={30} color={'#5c5c5c'} />
 							</View>

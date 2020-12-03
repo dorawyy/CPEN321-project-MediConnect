@@ -39,7 +39,7 @@ class PatientAppointments extends Component {
 			// >
 				<View style={styles.container}>
 					<View>
-						<Text style={styles.headerText}>Appointments</Text>
+						<Text style={styles.headerText} testID='Appointments_Page'>Appointments</Text>
 					</View>
 
 					<View>

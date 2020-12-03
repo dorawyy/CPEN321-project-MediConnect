@@ -69,7 +69,7 @@ class DoctorAppointments extends Component {
 
 		let appointments; 
 
-		console.log("len is " + Object.values(this.state.appointmentsArray[0]))	//this works!!!!!!!
+		//console.log("len is " + Object.values(this.state.appointmentsArray[0]))	//this works!!!!!!!
 		// console.log("app is " + Object.values(this.state.appointmentsArray))
 
 		if(this.state.serverData && this.state.serverData.length > 0){
@@ -78,6 +78,7 @@ class DoctorAppointments extends Component {
 					<View style={styles.appointmentsContainer}>
 						<Calendar
 							// onDayPress={this.onDayPress}
+							testID='Appointments_Page_Calendar'
 							style={styles.calendar}
 							hideExtraDays
 							markedDates={this.state.appointmentDates}

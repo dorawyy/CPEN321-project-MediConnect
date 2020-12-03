@@ -81,7 +81,7 @@ class PatientHome extends Component {
 
 					</View>
 				</View>
-				<TouchableOpacity style={styles.button}>
+				<TouchableOpacity testID= "report_symptoms_button" style={styles.button}>
 					<Text
 						style={styles.buttonText}
 						onPress={() => this.props.navigation.navigate('Symptoms')}

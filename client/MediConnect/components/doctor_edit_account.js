@@ -316,9 +316,9 @@ const styles = StyleSheet.create({
 
 	buttonText: {
         alignItems: 'center',
-		justifyContent: 'center',
-		fontFamily: 'Iowan Old Style',
-		fontSize: 20,
+		  justifyContent: 'center',
+		  fontFamily: 'Iowan Old Style',
+		  fontSize: 20,
         color: 'white', 
         backgroundColor: '#02f0c8',
         paddingTop: 5, 
