@@ -727,6 +727,8 @@ test("Expect to get error 400 when trying to put appointment and changing start_
     return errors;
   });
 
+  const oldAppointment = await Appointment.findById(appointments[1]);
+
   let appointmentFields = {
     start_time: new Date(nextYear, 11, 20, 11, 0),
     end_time: new Date(nextYear, 11, 20, 12, 0),
@@ -742,6 +744,17 @@ test("Expect to get error 400 when trying to put appointment and changing start_
     "Appointment can't be booked for this time slot"
   );
 
+  let appointment = await Appointment.findById(appointments[1]);
+  expect(appointment._id).toEqual(oldAppointment._id);
+  expect(appointment.patientId).toEqual(oldAppointment.patientId);
+  expect(appointment.doctorId).toEqual(oldAppointment.doctorId);
+  expect(appointment.start_time.getTime()).toBe(
+    oldAppointment.start_time.getTime()
+  );
+  expect(appointment.end_time.getTime()).toBe(
+    oldAppointment.end_time.getTime()
+  );
+
   appointmentFields = {
     start_time: new Date(nextYear, 11, 21, 11, 0),
     end_time: new Date(nextYear, 11, 21, 12, 0),
@@ -755,6 +768,17 @@ test("Expect to get error 400 when trying to put appointment and changing start_
   );
   expect(res.body.end_time).toBe(
     "Appointment can't be booked for this time slot"
+  );
+
+  appointment = await Appointment.findById(appointments[1]);
+  expect(appointment._id).toEqual(oldAppointment._id);
+  expect(appointment.patientId).toEqual(oldAppointment.patientId);
+  expect(appointment.doctorId).toEqual(oldAppointment.doctorId);
+  expect(appointment.start_time.getTime()).toBe(
+    oldAppointment.start_time.getTime()
+  );
+  expect(appointment.end_time.getTime()).toBe(
+    oldAppointment.end_time.getTime()
   );
 });
 
