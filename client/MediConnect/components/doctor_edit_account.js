@@ -166,6 +166,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>First Name</Text>
                     <TextInput
+                        testID="firstname"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.first_name}
@@ -178,6 +179,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Last Name</Text>
                     <TextInput
+                        testID="lastname"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.last_name}
@@ -190,6 +192,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Email</Text>
                     <TextInput
+                        testID="email"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.email}
@@ -202,6 +205,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Age</Text>
                     <TextInput
+                        testID="age"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={(global.age == 0) ? "-" : global.age.toString()}
@@ -239,6 +243,7 @@ class DoctorEditAccount extends Component {
                 <View style={styles.field}>
                     <Text style={styles.header}>Years of Experience</Text>
                     <TextInput
+                        testID="experience"
                         style={styles.text}
                         underlineColorAndroid="gray"
                         defaultValue={global.years_of_experience.toString()}
@@ -248,7 +253,7 @@ class DoctorEditAccount extends Component {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} testID='Save_Button'>
 							<Text
 								style={styles.buttonText}
 								onPress={() => {
