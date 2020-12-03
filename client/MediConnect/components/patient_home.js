@@ -1,12 +1,14 @@
+//import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
 import 'react-native-paper';
 import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
-import axios from 'axios';
-import { NavigationEvents } from "react-navigation";
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import LinearGradient from 'react-native-linear-gradient';
 import {Notifications} from 'react-native-notifications';
+import {Calendar} from 'react-native-calendars';
+import axios from 'axios';
+
 
 
 class PatientHome extends Component {
@@ -21,6 +23,9 @@ class PatientHome extends Component {
 			gender: '', 
 			weight: 0, 
 			height: 0, 
+			appointmentsArray: [{id:'', createdAt:'', doctorId:'', end_time: ''}],
+			appointmentDates: [null],
+			no_appointments: true,
 		};	
 		// this will fire every time Page 1 receives navigation focus
 		this.props.navigation.addListener('focus', () => {
@@ -34,16 +39,86 @@ class PatientHome extends Component {
 		})
 
 		if (global.age == 0 || global.rating == 0) {
+			var title; 
+			var body;
+
+			title=  "Update Account Information";
+			body = "Don't forget to update your information on the Account Page in the Settings Tab.";
 			// alert("Don't forget to update your information on the Account Page in the Settings Tab.")
 			Notifications.postLocalNotification({
-				title: "Update Account Information",
-				body: "Don't forget to update your information on the Account Page in the Settings Tab.",
+				title: title,
+				body: body,
 				// sound: "chime.aiff",
 				silent: false,
 	
 			})
+
+			axios.post("http://54.176.99.202:5000/patient/notif/", {
+				// axios.post('http://10.0.2.2:5000/doctor/notif/', {
+					userId: global.userID, 
+					title: title, 
+					text: body, 
+				},
+				{
+					headers: {
+						Cookie: global.jwt
+					}
+				}
+				)
+				.then((res) => {
+					// console.log(res.data); 
+					console.log(res.data); 
+				})
+				.catch((err) => {
+					console.log(err.response);
+				});
 		}
+
+		this.getDates(); 
+
 	}
+
+
+
+	async getDates () {
+		const uid = global.userID
+				   
+		axios
+			// .get("http://10.0.2.2:5000/patient/appointment/" + uid,
+			.get("http://54.176.99.202:5000/patient/appointment/" + uid, 
+			{},
+			{
+			headers: {
+				Cookie: global.jwt,
+			},
+			}
+		)
+		.then((res) => {
+			console.log(global.jwt);
+			this.setState({
+				serverData: Object.keys(res.data),
+				no_appointments: (res.data.appointments.length > 0) ? false : true,
+
+				// appointmentsArray: Object.values(res.data.appointments),				
+			});
+
+
+			var dates = []; 
+			
+			if (this.state.no_appointments == false) {
+				this.setState({appointmentsArray : Object.values(res.data.appointments) })
+				
+				for (var i = 0; i < Object.values(this.state.appointmentsArray).length; i++) {
+					dates[i] = Object.values(this.state.appointmentsArray)[i].start_time.substring(0, 10)
+				}
+				var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
+				this.setState({appointmentDates: obj});
+
+				console.log(this.state.appointmentDates)				
+			}
+		}).catch((err) => console.log(err));
+			//}).catch((err) => console.log(err));		
+	};
 
 	refresh() {
 		this.forceUpdate(); 
@@ -52,7 +127,7 @@ class PatientHome extends Component {
 	render() {
 		console.log(global.first_name); 
 		return (
-			// <ScrollView>
+			<ScrollView style={styles.big}>
 			<View testID="homepage" style={styles.container}>
 				<View style={styles.welcome} >
 					<View style={styles.welcomeImage} ><Image source={require('../assets/logo.png')} /></View>
@@ -65,12 +140,22 @@ class PatientHome extends Component {
 						<Text style={styles.welcomeText}>Welcome, {global.first_name} {global.last_name}!</Text>
 					</LinearGradient>
 				</View>
+
+				<TouchableOpacity testID= "report_symptoms_button" style={styles.button}>
+					<Text
+						style={styles.buttonText}
+						onPress={() => this.props.navigation.navigate('Symptoms')}
+					>
+						Report Symptoms
+					</Text>
+				</TouchableOpacity>
+
+				<View style={styles.header}>
+					<Icon style={styles.icon} name="user" size={25} color={'#5c5c5c'} />
+					<Text style={styles.headerText}>Account Details</Text>
+				</View>
 				<View style={styles.infobox}>
 					<View>
-						<View style={styles.accountHeader}>
-							<Icon style={styles.icon} name="user" size={30} color={'#5c5c5c'} />
-							<Text style={styles.accountHeaderText}>Account Details</Text>
-						</View>
 						{/* <Text style={styles.text}>First Name : {global.first_name}</Text>
 						<Text style={styles.text}>Last Name : {global.last_name}</Text> */}
 						<Text style={styles.text}>Email : {global.email}</Text>
@@ -81,21 +166,38 @@ class PatientHome extends Component {
 
 					</View>
 				</View>
-				<TouchableOpacity testID= "report_symptoms_button" style={styles.button}>
-					<Text
-						style={styles.buttonText}
-						onPress={() => this.props.navigation.navigate('Symptoms')}
-					>
-						Report Symptoms
-					</Text>
-				</TouchableOpacity>
+
+				<View style={styles.header}>
+						<Icon style={styles.icon} name="calendar" size={25} color={'#5c5c5c'} />
+						<Text style={styles.headerText}>Upcoming Appointments</Text>
+				</View>
+				<View style={styles.appointmentsContainer}>
+					<Calendar
+						// onDayPress={this.onDayPress}
+						style={styles.calendar}
+						hideExtraDays
+						markedDates={this.state.appointmentDates}
+						theme={{
+						selectedDayBackgroundColor: '#02d9b5',
+						todayTextColor: '#02d9b5',
+						arrowColor: '#02d9b5',
+						}}
+					/>
+					
+				</View>
+
 			</View>
-			// </ScrollView>
+			</ScrollView>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
+	big: {
+		backgroundColor: 'white'
+
+	},
+
 	container: {
 		flex: 1,
 		alignItems: 'center',
@@ -109,7 +211,7 @@ const styles = StyleSheet.create({
 	welcome: {
 		width: '100%', 
 		height: 220, 
-		marginBottom: 10, 
+		// marginBottom: 10, 
 		marginTop: 10, 
 	},
 
@@ -139,28 +241,33 @@ const styles = StyleSheet.create({
 		backgroundColor: '#02f0c8',
 		borderRadius: 10,
 		shadowColor: 'black',
-		shadowOpacity: 1,
+		shadowOpacity: 0.5,
 		shadowRadius: 4.65,
 		elevation: 8,
 		width: 330,
 		padding: 20,
+		marginBottom: 10,
 	},
 
 	button: {
-		backgroundColor: 'white',
+		backgroundColor: '#02f0c8',
 		padding: 10,
-		margin: 15,
+		marginTop: 25,
+		marginBottom: 10,
 		height: 40,
 		alignItems: 'center',
 		justifyContent: 'center',
 		shadowColor: 'black',
 		borderRadius: 7,
+		shadowOpacity: 1.5,
+		shadowRadius: 4.65,
+		elevation: 8,
 	},
 
 	buttonText: {
 		fontFamily: 'Iowan Old Style',
-		fontSize: 17,
-		color: '#02d9b5',
+		fontSize: 21,
+		color: '#5c5c5c',
 	},
 
 	text: {
@@ -201,12 +308,15 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 
-	accountHeader: {
+	header: {
 		flexDirection: 'row',
 		paddingBottom: 10, 
+		marginTop: 20,
+		width: '100%', 
+		paddingLeft: 40, 
 	}, 
 
-	accountHeaderText: {
+	headerText: {
 		fontSize: 20,
 		fontFamily: 'Iowan Old Style',
 		color: '#5c5c5c'
@@ -215,6 +325,19 @@ const styles = StyleSheet.create({
 	icon: {
 		paddingRight: 10, 
 	},
+
+	calendar: {
+        borderTopWidth: 1,
+        paddingTop: 5,
+        borderBottomWidth: 1,
+        borderColor: '#eee',
+        height: 350
+	},
+	
+	appointmentsContainer: {
+		marginTop: 20
+
+	}
 });
 
 export default PatientHome;

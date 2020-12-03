@@ -105,7 +105,7 @@ class Home extends Component {
 				   
 		axios
 			// .get("http://10.0.2.2:5000/patient/appointment/" + uid,
-			.get("http://54.176.99.202:5000/patient/appointment/" + uid, 
+			.get("http://54.176.99.202:5000/doctor/appointment/" + uid, 
 			{},
 			{
 			headers: {

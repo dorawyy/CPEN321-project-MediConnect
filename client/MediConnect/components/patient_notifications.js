@@ -5,6 +5,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import {CheckBox} from 'react-native-elements';
 // import PushNotification from 'react-native-push-notification'; 
 import {Notifications} from 'react-native-notifications';
+import axios from 'axios';
+
+
 
 
 class PatientNotifications extends Component {
@@ -13,55 +16,43 @@ class PatientNotifications extends Component {
 		this.state = {
 			notifsSelect: [],
 			notifs: [], 
+			notifsIDs: [], 
 		};
 
-		this.state.notifs =  [["notif1", "notif 1 body"], ["notif2", "notif 2 body"], ["notif3", "notif 3 body"]]
+		// this.state.notifs =  [["notif1", "notif 1 body"], ["notif2", "notif 2 body"], ["notif3", "notif 3 body"]]
+
+
+		// console.log("Cookie" +global.jwt); 
+
+		axios
+		// .get('http://10.0.2.2:5000/patient/notif/' + global.userID, 
+		.get("http://54.176.99.202:5000/patient/notif/" + global.userID, 
+
+			{}, {headers: {Cookie: global.jwt}})
+		.then((res) => {
+
+			this.setState({
+				notifs: Object.values(res.data.notifications),	
+			});
+			
+			console.log(res.data.notifications); 
+			var d = Object.values(res.data.notifications)[0];
+			console.log("Getting notifications " + d.text)
+
 
 		for (var i = 0; i < this.state.notifs.length; i++) {
 			this.state.notifsSelect[i] = false; 
+			this.state.notifsIDs[i] = this.state.notifs[i]._id;
+			// console.log(this.state.notifsIDs[i])
 		}
 
-		// console.log(this.state.isTaskDone[0])
-		// console.log(this.state.isTaskDone[1])
-		// console.log(this.state.isTaskDone[2])
 
 
+		})
+		.catch((err) => {
+			console.log(err.response.data);
+		});
 
-		// PushNotification.configure({
-		// 	// (optional) Called when Token is generated (iOS and Android)
-		// 	onRegister: function (token) {
-		// 	  console.log("TOKEN:", token);
-		// 	},
-		  
-		// 	// (required) Called when a remote is received or opened, or local notification is opened
-		// 	onNotification: function (notification) {
-		// 	  console.log("NOTIFICATION:", notification);
-		// 	},
-
-		// 	permissions: {
-		// 		alert: true,
-		// 		badge: true,
-		// 		sound: true,
-		// 	  },
-		  
-		// 	popInitialNotification: true,
-		// 	requestPermissions: Platform.OS === 'ios'
-		//   });
-
-
-		//// new notifs packae -------------------------------------------
-
-		// Notifications.registerRemoteNotifications();
-
-		// Notifications.events().registerNotificationReceivedForeground((notification: Notification, completion) => {
-		//   console.log(`Notification received in foreground: ${notification.title} : ${notification.body}`);
-		//   completion({alert: false, sound: false, badge: false});
-		// });
-	
-		// Notifications.events().registerNotificationOpened((notification: Notification, completion) => {
-		//   console.log(`Notification opened: ${notification.payload}`);
-		//   completion();
-		// });
 	}
 
 	switchCheck(count) {
@@ -73,38 +64,63 @@ class PatientNotifications extends Component {
 		console.log(count)
 	}
 
-	testNotif = () => {
-		console.log("Inside test notif")
-		// PushNotification.localNotification({
-		// 	title: "My Notification Title", // (optional)
-		// 	message: "My Notification Message", // (required)
-		//   });
-		Notifications.postLocalNotification({
-			title: "Local notification",
-			body: "hey kk!",
-			// sound: "chime.aiff",
-			silent: false,
+	// testNotif = () => {
+	// 	console.log("Inside test notif")
+	// 	// PushNotification.localNotification({
+	// 	// 	title: "My Notification Title", // (optional)
+	// 	// 	message: "My Notification Message", // (required)
+	// 	//   });
+	// 	Notifications.postLocalNotification({
+	// 		title: "Local notification",
+	// 		body: "hey kk!",
+	// 		// sound: "chime.aiff",
+	// 		silent: false,
 
-		})
-	}
+	// 	})
+	// }
 
 	allRead = () => {
-		console.log("here!")
+
+
+		for (var i = 0; i < this.state.notifs.length; i++) {
+			axios
+			// .get('http://10.0.2.2:5000/patient/notif/' + global.userID, 
+			.delete("http://54.176.99.202:5000/patient/notif/" + this.state.notifsIDs[i], 
+				{}, {headers: {Cookie: global.jwt}})
+			.then((res) => {})
+			.catch((err) => {
+				console.log(err.response.data);
+			});
+		}
+
 		this.setState({
-			notifs: [], 
-			notifsSelect: [], 
-		})
+			notifs: [],	
+			notifsSelect: [],
+			notifsIDs: [], 
+		});
+
 		this.forceUpdate()
 
-		 // remove from backend as well!!!!!!!!!!
+
 	}
 
 	someRead = () => {
 
 		for (var i = 0; i < this.state.notifs.length; i++) {
 			if (this.state.notifsSelect[i] == true) {
+
+				axios
+				// .get('http://10.0.2.2:5000/patient/notif/' + global.userID, 
+				.delete("http://54.176.99.202:5000/patient/notif/" + this.state.notifsIDs[i], 
+					{}, {headers: {Cookie: global.jwt}})
+				.then((res) => {})
+				.catch((err) => {
+					console.log(err.response.data);
+				});
+
 				this.state.notifs.splice(i, 1)
 				this.state.notifsSelect.splice(i, 1)
+				this.state.notifsIDs.splice(i, 1)
 				i = -1; 
 			}
 		}
@@ -126,7 +142,7 @@ class PatientNotifications extends Component {
 			notifsRender = 
 			(<View style={styles.noNotifsContainer}>
 				<Text style={styles.noNotifs}>
-					You have no notifications!
+					You have no notifications
 				</Text>
 			</View>)
 		} else {
@@ -143,9 +159,9 @@ class PatientNotifications extends Component {
 						checkedColor='#5c5c5c'
 						// onPress={this.switchTaskDone(count)}
 					/>
-					<View>
-						<Text style={styles.optionText}>{notif[0]}</Text>
-						<Text style={styles.optionBody}>{notif[1]}</Text>
+					<View style={styles.optionCont}>
+						<Text style={styles.optionText}>{notif.title}</Text>
+						<Text style={styles.optionBody}>{notif.text}</Text>
 					</View>
 				</TouchableOpacity>
 			</View>)
@@ -170,9 +186,9 @@ class PatientNotifications extends Component {
 						<Text style={styles.buttonText}>Mark all as read</Text>
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.button} onPress={()=>this.testNotif()}>
+					{/* <TouchableOpacity style={styles.button} onPress={()=>this.testNotif()}>
 						<Text style={styles.buttonText}>test notifffssssssss</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 			</ScrollView>
 			
@@ -208,6 +224,11 @@ const styles = StyleSheet.create({
 		// height: 50,
 	},
 
+	optionCont: {
+		width: 230, 
+
+	},
+
 	buttonsContainer: {
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -233,13 +254,13 @@ const styles = StyleSheet.create({
 
 	optionText: {
 		fontFamily: 'Iowan Old Style',
-		fontSize: 17,
+		fontSize: 15,
 		color: '#5c5c5c', 
 	},
 
 	optionBody: {
 		fontFamily: 'Iowan Old Style',
-		fontSize: 16,
+		fontSize: 13,
 		color: '#5c5c5c', 
 	},
 
