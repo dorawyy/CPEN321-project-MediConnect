@@ -17,7 +17,7 @@ import LinearGradient from 'react-native-linear-gradient';
 // import AsyncStorage from '@react-native-community/async-storage';
 // const { signIn } = React.useContext(AuthContext);
 
-// import UserContext from './user_context'; 
+// import UserContext from './user_context';
 
 class PatientSignIn extends Component {
 	state = {
@@ -56,7 +56,8 @@ class PatientSignIn extends Component {
 	async signin() {
 		// axios.post("http://54.183.200.234:5000/patient/signin", {
 		axios
-			.post('http://10.0.2.2:5000/patient/signin', {
+			// .post('http://10.0.2.2:5000/patient/signin', {
+			.post('http://54.176.99.202:5000/patient/signin', {
 				email: this.state.email,
 				password: this.state.password,
 				// email: 'p@gmail.com',
@@ -70,16 +71,16 @@ class PatientSignIn extends Component {
 					cookie: res.headers['set-cookie'],
 				});
 
-				// UserContext.user.id = res.data; 
+				// UserContext.user.id = res.data;
 				global.userID = res.data.user;
-				console.log(global.userID); 
+				console.log(global.userID);
 
 				// CookieManager.get("http://54.183.200.234:5000/doctor/signin")
 				//     .then((res) => {
 				//         console.log('CookieManager.get =>', res); // => 'user_session=abcdefg; path=/;'
 				//     });
 
-				this.getUserInfo(); 
+				this.getUserInfo();
 
 				// this.props.navigation.navigate('PatientHomeNavigator');
 			})
@@ -90,34 +91,30 @@ class PatientSignIn extends Component {
 	}
 
 	async getUserInfo() {
+		console.log('in get user info');
 
-		console.log("in get user info")
+		// axios.get('http://10.0.2.2:5000/patient/' + global.userID, {
+		axios
+			.get('http://54.176.99.202:5000/patient/' + global.userID, {})
+			.then((res) => {
+				console.log('Getting patient data');
+				console.log(res.data);
+				global.first_name = res.data.first_name;
+				global.last_name = res.data.last_name;
+				global.age = res.data.age;
+				global.appointments = res.data.appointments;
+				global.email = res.data.email;
+				global.gender = res.data.gender;
+				global.weight = res.data.weight;
+				global.height = res.data.height;
 
-		axios.get('http://10.0.2.2:5000/patient/' + global.userID, {
+				// console.log(res.data);
 
-		})
-		.then((res) => {
-			console.log("Getting patient data")
-			console.log(res.data); 
-			global.first_name = res.data.first_name; 
-			global.last_name = res.data.last_name; 
-			global.age = res.data.age; 
-			global.appointments = res.data.appointments; 
-			global.email = res.data.email; 
-			global.gender = res.data.gender; 
-			global.weight = res.data.weight; 
-			global.height = res.data.height; 
-
-
-			// console.log(res.data); 
-
-			this.props.navigation.navigate('PatientHomeNavigator');
-
-		})
-		.catch((err) => {
-			console.log(err.response);
-		});
-
+				this.props.navigation.navigate('PatientHomeNavigator');
+			})
+			.catch((err) => {
+				console.log(err.response);
+			});
 	}
 
 	render() {

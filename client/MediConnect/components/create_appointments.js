@@ -4,8 +4,8 @@ import {
 	Text,
 	View,
 	Image,
-    StyleSheet,
-    StatusBar,
+	StyleSheet,
+	StatusBar,
 	TextInput,
 	TouchableOpacity,
 } from 'react-native';
@@ -14,23 +14,26 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Calendar} from 'react-native-calendars';
 
 class CreateAppointment extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-        this.onDayPress = this.onDayPress.bind(this);
-    }
+	constructor(props) {
+		super(props);
+		this.state = {};
+		this.onDayPress = this.onDayPress.bind(this);
+	}
 
-    onDayPress(day) {
-        this.setState({
-          selected: day.dateString
-        });
-        this.props.navigation.navigate('SlotBooking', { bookingDate : day , selectedID: this.props.route.params.selectedID})
-    }
+	onDayPress(day) {
+		this.setState({
+			selected: day.dateString,
+		});
+		this.props.navigation.navigate('SlotBooking', {
+			bookingDate: day,
+			selectedID: this.props.route.params.selectedID,
+		});
+	}
 
-    // _onPressBack(){
-    //     const {goBack} = this.props.navigation
-    //       goBack()
-    // }
+	// _onPressBack(){
+	//     const {goBack} = this.props.navigation
+	//       goBack()
+	// }
 	render() {
 		return (
 			<LinearGradient
@@ -40,25 +43,23 @@ class CreateAppointment extends Component {
 				style={styles.LinearGradient}
 			>
 				<View style={styles.container}>
-
-                    <StatusBar barStyle="light-content"/>
-{/* 
+					<StatusBar barStyle="light-content" />
+					{/* 
 					<View>
                         <TouchableOpacity onPress={() => this._onPressBack() }><Text>Back</Text></TouchableOpacity>
 					</View> */}
 
 					<Calendar
-                        onDayPress={this.onDayPress}
-                        style={styles.calendar}
-                        hideExtraDays
-                        markedDates={{[this.state.selected]: {selected: true}}}
-                        theme={{
-                        selectedDayBackgroundColor: 'green',
-                        todayTextColor: 'green',
-                        arrowColor: 'green',
-                        }}
-                    />
-
+						onDayPress={this.onDayPress}
+						style={styles.calendar}
+						hideExtraDays
+						markedDates={{[this.state.selected]: {selected: true}}}
+						theme={{
+							selectedDayBackgroundColor: 'green',
+							todayTextColor: 'green',
+							arrowColor: 'green',
+						}}
+					/>
 				</View>
 			</LinearGradient>
 		);
@@ -72,8 +73,8 @@ const styles = StyleSheet.create({
 	},
 
 	container: {
-        padding: 30,
-        flex: 1,
+		padding: 30,
+		flex: 1,
 	},
 
 	icon: {
@@ -99,10 +100,10 @@ const styles = StyleSheet.create({
 
 	headerText: {
 		//textAlign: 'center',
-    	fontWeight: 'bold',
-    	//fontStyle: 'italic',
-    	fontSize: 20,
-    	textDecorationLine: 'underline',
+		fontWeight: 'bold',
+		//fontStyle: 'italic',
+		fontSize: 20,
+		textDecorationLine: 'underline',
 		fontFamily: 'Iowan Old Style',
 		//fontSize: 20,
 		color: 'black',
@@ -119,15 +120,15 @@ const styles = StyleSheet.create({
 		elevation: 8,
 		width: 270,
 		padding: 5,
-    },
-    
-    calendar: {
-        borderTopWidth: 1,
-        paddingTop: 5,
-        borderBottomWidth: 1,
-        borderColor: '#eee',
-        height: 350
-    }
+	},
+
+	calendar: {
+		borderTopWidth: 1,
+		paddingTop: 5,
+		borderBottomWidth: 1,
+		borderColor: '#eee',
+		height: 350,
+	},
 });
 
 export default CreateAppointment;

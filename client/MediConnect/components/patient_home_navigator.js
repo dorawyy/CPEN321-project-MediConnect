@@ -3,7 +3,7 @@ import React from 'react';
 import 'react-native-paper';
 import {Component} from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import PatientSettingsPage from './patient_settings'; 
+import PatientSettingsPage from './patient_settings';
 import PatientHome from './patient_home';
 import PatientAppointments from './patient_appointments';
 import PatientNotifications from './patient_notifications';
@@ -13,27 +13,27 @@ const Tab = createMaterialBottomTabNavigator();
 
 class PatientHomeNavigator extends Component {
 	componentDidUpdate() {
-		// this.forceUpdate(); 
-		console.log("Here")
-		return true; 
+		// this.forceUpdate();
+		console.log('Here');
+		return true;
 	}
 	render() {
 		return (
 			<Tab.Navigator
-			initialRouteName="Home"
-			activeColor='#02d9b5'
-			inactiveColor="#95a5a6"
-			labeled={false}
-			shifting={true}
-			sceneAnimationEnabled={true}
-			barStyle={{ 
-				backgroundColor: 'white',
-			}}
+				initialRouteName="Home"
+				activeColor="#02d9b5"
+				inactiveColor="#95a5a6"
+				labeled={false}
+				shifting={true}
+				sceneAnimationEnabled={true}
+				barStyle={{
+					backgroundColor: 'white',
+				}}
 			>
 				<Tab.Screen
 					name="Home"
 					component={PatientHome}
-					testID= 'Home_Tab'
+					testID="Home_Tab"
 					options={{
 						tabBarLabel: 'Home',
 						tabBarIcon: ({color}) => (
@@ -44,7 +44,7 @@ class PatientHomeNavigator extends Component {
 				<Tab.Screen
 					name="Appointments"
 					component={PatientAppointments}
-					testID= 'Appointments_Tab'
+					testID="Appointments_Tab"
 					options={{
 						tabBarLabel: 'Appointments',
 						tabBarIcon: ({color}) => (
@@ -55,7 +55,7 @@ class PatientHomeNavigator extends Component {
 				<Tab.Screen
 					name="Notifications"
 					component={PatientNotifications}
-					testID= 'Notifications_Tab'
+					testID="Notifications_Tab"
 					options={{
 						tabBarLabel: 'Notifications',
 						tabBarIcon: ({color}) => (
@@ -65,7 +65,7 @@ class PatientHomeNavigator extends Component {
 				/>
 				<Tab.Screen
 					name="Settings"
-					testID= 'Settings_Tab'
+					testID="Settings_Tab"
 					component={PatientSettingsPage}
 					options={{
 						tabBarLabel: 'Settings',

@@ -12,30 +12,29 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const Tab = createMaterialBottomTabNavigator();
 
 class DoctorHomeNavigator extends Component {
-	
 	componentDidUpdate() {
-		// this.forceUpdate(); 
-		console.log("Here")
-		return true; 
+		// this.forceUpdate();
+		// console.log("Here")
+		return true;
 	}
 
 	render() {
 		return (
 			<Tab.Navigator
-			initialRouteName="Home"
-			activeColor='#02d9b5'
-			inactiveColor="#95a5a6"
-			labeled={false}
-			shifting={true}
-			sceneAnimationEnabled={true}
-			barStyle={{ 
-				backgroundColor: 'white',
-			}}
+				initialRouteName="Home"
+				activeColor="#02d9b5"
+				inactiveColor="#95a5a6"
+				labeled={false}
+				shifting={true}
+				sceneAnimationEnabled={true}
+				barStyle={{
+					backgroundColor: 'white',
+				}}
 			>
 				<Tab.Screen
 					name="Home"
 					component={DoctorHome}
-					testID= 'Home_Tab'
+					testID="Home_Tab"
 					options={{
 						tabBarLabel: 'Home',
 						tabBarIcon: ({color}) => (
@@ -46,7 +45,7 @@ class DoctorHomeNavigator extends Component {
 				<Tab.Screen
 					name="Appointments"
 					component={DoctorAppointments}
-					testID= 'Appointments_Tab'
+					testID="Appointments_Tab"
 					options={{
 						tabBarLabel: 'Appointments',
 						tabBarIcon: ({color}) => (
@@ -57,7 +56,7 @@ class DoctorHomeNavigator extends Component {
 				<Tab.Screen
 					name="Notifications"
 					component={DoctorNotifications}
-					testID= 'Notifications_Tab'
+					testID="Notifications_Tab"
 					options={{
 						tabBarLabel: 'Notifications',
 						tabBarIcon: ({color}) => (
@@ -68,7 +67,7 @@ class DoctorHomeNavigator extends Component {
 				<Tab.Screen
 					name="Settings"
 					component={DoctorSettingsPage}
-					testID= 'Settings_Tab'
+					testID="Settings_Tab"
 					options={{
 						tabBarLabel: 'Settings',
 						tabBarIcon: ({color}) => (
