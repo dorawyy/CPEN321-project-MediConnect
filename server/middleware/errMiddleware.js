@@ -93,6 +93,11 @@ const handleAppointmentErrors = (err) => {
     errors.start_time = "Appointment end time earlier than start time";
   }
 
+  // Time slot already has an appointment
+  if (err.message === "Time slot already booked") {
+    errors.start_time = "Appointment can't be booked for this time slot";
+    errors.end_time = "Appointment can't be booked for this time slot";
+  }
   // Appointment start time in the past
   if (err.message === "Past appointment") {
     errors.start_time = "Must make future appointments";
