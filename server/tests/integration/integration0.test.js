@@ -587,6 +587,97 @@ test("User tries to make a new appointment, successful case and some failure cas
   );
 });
 
+test("User tries to post or update appointment to time slow which already exists", async () => {
+  let doctorFields = {
+    email: "micjordan@gmail.com",
+    password: "abcdefghi",
+  };
+  let res = await supertest(app).post("/doctor/signin").send(doctorFields);
+  expect(res.status).toBe(200);
+  let doctorCookie = res.headers["set-cookie"];
+
+  let patientFields = {
+    email: "johnsmith@gmail.com",
+    password: "password",
+  };
+  res = await supertest(app).post("/patient/signin").send(patientFields);
+  expect(res.status).toBe(200);
+  let patientCookie = res.headers["set-cookie"];
+
+  let appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[1],
+    start_time: new Date(nextYear, 11, 30, 14, 0),
+    end_time: new Date(nextYear, 11, 30, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/doctor/appointment")
+    .set("Cookie", doctorCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(200);
+  let appointId = res.body.appointment;
+
+  res = await supertest(app)
+    .post("/doctor/appointment")
+    .set("Cookie", doctorCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  appointmentFields = {
+    patientId: patients[1],
+    doctorId: doctors[1],
+    start_time: new Date(nextYear, 11, 30, 14, 0),
+    end_time: new Date(nextYear, 11, 30, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  appointmentFields = {
+    start_time: new Date(nextYear, 11, 30, 14, 0),
+    end_time: new Date(nextYear, 11, 30, 15, 0),
+  };
+  res = await supertest(app)
+    .put(`/patient/appointment/${appointments[0]}`)
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  res = await supertest(app)
+    .put(`/patient/appointment/${appointments[3]}`)
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  res = await supertest(app)
+    .delete(`/doctor/appointment/${appointId}`)
+    .set("Cookie", doctorCookie);
+  expect(res.status).toBe(200);
+});
+
 test("User tries to update appointment, successful case and longer than 1 day case", async () => {
   let patientFields = {
     email: "johnsmith@gmail.com",
