@@ -25,12 +25,12 @@ class DoctorEditAccount extends Component {
 		// this.setState({specialization: global.specialization});
 		// this.setState({years_of_experience: global.years_of_experience});
 
-		this.state.first_name = global.first_name; 
-		this.state.last_name = global.last_name; 
-		this.state.email = global.email; 
+		this.state.first_name = global.first_name;
+		this.state.last_name = global.last_name;
+		this.state.email = global.email;
 		this.state.age = global.age;
-		this.state.specialization = global.specialization; 
-		this.state.years_of_experience = global.years_of_experience; 
+		this.state.specialization = global.specialization;
+		this.state.years_of_experience = global.years_of_experience;
 
 		console.log(global.age);
 

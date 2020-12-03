@@ -77,7 +77,7 @@ class DoctorSignUp extends Component {
 	}
 
 	handleNotif = () => {
-		alert('You have signed up successfully!');
+		// alert('You have signed up successfully!');
 		console.log(global.userID);
 
 		var title = 'Thank you for signing up';

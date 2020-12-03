@@ -140,7 +140,7 @@ class SlotBooking extends Component {
 			})
 			.catch((err) => {
 				console.log(err.response.data);
-				alert('Appointment could not be booked.');
+				// alert('Appointment could not be booked.');
 			});
 
 		//firebase.database().ref('users').child(uid).child("appointments").child(month).child(date).update(userDataJson)
