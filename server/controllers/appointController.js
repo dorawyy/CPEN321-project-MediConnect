@@ -62,32 +62,40 @@ const postAppointment = async (req, res) => {
 
     const newAppointment = await Appointment.create(req.body);
 
-    const patientIndex = binarySearch(
-      patient.appointments,
-      newAppointment.start_time
-    );
-    if (
-      patient.appointments[patientIndex].start_time ===
-        newAppointment.start_time ||
-      patient.appointments[patientIndex].end_time === newAppointment.end_time
+    console.log(newAppointment);
+    console.log(patient.appointments);
+    for (
+      let patientIndex = 0;
+      patientIndex < patient.appointments.length;
+      patientIndex++
     ) {
-      await newAppointment.deleteOne();
-      throw Error("Time slot already booked");
+      console.log("**************" + newAppointment.start_time);
+      if (
+        patient.appointments[patientIndex].start_time ===
+          newAppointment.start_time ||
+        patient.appointments[patientIndex].end_time === newAppointment.end_time
+      ) {
+        await newAppointment.deleteOne();
+        throw Error("Time slot already booked");
+      }
     }
 
-    const doctorIndex = binarySearch(
-      doctor.appointments,
-      newAppointment.start_time
-    );
-    if (
-      doctor.appointments[doctorIndex].start_time ===
-        newAppointment.start_time ||
-      doctor.appointments[doctorIndex].end_time === newAppointment.end_time
+    for (
+      let doctorIndex = 0;
+      doctorIndex < patient.appointments.length;
+      doctorIndex++
     ) {
-      await newAppointment.deleteOne();
-      throw Error("Time slot already booked");
+      if (
+        doctor.appointments[doctorIndex].start_time ===
+          newAppointment.start_time ||
+        doctor.appointments[doctorIndex].end_time === newAppointment.end_time
+      ) {
+        await newAppointment.deleteOne();
+        throw Error("Time slot already booked");
+      }
     }
 
+    console.log("*******************TEST");
     // add new appointment to patient and doctor appointments in sorted order
     patient.appointments.splice(
       binarySearch(patient.appointments, newAppointment.start_time),
@@ -99,9 +107,11 @@ const postAppointment = async (req, res) => {
       0,
       newAppointment
     );
+
+    console.log("*******************TEST2");
     await patient.save();
     await doctor.save();
-
+    console.log("*******************TEST3");
     res.status(200).json({ appointment: newAppointment._id });
   } catch (err) {
     const errors = handleAppointmentErrors(err);
@@ -152,7 +162,7 @@ const putAppointment = async (req, res) => {
         appointment.start_time ||
       patient.appointments[patientIndex].end_time === appointment.end_time
     ) {
-      Appointment.findByIdAndUpdate(appointmentId, {
+      await Appointment.findByIdAndUpdate(appointmentId, {
         patientId: oldAppointment.patientId,
         doctorId: oldAppointment.doctorId,
         start_time: oldAppointment.start_time,
@@ -165,7 +175,7 @@ const putAppointment = async (req, res) => {
       doctor.appointments[doctorIndex].start_time === appointment.start_time ||
       doctor.appointments[doctorIndex].end_time === appointment.end_time
     ) {
-      Appointment.findByIdAndUpdate(appointmentId, {
+      await Appointment.findByIdAndUpdate(appointmentId, {
         patientId: oldAppointment.patientId,
         doctorId: oldAppointment.doctorId,
         start_time: oldAppointment.start_time,
