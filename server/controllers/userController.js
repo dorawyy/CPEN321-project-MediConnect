@@ -41,7 +41,6 @@ const putUserById = async (req, res, model) => {
   const updateFields = req.body;
 
   try {
-    console.log(updateFields);
     const user = await User.findById(id);
     if (!user) throw Error("Invalid user ID");
 
