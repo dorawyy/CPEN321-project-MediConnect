@@ -57,11 +57,88 @@ afterAll(async () => {
 test("Expect to get all appointments of a patient, successful case", async () => {
   requireAuth.mockImplementation((req, res, next) => next());
 
-  const res = await supertest(app).get(`/patient/appointment/${patients[0]}`);
+  let res = await supertest(app).get(`/patient/appointment/${patients[0]}`);
   expect(res.status).toBe(200);
   expect(res.body.appointments.length).toBe(4);
   res.body.appointments.forEach((appointment) => {
     expect(appointment.patientId).toBe(patients[0]);
+    expect(appointments).toContain(appointment._id);
+  });
+
+  res = await supertest(app).get(`/doctor/appointment/${doctors[0]}`);
+  expect(res.status).toBe(200);
+  expect(res.body.appointments.length).toBe(6);
+  res.body.appointments.forEach((appointment) => {
+    expect(appointment.doctorId).toBe(doctors[0]);
+    expect(appointments).toContain(appointment._id);
+  });
+});
+
+test("Make past appointments, expect get appointment to delete them", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+
+  // GLOBAL mock of Date.now because mongoose model uses the Date function
+  const realDateNow = Date.now.bind(global.Date);
+  const dateNowStub = jest.fn(() => 1169222400000);
+  global.Date.now = dateNowStub;
+
+  let appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[0],
+    start_time: new Date(2010, 10, 20, 12, 0),
+    end_time: new Date(2010, 10, 20, 13, 0),
+  };
+  let patient = await Patient.findById(patients[0]).populate("appointments");
+  let doctor = await Doctor.findById(doctors[0]).populate("appointments");
+
+  let newAppointment = await Appointment.create(appointmentFields);
+  patient.appointments.splice(0, 0, newAppointment);
+  doctor.appointments.splice(0, 0, newAppointment);
+
+  appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[0],
+    start_time: new Date(2009, 10, 20, 12, 0),
+    end_time: new Date(2009, 10, 20, 13, 0),
+  };
+  newAppointment = await Appointment.create(appointmentFields);
+  patient.appointments.splice(0, 0, newAppointment);
+  doctor.appointments.splice(0, 0, newAppointment);
+
+  appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[0],
+    start_time: new Date(2008, 10, 20, 12, 0),
+    end_time: new Date(2008, 10, 20, 13, 0),
+  };
+  newAppointment = await Appointment.create(appointmentFields);
+  patient.appointments.splice(0, 0, newAppointment);
+  doctor.appointments.splice(0, 0, newAppointment);
+
+  await patient.save();
+  await doctor.save();
+
+  patient = await Patient.findById(patients[0]).populate("appointments");
+  doctor = await Doctor.findById(doctors[0]).populate("appointments");
+  expect(patient.appointments.length).toBe(7);
+  expect(doctor.appointments.length).toBe(9);
+
+  // changing Date.now back to normal
+  global.Date.now = realDateNow;
+
+  let res = await supertest(app).get(`/patient/appointment/${patients[0]}`);
+  expect(res.status).toBe(200);
+  expect(res.body.appointments.length).toBe(4);
+  res.body.appointments.forEach((appointment) => {
+    expect(appointment.patientId).toBe(patients[0]);
+    expect(appointments).toContain(appointment._id);
+  });
+
+  res = await supertest(app).get(`/doctor/appointment/${doctors[0]}`);
+  expect(res.status).toBe(200);
+  expect(res.body.appointments.length).toBe(6);
+  res.body.appointments.forEach((appointment) => {
+    expect(appointment.doctorId).toBe(doctors[0]);
     expect(appointments).toContain(appointment._id);
   });
 });

@@ -32,10 +32,20 @@ const getAppointments = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const appointments = await User.findById(id, "appointments").populate(
+    let appointments = await User.findById(id, "appointments").populate(
       "appointments"
     );
     if (!appointments) throw Error("Invalid user ID");
+
+    for (let i = appointments.appointments.length - 1; i >= 0; i--) {
+      if (appointments.appointments[i].end_time < new Date(Date.now())) {
+        appointments.appointments.splice(0, i + 1);
+      }
+    }
+    await appointments.save();
+    appointments = await User.findById(id, "appointments").populate(
+      "appointments"
+    );
 
     res.status(200).json(appointments);
   } catch (err) {
