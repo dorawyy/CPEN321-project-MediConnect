@@ -355,6 +355,78 @@ test("Expected error 400 when post appointment with non dates", async () => {
   );
 });
 
+test("Expect error 400 when post appointment with start time and end time that overlaps a timeslot already booked for a patient and then for doctor", async () => {
+  requireAuth.mockImplementation((req, res, next) => next());
+  handleAppointmentErrors.mockImplementation((err) => {
+    let errors = { patientId: "", doctorId: "", start_time: "", end_time: "" };
+    console.log(err.message);
+    if (err.message === "Time slot already booked") {
+      errors.start_time = "Appointment can't be booked for this time slot";
+      errors.end_time = "Appointment can't be booked for this time slot";
+    }
+
+    if (err.message.includes("Appointment validation failed")) {
+      Object.values(err.errors).forEach((error) => {
+        errors[error.path] = error.message;
+      });
+    }
+
+    return errors;
+  });
+
+  let appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[0],
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+
+  // let res = await supertest(app)
+  //   .post("/patient/appointment")
+  //   .send(appointmentFields);
+  // console.log([
+  //   res.body.patientId,
+  //   res.body.doctorId,
+  //   res.body.start_time,
+  //   res.body.end_time,
+  // ]);
+  // expect(res.status).toBe(200);
+
+  // appointmentFields = {
+  //   patientId: patients[4],
+  //   doctorId: doctors[5],
+  //   start_time: new Date(nextYear, 11, 21, 14, 0),
+  //   end_time: new Date(nextYear, 11, 21, 15, 0),
+  // };
+  let res = await supertest(app)
+    .post("/patient/appointment")
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+  expect(res.body.end_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  appointmentFields = {
+    patientId: patients[1],
+    doctorId: doctors[0],
+    start_time: new Date(nextYear, 11, 21, 14, 0),
+    end_time: new Date(nextYear, 11, 21, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+  expect(res.body.end_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+});
+
 test("Expected error 400 when post appointment with missing fields", async () => {
   requireAuth.mockImplementation((req, res, next) => next());
   handleAppointmentErrors.mockImplementation((err) => {
