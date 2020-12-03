@@ -407,6 +407,85 @@ test("User gets appointments, success and failure cases", async () => {
   expect(res.body.appointments.length).toBe(2);
 });
 
+test("User makes appointment in the past, then gets them, expect them to be deleted", async () => {
+  let userFields = {
+    email: "johnsmith@gmail.com",
+    password: "password",
+  };
+  let res = await supertest(app).post("/patient/signin").send(userFields);
+  expect(res.status).toBe(200);
+  let cookie = res.headers["set-cookie"];
+
+  // GLOBAL mock of Date.now because mongoose model uses the Date function
+  const realDateNow = Date.now.bind(global.Date);
+  const dateNowStub = jest.fn(() => 1169222400000);
+  global.Date.now = dateNowStub;
+
+  let appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[0],
+    start_time: new Date(2010, 10, 20, 12, 0),
+    end_time: new Date(2010, 10, 20, 13, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .set("Cookie", cookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(200);
+
+  appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[0],
+    start_time: new Date(2009, 10, 20, 12, 0),
+    end_time: new Date(2009, 10, 20, 13, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .set("Cookie", cookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(200);
+
+  appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[0],
+    start_time: new Date(2008, 10, 20, 12, 0),
+    end_time: new Date(2008, 10, 20, 13, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .set("Cookie", cookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(200);
+
+  patient = await Patient.findById(patients[0]).populate("appointments");
+  doctor = await Doctor.findById(doctors[0]).populate("appointments");
+  expect(patient.appointments.length).toBe(7);
+  expect(doctor.appointments.length).toBe(9);
+
+  // changing Date.now back to normal
+  global.Date.now = realDateNow;
+
+  res = await supertest(app)
+    .get(`/patient/appointment/${patients[0]}`)
+    .set("Cookie", cookie);
+  expect(res.status).toBe(200);
+  expect(res.body.appointments.length).toBe(4);
+  res.body.appointments.forEach((appointment) => {
+    expect(appointment.patientId).toBe(patients[0]);
+    expect(appointments).toContain(appointment._id);
+  });
+
+  res = await supertest(app)
+    .get(`/doctor/appointment/${doctors[0]}`)
+    .set("Cookie", cookie);
+  expect(res.status).toBe(200);
+  expect(res.body.appointments.length).toBe(6);
+  res.body.appointments.forEach((appointment) => {
+    expect(appointment.doctorId).toBe(doctors[0]);
+    expect(appointments).toContain(appointment._id);
+  });
+});
+
 /**
  * User tries to make a new appointment
  */
@@ -506,6 +585,97 @@ test("User tries to make a new appointment, successful case and some failure cas
   expect(res.body.start_time).toBe(
     'Cast to date failed for value "really cool start time" at path "start_time"'
   );
+});
+
+test("User tries to post or update appointment to time slow which already exists", async () => {
+  let doctorFields = {
+    email: "micjordan@gmail.com",
+    password: "abcdefghi",
+  };
+  let res = await supertest(app).post("/doctor/signin").send(doctorFields);
+  expect(res.status).toBe(200);
+  let doctorCookie = res.headers["set-cookie"];
+
+  let patientFields = {
+    email: "johnsmith@gmail.com",
+    password: "password",
+  };
+  res = await supertest(app).post("/patient/signin").send(patientFields);
+  expect(res.status).toBe(200);
+  let patientCookie = res.headers["set-cookie"];
+
+  let appointmentFields = {
+    patientId: patients[0],
+    doctorId: doctors[1],
+    start_time: new Date(nextYear, 11, 30, 14, 0),
+    end_time: new Date(nextYear, 11, 30, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/doctor/appointment")
+    .set("Cookie", doctorCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(200);
+  let appointId = res.body.appointment;
+
+  res = await supertest(app)
+    .post("/doctor/appointment")
+    .set("Cookie", doctorCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  appointmentFields = {
+    patientId: patients[1],
+    doctorId: doctors[1],
+    start_time: new Date(nextYear, 11, 30, 14, 0),
+    end_time: new Date(nextYear, 11, 30, 15, 0),
+  };
+  res = await supertest(app)
+    .post("/patient/appointment")
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  appointmentFields = {
+    start_time: new Date(nextYear, 11, 30, 14, 0),
+    end_time: new Date(nextYear, 11, 30, 15, 0),
+  };
+  res = await supertest(app)
+    .put(`/patient/appointment/${appointments[0]}`)
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  res = await supertest(app)
+    .put(`/patient/appointment/${appointments[3]}`)
+    .set("Cookie", patientCookie)
+    .send(appointmentFields);
+  expect(res.status).toBe(400);
+  expect(res.body.start_time).toBe(
+    "Appointment can't be booked for this time slot"
+  );
+
+  res = await supertest(app)
+    .delete(`/doctor/appointment/${appointId}`)
+    .set("Cookie", doctorCookie);
+  expect(res.status).toBe(200);
 });
 
 test("User tries to update appointment, successful case and longer than 1 day case", async () => {
