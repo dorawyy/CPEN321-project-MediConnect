@@ -135,19 +135,17 @@ const putAppointment = async (req, res) => {
 
   try {
     const oldAppointment = await Appointment.findById(appointmentId);
+    if (!oldAppointment) throw Error("Invalid appointment ID");
+    let patient = await Patient.findById(oldAppointment.patientId).populate(
+      "appointments"
+    );
+    let doctor = await Doctor.findById(oldAppointment.doctorId).populate(
+      "appointments"
+    );
     await Appointment.findByIdAndUpdate(appointmentId, req.body, {
       runValidators: true,
     });
-
-    // get updated version of appointment
-    const appointment = await Appointment.findById(appointmentId);
-    if (!appointment) throw Error("Invalid appointment ID");
-    const patient = await Patient.findById(appointment.patientId).populate(
-      "appointments"
-    );
-    const doctor = await Doctor.findById(appointment.doctorId).populate(
-      "appointments"
-    );
+    let appointment = await Appointment.findById(appointmentId);
 
     for (
       let patientIndex = 0;
@@ -191,6 +189,14 @@ const putAppointment = async (req, res) => {
       }
     }
 
+    // get updated version of appointment
+    patient = await Patient.findById(appointment.patientId).populate(
+      "appointments"
+    );
+    doctor = await Doctor.findById(appointment.doctorId).populate(
+      "appointments"
+    );
+
     // remove the appointment from both the patient's and doctor's appointments
     patient.appointments.pull({ _id: appointmentId });
     doctor.appointments.pull({ _id: appointmentId });
@@ -208,8 +214,6 @@ const putAppointment = async (req, res) => {
     );
     await patient.save();
     await doctor.save();
-
-    if (isBooked) throw Error("Time slot already booked");
 
     res.status(200).json({ appointment: appointmentId });
   } catch (err) {
