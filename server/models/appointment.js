@@ -38,7 +38,7 @@ AppointmentSchema.pre("save", async function (next) {
   if (timeDiff < 0) {
     throw Error("Negative time");
   }
-  if (this.start_time < new Date()) {
+  if (this.start_time < new Date(Date.now())) {
     throw Error("Past appointment");
   }
   next();
@@ -54,7 +54,7 @@ AppointmentSchema.pre("findOneAndUpdate", async function (next) {
   if (timeDiff < 0) {
     throw Error("Negative time");
   }
-  if (start_time < new Date()) {
+  if (start_time < new Date(Date.now())) {
     throw Error("Past appointment");
   }
   next();
