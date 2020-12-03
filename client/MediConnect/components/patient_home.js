@@ -42,7 +42,7 @@ class PatientHome extends Component {
 			this.setState({height: global.height});
 		});
 
-		if (global.age == 0 || global.rating == 0) {
+		if (global.age === 0 || global.rating === 0) {
 			var title;
 			var body;
 
@@ -109,7 +109,7 @@ class PatientHome extends Component {
 
 				var dates = [];
 
-				if (this.state.no_appointments == false) {
+				if (this.state.no_appointments === false) {
 					this.setState({
 						appointmentsArray: Object.values(res.data.appointments),
 					});

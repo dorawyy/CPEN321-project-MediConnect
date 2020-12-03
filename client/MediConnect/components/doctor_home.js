@@ -52,7 +52,7 @@ class Home extends Component {
 			this.setState({years_of_experience: global.years_of_experience});
 		});
 
-		if (global.age == 0 || global.rating == 0) {
+		if (global.age === 0 || global.rating === 0) {
 			var title;
 			var body;
 
@@ -127,7 +127,7 @@ class Home extends Component {
 
 				var dates = [];
 
-				if (this.state.no_appointments == false) {
+				if (this.state.no_appointments === false) {
 					this.setState({
 						appointmentsArray: Object.values(res.data.appointments),
 					});

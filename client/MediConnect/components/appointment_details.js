@@ -28,7 +28,7 @@ class AppointmentDetails extends Component {
 	}
 
 	componentDidMount() {
-		if (this.props.route.params.type == 0) {
+		if (this.props.route.params.type === 0) {
 			console.log('getting patient detials for app');
 			axios
 				.get(
