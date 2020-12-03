@@ -42,6 +42,7 @@ const UserSchema = new Schema(
       min: [0, "Age must be at least 0"],
     },
     appointments: [{ type: Schema.Types.ObjectId, ref: "Appointment" }],
+    notifications: [{ type: Schema.Types.ObjectId, ref: "Notification" }],
   },
   userOptions
 );

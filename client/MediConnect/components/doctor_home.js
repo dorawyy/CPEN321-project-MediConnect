@@ -5,9 +5,10 @@ import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
-import { NavigationEvents } from "react-navigation";
 import {Notifications} from 'react-native-notifications';
 import {Calendar} from 'react-native-calendars';
+import axios from 'axios';
+
 
 
 
@@ -36,6 +37,8 @@ class Home extends Component {
 			age: 0,
 			specialization: '',
 			years_of_experience: 0,
+			serverData: [], 
+			appointmentsArray: [{id:'', createdAt:'', doctorId:'', end_time: ''}],
 			appointmentDates: [null],
 		};	
 		// this will fire every time Page 1 receives navigation focus
@@ -59,14 +62,49 @@ class Home extends Component {
 			})
 		}
 
-		var dates = ['2020-11-03', '2020-11-29', '2020-11-17']; 
-		// var obj = Object.assign(...this.state.appointmentDates.map(o => ({[o]: {selected: true}})));
+		this.getDates(); 
 
-		var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
+		// var dates = ['2020-12-03', '2020-12-29', '2020-12-17']; 	
+		// // var obj = Object.assign(...this.state.appointmentDates.map(o => ({[o]: {selected: true}})));
 
-		this.state.appointmentDates = obj; 
+		// var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
+
+		// this.state.appointmentDates = obj; 
 		// console.log(this.state.appointmentDates)
 	}
+
+	getDates = () => {
+		const uid = global.userID
+				   
+		axios
+			.get("http://10.0.2.2:5000/patient/appointment/" + uid,
+			{},
+			{
+			headers: {
+				Cookie: global.jwt,
+			},
+			}
+		)
+		.then((res) => {
+			// console.log(res.data);
+			this.setState({
+				serverData: Object.keys(res.data),
+				appointmentsArray: Object.values(res.data.appointments),				
+			});
+
+
+			var dates = []; 
+			
+			for (var i = 0; i < Object.values(this.state.appointmentsArray).length; i++) {
+				dates[i] = Object.values(this.state.appointmentsArray)[i].start_time.substring(0, 10)
+			}
+			var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
+			this.setState({appointmentDates: obj});
+
+			console.log(this.state.appointmentDates)
+		}).catch((err) => console.log(err));
+			//}).catch((err) => console.log(err));		
+	};
 
 		
 	// componentDidUpdate() {

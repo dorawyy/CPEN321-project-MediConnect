@@ -1,4 +1,4 @@
-describe('SignUp flow test', () => {
+describe('Doctor SignUp flow test', () => {
 	beforeEach(async () => {
 		await device.reloadReactNative();
 	});

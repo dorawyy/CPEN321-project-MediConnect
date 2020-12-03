@@ -128,16 +128,20 @@ import {
       
       console.log(start)
       console.log(end)
+      console.log("the id is " + this.props.route.params.selectedID)
       
       var uid = ''
       uid = global.userID
+
+      var doctor = this.props.route.params.selectedID; 
 
       axios
 			// .post("http://54.183.200.234:5000/patient/appointment", {
 			.post('http://10.0.2.2:5000/patient/appointment', {
 			  patientId: uid,
-        doctorId: '5fc563edbc473b4f04e605a5',
-        start_time: start  ,
+        // doctorId: '5fc4c13b71d4273cecb76cbe',
+        doctorId: doctor,
+        start_time: start,
         end_time: end,
       },
       {
@@ -154,7 +158,8 @@ import {
         }
 			})
 			.catch((err) => {
-				console.log(err.response);
+        console.log(err.response.data);
+        alert('Appointment could not be booked.')
 			});
    
       //firebase.database().ref('users').child(uid).child("appointments").child(month).child(date).update(userDataJson)
@@ -193,13 +198,12 @@ import {
       });*/
       return (
         <View style={styles.container}>
-        <Text style={styles.header}>Choose a time-slot</Text>
         <StatusBar barStyle="light-content"/>
         {/* slotsarr */}
     
         <Text style={styles.header}>Time Slots</Text>
         <Dropdown
-          label='Slots'
+          label='Select a slot'
           data={data}
           useNativeDriver={true}
           onChangeText={     
@@ -219,7 +223,7 @@ import {
 									this.saveEdits()
 								}}
 							>
-								Accept
+								Submit
 					</Text>
 				</TouchableOpacity>
         </View>
@@ -229,12 +233,18 @@ import {
    
   const styles = StyleSheet.create({
     container: {
-      flex: 1
+      flex: 1, 
+      backgroundColor: 'white', 
+      padding: 20, 
     },
     header: {
       color: '#02f0c8',
       fontSize: 20,
       padding:10
+    },
+    field: {
+      paddingBottom: 10, 
+
     },
     button: {
       alignItems: 'center',

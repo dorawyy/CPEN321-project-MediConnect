@@ -1,4 +1,4 @@
-describe('Homepage flow test', () => {
+describe('Patient Homepage flow test', () => {
 	beforeEach(async () => {
 		//await device.reloadReactNative();
 	});
@@ -21,8 +21,9 @@ describe('Homepage flow test', () => {
 			//.withTimeout(200000);
 	});
 
-	it('should render "Doctor Sign In Page" on pressing sign in', async () => {
+	it('should render "Patient Sign In Page" on pressing sign in', async () => {
 		await element(by.id('signin')).tap();
+		await element(by.id('patientToggle')).tap();
 		await expect(element(by.id('email')))
 			.toBeVisible()
 			//.withTimeout(200000);
@@ -33,20 +34,39 @@ describe('Homepage flow test', () => {
 	it('should go to “the homepage” on giving right info', async () => {
 		await element(by.id('email')).clearText();
 		await element(by.id('password')).clearText();
-		await element(by.id('email')).typeText('alexjones@gmail.com');
+		await element(by.id('email')).typeText('p@gmail.com');
 		await element(by.id('password')).typeText('12345678');
 		await element(by.id('signin_button')).tap();
 		await expect(element(by.id('homepage'))).toBeVisible();
+	});
+	
+	it('should go to “the appointments page”', async () => {
+		await element(by.id('Appointments_Tab')).tap();
+		await expect(element(by.id('Appointments_Page'))).toBeVisible();
+		await element(by.id('Home_Tab')).tap();
+	});
+	
+	it('should go to “the notifications page”', async () => {
+		await element(by.id('Notifications_Tab')).tap();
+		await expect(element(by.id('Notifications_Page'))).toBeVisible();
+		await element(by.id('Home_Tab')).tap();
+	});
+	
+	it('should go to “the settings page”', async () => {
+		await element(by.id('Settings_Tab')).tap();
+		await expect(element(by.id('Edit_Accounts_Buttons'))).toBeVisible();
+		await element(by.id('Home_Tab')).tap();
     });
-    
+	
+	/*
     it('should go to “report symptom page” on clicking button', async () => {
 		await element(by.id('report_symptoms_button')).tap();
-		await expect(element(by.id('report_symptoms_text'))).toBeVisible();
+		//await expect(element(by.id('report_symptoms_text'))).toBeVisible();
         await expect(element(by.id('report_button'))).toBeVisible();
     });
     
     it('should show error on invalid input', async () => {
-        await element(by.id('report_symptoms_text')).clearText();
+        //await element(by.id('report_symptoms_text')).clearText();
         await element(by.id('report_button')).tap();
         await expect(element(by.text('Error'))).toBeVisible();
         await element(by.text('OK')).tap();
@@ -57,5 +77,5 @@ describe('Homepage flow test', () => {
         await element(by.id('report_symptoms_text')).typeText('Fever');
         await element(by.id('report_button')).tap();
         await expect(element(by.id('Doctor_results'))).toBeVisible();
-    });
+    });*/
 });

@@ -44,6 +44,16 @@ const handleErrors = (err) => {
     errors.doctor = "User account doesn't exist";
   }
 
+  // incorrect notification ID
+  if (err.message === "Invalid notification ID") {
+    errors.notification = "Notification doesn't exist";
+  }
+
+  // CastError
+  if (err.name === "CastError") {
+    errors[err.path] = err.message;
+  }
+
   // validation errors
   if (
     err.message.includes("Patient validation failed") ||

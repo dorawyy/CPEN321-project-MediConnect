@@ -80,6 +80,7 @@ class PatientSignUp extends Component {
 					<View style={styles.toggle}>
 						<View style={styles.toggleDoctor}>
 							<TouchableOpacity
+								testID="doctorToggle"
 								style={styles.toggletextDoctor}
 								onPress={() => this.props.navigation.navigate('DoctorSignUp')}
 							>
@@ -87,7 +88,7 @@ class PatientSignUp extends Component {
 							</TouchableOpacity>
 						</View>
 						<View style={styles.togglePatient}>
-							<TouchableOpacity>
+							<TouchableOpacity testID="patientToggle">
 								<Text style={styles.buttonText}>PATIENT</Text>
 							</TouchableOpacity>
 						</View>
@@ -95,6 +96,7 @@ class PatientSignUp extends Component {
 					<View style={styles.accountbox}>
 						<View>
 							<TextInput
+								testID="firstname"
 								style={styles.text}
 								underlineColorAndroid="gray"
 								placeholder="First Name"
@@ -105,6 +107,7 @@ class PatientSignUp extends Component {
 						</View>
 						<View>
 							<TextInput
+								testID="lastname"
 								style={styles.text}
 								underlineColorAndroid="gray"
 								placeholder="Last Name"
@@ -115,6 +118,7 @@ class PatientSignUp extends Component {
 						</View>
 						<View>
 							<TextInput
+								testID="email"
 								style={styles.text}
 								underlineColorAndroid="gray"
 								placeholder="Email"
@@ -125,6 +129,7 @@ class PatientSignUp extends Component {
 						</View>
 						<View>
 							<TextInput
+								testID="password"
 								style={styles.text}
 								secureTextEntry={true}
 								underlineColorAndroid="gray"

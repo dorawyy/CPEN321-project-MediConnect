@@ -1,70 +1,60 @@
 import React from 'react';
 import {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import axios from 'axios';
-// import PushNotification from 'react-native-push-notification';
-import {LocalNotification} from '../services/LocalPushController'; 
-import '../components/user_info';
 import { ScrollView } from 'react-native-gesture-handler';
+import {Calendar} from 'react-native-calendars';
+
 
 class DoctorAppointments extends Component {
 
-	
-
-
-	state = {
-		serverData: [],
-	}
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			serverData: []
+			serverData: [], 
+			appointmentsArray: [{id:'', createdAt:'', doctorId:'', end_time: ''}],
+			appointmentDates: [null],
 		};
 	}
 
-	onContentSizeChange = (contentWidth, contentHeight) => {
-		// Save the content height in state
-		this.setState({ screenHeight: contentHeight });
-	};
 
 	componentDidMount = () => {
 		const uid = global.userID
-		/*axios
-			//.get("http://54.183.200.234:5000/patient/appointment/" + uid, {
-			.post("http://10.0.2.2:5000/doctor/signin", {
-				//email: global.email,
-				email: "alexjones@gmail.com",
-				password: "12345678",
-				
-			})
-			.then((res) => {
-				const cookie = res.headers["set-cookie"];
-				console.log(cookie);
-		*/
 				   
-				axios
-				 .get("http://10.0.2.2:5000/patient/appointment/" + uid,
-				  {
-					
-				  },
+		axios
+			.get("http://10.0.2.2:5000/patient/appointment/" + uid,
+			{
+			
+			},
 
-				  {
-					headers: {
-						//Accept: "application/json",
-						//"Content-Type": "application/json",
-					  	Cookie: global.jwt,
-					},
-				  }
-				)
+			{
+			headers: {
+				//Accept: "application/json",
+				//"Content-Type": "application/json",
+				Cookie: global.jwt,
+			},
+			}
+		)
 
-				.then((res) => {
-					console.log(res.data);
-					this.setState({
-						serverData: res.data,
-					});
-				}).catch((err) => console.log(err));
+		.then((res) => {
+			// console.log(res.data);
+			this.setState({
+				serverData: Object.keys(res.data),
+				appointmentsArray: Object.values(res.data.appointments),				
+			});
+
+
+			var dates = []; 
+			
+			for (var i = 0; i < Object.values(this.state.appointmentsArray).length; i++) {
+				dates[i] = Object.values(this.state.appointmentsArray)[i].start_time.substring(0, 10)
+			}
+			var obj = dates.reduce((c, v) => Object.assign(c, {[v]: {selected: true}}), {});
+			this.setState({appointmentDates: obj});
+
+			console.log(this.state.appointmentDates)
+		}).catch((err) => console.log(err));
 			//}).catch((err) => console.log(err));		
 	};
 
@@ -77,38 +67,67 @@ class DoctorAppointments extends Component {
 
 	render() {
 
-		
-		if(this.state.serverData.appointments && this.state.serverData.appointments.length > 0){
-			return (
-				<ScrollView>
-					<View style={styles.container}>
-						<Text style={styles.header}>Appointments</Text>
-	
-							<View>
-								{this.state.serverData.map(serverData =><View style={styles.doctor} key={serverData.userkey}>
-								
-								{/*<Text style={styles.doctorinfo}>{'Patient Name: ' + serverData.first_name +' ' + serverData.last_name}</Text>
-									<Text style={styles.doctorinfo}>{'Patient Email: ' + serverData.email}</Text>
-									<Text style={styles.doctorinfo}>{'Booked Slot: ' + serverData.slot}</Text>
-								*/}
-								<Text style={styles.doctorinfo}>{'Appointment: ' + serverData.appointments}</Text>
-									
-								</View>)}
-									
-							</View>
-	
+		let appointments; 
+
+		//console.log("len is " + Object.values(this.state.appointmentsArray[0]))	//this works!!!!!!!
+		// console.log("app is " + Object.values(this.state.appointmentsArray))
+
+		if(this.state.serverData && this.state.serverData.length > 0){
+			appointments = 
+				(<View>
+					<View style={styles.appointmentsContainer}>
+						<Calendar
+							// onDayPress={this.onDayPress}
+							testID='Appointments_Page_Calendar'
+							style={styles.calendar}
+							hideExtraDays
+							markedDates={this.state.appointmentDates}
+							theme={{
+							selectedDayBackgroundColor: '#02d9b5',
+							todayTextColor: '#02d9b5',
+							arrowColor: '#02d9b5',
+							}}
+						/>
 					</View>
-				</ScrollView>
-				);
+					{Object.values(this.state.appointmentsArray).map((item, count) =><View style={styles.patient} key={count}>
+						<TouchableOpacity style={styles.patientinfo}
+							onPress = {() => {this.props.navigation.navigate('AppointmentDetails', {patientID: item.patientId});}}
+						>
+							<Text style={styles.appointmentHeader}>
+								{'Appointment ' + (count+1)}
+							</Text>
+							<Text>
+								{'Date: ' + item.start_time.substring(0, 10)}
+							</Text>
+							<Text>
+								{'Start Time: ' + item.start_time.substring(11, 19)}
+							</Text>
+							<Text>
+								{'End Time: ' + item.end_time.substring(11, 19)}
+							</Text>
+							<View style={styles.buttonContainer}>
+								<TouchableOpacity
+								style={styles.button}
+								onPress = {() => {this.props.navigation.navigate('AppointmentDetails', {patientID: item.patientId});}}
+								>
+									<Text style={styles.buttonText}>View Patient Details</Text>
+								</TouchableOpacity>
+							</View>
+						</TouchableOpacity>
+					</View>)}
+						
+				</View>)
+		} else {
+			appointments = (
+				<Text style={styles.body}>No appointments found</Text>
+			)
 		}
 
 		return (
 				<ScrollView>
 					<View style={styles.container}>
-						<Text style={styles.header}>Appointments</Text>
-	
-						<Text style={styles.body}>No appointments found</Text>
-	
+						{/* <Text style={styles.header}>Appointments</Text> */}
+						{appointments}	
 					</View>
 				</ScrollView>
 			);
@@ -132,11 +151,11 @@ const styles = StyleSheet.create({
 		fontFamily: 'Iowan Old Style',
 		width: '100%',
 		height: '100%',
-		padding: 30,
+		padding: 10,
 	},
 
 	header: {
-		color: '#02f0c8',
+		color: '#02d9b5',
 		fontSize: 20,
 	},
 
@@ -195,10 +214,11 @@ const styles = StyleSheet.create({
 	},
 
 	button: {
-		backgroundColor: 'white',
-		padding: 10,
-		margin: 15,
-		height: 40,
+		backgroundColor: '#02d9b5',
+		padding: 5,
+		margin: 10,
+		height: 30,
+		width: 150, 
 		alignItems: 'center',
 		justifyContent: 'center',
 		shadowColor: 'black',
@@ -208,12 +228,17 @@ const styles = StyleSheet.create({
 	buttonText: {
 		fontFamily: 'Iowan Old Style',
 		fontSize: 15,
-		color: '#02d9b5',
+		color: '#5c5c5c',
 	},
 
-	doctor: {
+	buttonContainer: {
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+
+	patient: {
 		backgroundColor: '#d9d9d9',
-		height: 120,
+		// height: 120,
 		width: 270,
 		margin: 15,
 		borderRadius: 5,
@@ -225,11 +250,31 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 	},
 
-	doctorinfo: {
+	patientinfo: {
 		fontFamily: 'Iowan Old Style',
 		color: 'black',
 		fontSize: 11,
 	},
+
+	appointmentHeader: {
+		fontFamily: 'Iowan Old Style',
+		color: 'black',
+		fontSize: 15,
+		textDecorationLine: 'underline'
+	},
+
+	calendar: {
+        borderTopWidth: 1,
+        paddingTop: 5,
+        borderBottomWidth: 1,
+        borderColor: '#eee',
+        height: 350
+	},
+	
+	appointmentsContainer: {
+		marginTop: 20
+
+	}
 });
 
 export default DoctorAppointments;
