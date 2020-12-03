@@ -21,6 +21,8 @@ const getNotifications = async (req, res) => {
 const postNotifications = async (req, res) => {
   const { userId } = req.body;
 
+  console.log(req.body)
+
   try {
     // if user ID is not valid, do not proceed
     const user = await User.findById(userId).populate("notifications");

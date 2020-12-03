@@ -4,24 +4,20 @@ describe('Doctor SignIn flow test', () => {
 	});
 
 	it('should have startup screen', async () => {
-		await expect(element(by.id('startup')))
-			.toBeVisible()
+		await expect(element(by.id('startup'))).toBeVisible();
 	});
 
 	it('should show "Sign Up"', async () => {
-		await expect(element(by.id('signup')))
-			.toBeVisible()
+		await expect(element(by.id('signup'))).toBeVisible();
 	});
 
 	it('should show "Sign In"', async () => {
-		await expect(element(by.id('signin')))
-			.toBeVisible()
+		await expect(element(by.id('signin'))).toBeVisible();
 	});
 
 	it('should render "Doctor Sign In Page" on pressing sign in', async () => {
 		await element(by.id('signin')).tap();
-		await expect(element(by.id('email')))
-			.toBeVisible()
+		await expect(element(by.id('email'))).toBeVisible();
 		await expect(element(by.id('password'))).toBeVisible();
 		await expect(element(by.id('signin_button'))).toBeVisible();
 	});
@@ -30,8 +26,7 @@ describe('Doctor SignIn flow test', () => {
 		await element(by.id('email')).typeText('john@example.com');
 		await element(by.id('password')).typeText('examplepass');
 		await element(by.id('signin_button')).tap();
-		await expect(element(by.text('Alert')))
-			.toBeVisible()
+		await expect(element(by.text('Alert'))).toBeVisible();
 	});
 
 	it('should go to “the homepage” on giving right info', async () => {
@@ -41,7 +36,6 @@ describe('Doctor SignIn flow test', () => {
 		await element(by.id('email')).typeText('alexjones@gmail.com');
 		await element(by.id('password')).typeText('12345678');
 		await element(by.id('signin_button')).tap();
-		await expect(element(by.id('homepage')))
-			.toBeVisible()
+		await expect(element(by.id('homepage'))).toBeVisible();
 	});
 });

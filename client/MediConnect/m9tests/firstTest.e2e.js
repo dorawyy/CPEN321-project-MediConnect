@@ -6,28 +6,24 @@ describe('Startup flow test', () => {
 	it('should have startup screen', async () => {
 		await device.reloadReactNative();
 		await device.launchApp();
-		await expect(element(by.id('startup')))
-			.toBeVisible()
+		await expect(element(by.id('startup'))).toBeVisible();
 	});
 
 	it('should show "Sign Up"', async () => {
 		await device.reloadReactNative();
 		await device.launchApp();
-		await expect(element(by.id('signup')))
-			.toBeVisible()
+		await expect(element(by.id('signup'))).toBeVisible();
 	});
 
 	it('should show "Sign In"', async () => {
 		await device.reloadReactNative();
 		await device.launchApp();
-		await expect(element(by.id('signin')))
-			.toBeVisible()
+		await expect(element(by.id('signin'))).toBeVisible();
 	});
 
 	it('should show Logo', async () => {
 		await device.reloadReactNative();
 		await device.launchApp();
-		await expect(element(by.id('logo')))
-			.toBeVisible()
+		await expect(element(by.id('logo'))).toBeVisible();
 	});
 });

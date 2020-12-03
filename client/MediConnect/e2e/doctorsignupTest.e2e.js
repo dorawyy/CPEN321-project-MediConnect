@@ -31,8 +31,7 @@ describe('Doctor SignUp flow test', () => {
 		await element(by.id('email')).typeText('john@example.com');
 		await element(by.id('password')).typeText('exampl');
 		await element(by.id('signup_button')).tap();
-		await expect(element(by.text('Alert')))
-			.toBeVisible()
+		await expect(element(by.text('Alert'))).toBeVisible();
 	});
 
 	it('should render “the invalid alert” on entering in an email that is already registered', async () => {
@@ -45,8 +44,7 @@ describe('Doctor SignUp flow test', () => {
 		await element(by.id('firstname')).typeText('Test');
 		await element(by.id('lastname')).typeText('Test');
 		await element(by.id('signup_button')).tap();
-		await expect(element(by.text('Alert')))
-			.toBeVisible()
+		await expect(element(by.text('Alert'))).toBeVisible();
 	});
 
 	it('should go to “the homepage” on giving right info', async () => {
@@ -60,7 +58,6 @@ describe('Doctor SignUp flow test', () => {
 		await element(by.id('firstname')).typeText('Test');
 		await element(by.id('lastname')).typeText('Test');
 		await element(by.id('signup_button')).tap();
-		await expect(element(by.id('homepage')))
-			.toBeVisible()
+		await expect(element(by.id('homepage'))).toBeVisible();
 	});
 });

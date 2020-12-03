@@ -33,26 +33,23 @@ import PatientAppointmentsPage from './components/patient_appointments';
 import DoctorNotificationsPage from './components/doctor_notifications';
 import PatientNotificationsPage from './components/patient_notifications';
 import CreateAppointmentPage from './components/create_appointments';
-import DoctorEditAccountPage from './components/doctor_edit_account'; 
-import PatientEditAccountPage from './components/patient_edit_account'; 
-import PatientPaymentPage from './components/patient_payment'; 
-import AppointmentDetailsPage from './components/appointment_details'; 
-
-
+import DoctorEditAccountPage from './components/doctor_edit_account';
+import PatientEditAccountPage from './components/patient_edit_account';
+import PatientPaymentPage from './components/patient_payment';
+import AppointmentDetailsPage from './components/appointment_details';
 
 import SlotBookingPage from './components/slot_booking';
 
-// import {UserContext} from './components/user_context';  
-
+// import {UserContext} from './components/user_context';
 
 const App: () => React$Node = () => {
 	return (
 		<>
-		{/* <SymptomsContext.Provider
+			{/* <SymptomsContext.Provider
 		values={{
 			symptom: this.state.symptom
 		}}> */}
-		{/* <UserContext.Provider value={UserContext.user}> */}
+			{/* <UserContext.Provider value={UserContext.user}> */}
 			<NavigationContainer>
 				<Stack.Navigator>
 					<Stack.Screen
@@ -109,7 +106,7 @@ const App: () => React$Node = () => {
 						name="PatientSettings"
 						component={PatientSettingsPage}
 						options={{headerTitle: true}}
-					/>					
+					/>
 					<Stack.Screen
 						name="DoctorHomeNavigator"
 						component={DoctorHomeNavigatorPage}
@@ -172,15 +169,13 @@ const App: () => React$Node = () => {
 						name="AppointmentDetails"
 						component={AppointmentDetailsPage}
 						options={{headerTitle: false}}
-					/>					
+					/>
 
 					{/*  */}
-					
-					
 				</Stack.Navigator>
 			</NavigationContainer>
-		{/* </UserContext.Provider> */}
-		{/* </SymptomsContext.Provider>*/}
+			{/* </UserContext.Provider> */}
+			{/* </SymptomsContext.Provider>*/}
 		</>
 	);
 };

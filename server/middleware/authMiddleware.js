@@ -3,6 +3,7 @@ const User = require("../models/user");
 
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
+  console.log(token)
 
   // check json web token exists and is verified
   if (token) {
