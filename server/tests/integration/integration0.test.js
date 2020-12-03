@@ -418,7 +418,8 @@ test("User makes appointment in the past, then gets them, expect them to be dele
 
   // GLOBAL mock of Date.now because mongoose model uses the Date function
   const realDateNow = Date.now.bind(global.Date);
-  const dateNowStub = jest.fn(() => 1169222400000);
+  const theTime = 1169222400000;
+  const dateNowStub = jest.fn(() => theTime);
   global.Date.now = dateNowStub;
 
   let appointmentFields = {
