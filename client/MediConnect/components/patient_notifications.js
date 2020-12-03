@@ -1,67 +1,66 @@
 import React from 'react';
 import {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {
+	Text,
+	View,
+	StyleSheet,
+	TouchableOpacity,
+	ScrollView,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {CheckBox} from 'react-native-elements';
-// import PushNotification from 'react-native-push-notification'; 
+// import PushNotification from 'react-native-push-notification';
 import {Notifications} from 'react-native-notifications';
 import axios from 'axios';
-
-
-
 
 class PatientNotifications extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			notifsSelect: [],
-			notifs: [], 
-			notifsIDs: [], 
+			notifs: [],
+			notifsIDs: [],
 		};
 
 		// this.state.notifs =  [["notif1", "notif 1 body"], ["notif2", "notif 2 body"], ["notif3", "notif 3 body"]]
 
-
-		// console.log("Cookie" +global.jwt); 
+		// console.log("Cookie" +global.jwt);
 
 		axios
-		// .get('http://10.0.2.2:5000/patient/notif/' + global.userID, 
-		.get("http://54.176.99.202:5000/patient/notif/" + global.userID, 
+			// .get('http://10.0.2.2:5000/patient/notif/' + global.userID,
+			.get(
+				'http://54.176.99.202:5000/patient/notif/' + global.userID,
 
-			{}, {headers: {Cookie: global.jwt}})
-		.then((res) => {
+				{},
+				{headers: {Cookie: global.jwt}},
+			)
+			.then((res) => {
+				this.setState({
+					notifs: Object.values(res.data.notifications),
+				});
 
-			this.setState({
-				notifs: Object.values(res.data.notifications),	
+				console.log(res.data.notifications);
+				var d = Object.values(res.data.notifications)[0];
+				console.log('Getting notifications ' + d.text);
+
+				for (var i = 0; i < this.state.notifs.length; i++) {
+					this.state.notifsSelect[i] = false;
+					this.state.notifsIDs[i] = this.state.notifs[i]._id;
+					// console.log(this.state.notifsIDs[i])
+				}
+			})
+			.catch((err) => {
+				console.log(err.response.data);
 			});
-			
-			console.log(res.data.notifications); 
-			var d = Object.values(res.data.notifications)[0];
-			console.log("Getting notifications " + d.text)
-
-
-		for (var i = 0; i < this.state.notifs.length; i++) {
-			this.state.notifsSelect[i] = false; 
-			this.state.notifsIDs[i] = this.state.notifs[i]._id;
-			// console.log(this.state.notifsIDs[i])
-		}
-
-
-
-		})
-		.catch((err) => {
-			console.log(err.response.data);
-		});
-
 	}
 
 	switchCheck(count) {
 		// this.setState({
-			this.state.notifsSelect[count] =  !(this.state.notifsSelect[count])
+		this.state.notifsSelect[count] = !this.state.notifsSelect[count];
 		// });
-		this.forceUpdate()
+		this.forceUpdate();
 
-		console.log(count)
+		console.log(count);
 	}
 
 	// testNotif = () => {
@@ -80,48 +79,49 @@ class PatientNotifications extends Component {
 	// }
 
 	allRead = () => {
-
-
 		for (var i = 0; i < this.state.notifs.length; i++) {
 			axios
-			// .get('http://10.0.2.2:5000/patient/notif/' + global.userID, 
-			.delete("http://54.176.99.202:5000/patient/notif/" + this.state.notifsIDs[i], 
-				{}, {headers: {Cookie: global.jwt}})
-			.then((res) => {})
-			.catch((err) => {
-				console.log(err.response.data);
-			});
-		}
-
-		this.setState({
-			notifs: [],	
-			notifsSelect: [],
-			notifsIDs: [], 
-		});
-
-		this.forceUpdate()
-
-
-	}
-
-	someRead = () => {
-
-		for (var i = 0; i < this.state.notifs.length; i++) {
-			if (this.state.notifsSelect[i] == true) {
-
-				axios
-				// .get('http://10.0.2.2:5000/patient/notif/' + global.userID, 
-				.delete("http://54.176.99.202:5000/patient/notif/" + this.state.notifsIDs[i], 
-					{}, {headers: {Cookie: global.jwt}})
+				// .get('http://10.0.2.2:5000/patient/notif/' + global.userID,
+				.delete(
+					'http://54.176.99.202:5000/patient/notif/' + this.state.notifsIDs[i],
+					{},
+					{headers: {Cookie: global.jwt}},
+				)
 				.then((res) => {})
 				.catch((err) => {
 					console.log(err.response.data);
 				});
+		}
 
-				this.state.notifs.splice(i, 1)
-				this.state.notifsSelect.splice(i, 1)
-				this.state.notifsIDs.splice(i, 1)
-				i = -1; 
+		this.setState({
+			notifs: [],
+			notifsSelect: [],
+			notifsIDs: [],
+		});
+
+		this.forceUpdate();
+	};
+
+	someRead = () => {
+		for (var i = 0; i < this.state.notifs.length; i++) {
+			if (this.state.notifsSelect[i] == true) {
+				axios
+					// .get('http://10.0.2.2:5000/patient/notif/' + global.userID,
+					.delete(
+						'http://54.176.99.202:5000/patient/notif/' +
+							this.state.notifsIDs[i],
+						{},
+						{headers: {Cookie: global.jwt}},
+					)
+					.then((res) => {})
+					.catch((err) => {
+						console.log(err.response.data);
+					});
+
+				this.state.notifs.splice(i, 1);
+				this.state.notifsSelect.splice(i, 1);
+				this.state.notifsIDs.splice(i, 1);
+				i = -1;
 			}
 		}
 
@@ -129,60 +129,56 @@ class PatientNotifications extends Component {
 		// console.log(this.state.notifs)
 		// console.log(this.state.notifsSelect)
 
-		this.forceUpdate()
+		this.forceUpdate();
 
-				 // remove from backend as well!!!!!!!!!!
-	}
+		// remove from backend as well!!!!!!!!!!
+	};
 
 	render() {
-
-		let notifsRender; 
+		let notifsRender;
 
 		if (this.state.notifs.length == 0) {
-			notifsRender = 
-			(<View style={styles.noNotifsContainer}>
-				<Text style={styles.noNotifs}>
-					You have no notifications
-				</Text>
-			</View>)
+			notifsRender = (
+				<View style={styles.noNotifsContainer}>
+					<Text style={styles.noNotifs}>You have no notifications</Text>
+				</View>
+			);
 		} else {
-			notifsRender = 
-			(this.state.notifs.map((notif, count) =>(
+			notifsRender = this.state.notifs.map((notif, count) => (
 				<View key={count}>
-				<TouchableOpacity
-					style={styles.option}
-					onPress={() => this.switchCheck(count)}
-				>
-					<CheckBox
-						checked={this.state.notifsSelect[count]}
-						uncheckedColor="white"
-						checkedColor='#5c5c5c'
-						// onPress={this.switchTaskDone(count)}
-					/>
-					<View style={styles.optionCont}>
-						<Text style={styles.optionText}>{notif.title}</Text>
-						<Text style={styles.optionBody}>{notif.text}</Text>
-					</View>
-				</TouchableOpacity>
-			</View>)
-
-			))
+					<TouchableOpacity
+						style={styles.option}
+						onPress={() => this.switchCheck(count)}
+					>
+						<CheckBox
+							checked={this.state.notifsSelect[count]}
+							uncheckedColor="white"
+							checkedColor="#5c5c5c"
+							// onPress={this.switchTaskDone(count)}
+						/>
+						<View style={styles.optionCont}>
+							<Text style={styles.optionText}>{notif.title}</Text>
+							<Text style={styles.optionBody}>{notif.text}</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+			));
 		}
 
 		return (
-			<ScrollView
-				style= {{backgroundColor: 'white'}}
-			>
-				<View style={styles.container}>
-					{notifsRender}
-
-				</View>
+			<ScrollView style={{backgroundColor: 'white'}}>
+				<View style={styles.container}>{notifsRender}</View>
 				<View style={styles.buttonsContainer}>
-					<TouchableOpacity style={styles.button} testID='Notifications_Page'>
-						<Text style={styles.buttonText} onPress={() => this.someRead()}>Mark selected as read</Text>
+					<TouchableOpacity style={styles.button} testID="Notifications_Page">
+						<Text style={styles.buttonText} onPress={() => this.someRead()}>
+							Mark selected as read
+						</Text>
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.button} onPress={() => this.allRead()}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => this.allRead()}
+					>
 						<Text style={styles.buttonText}>Mark all as read</Text>
 					</TouchableOpacity>
 
@@ -191,7 +187,6 @@ class PatientNotifications extends Component {
 					</TouchableOpacity> */}
 				</View>
 			</ScrollView>
-			
 		);
 	}
 }
@@ -204,7 +199,7 @@ const styles = StyleSheet.create({
 
 	container: {
 		padding: 30,
-		backgroundColor: 'white'
+		backgroundColor: 'white',
 	},
 
 	icon: {
@@ -225,8 +220,7 @@ const styles = StyleSheet.create({
 	},
 
 	optionCont: {
-		width: 230, 
-
+		width: 230,
 	},
 
 	buttonsContainer: {
@@ -241,7 +235,7 @@ const styles = StyleSheet.create({
 		height: 40,
 		shadowColor: 'black',
 		borderRadius: 7,
-		width: 250, 
+		width: 250,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -255,25 +249,25 @@ const styles = StyleSheet.create({
 	optionText: {
 		fontFamily: 'Iowan Old Style',
 		fontSize: 15,
-		color: '#5c5c5c', 
+		color: '#5c5c5c',
 	},
 
 	optionBody: {
 		fontFamily: 'Iowan Old Style',
 		fontSize: 13,
-		color: '#5c5c5c', 
+		color: '#5c5c5c',
 	},
 
 	noNotifs: {
 		fontFamily: 'Iowan Old Style',
 		fontSize: 20,
-		color: '#5c5c5c', 
+		color: '#5c5c5c',
 	},
 
 	noNotifsContainer: {
 		alignItems: 'center',
 		justifyContent: 'center',
-	}
+	},
 });
 
 export default PatientNotifications;

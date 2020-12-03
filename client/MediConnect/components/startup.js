@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 class StartUp extends Component {
 	render() {
 		return (
-				<LinearGradient
+			<LinearGradient
 				testID="startup"
 				start={{x: 0.0, y: 0.25}}
 				end={{x: 0.7, y: 1}}
@@ -36,10 +36,7 @@ class StartUp extends Component {
 					</Text>
 				</TouchableOpacity>
 
-
-
-
-{/* 
+				{/* 
 				<TouchableOpacity testID="signin" style={styles.button}>
 					<Text
 						style={styles.buttonText}
@@ -57,11 +54,6 @@ class StartUp extends Component {
 						Notifs Test
 					</Text>
 				</TouchableOpacity> */}
-
-
-
-
-
 			</LinearGradient>
 		);
 	}

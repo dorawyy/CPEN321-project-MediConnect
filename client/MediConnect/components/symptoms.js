@@ -9,10 +9,10 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
-import { Dropdown } from 'react-native-material-dropdown';
+import {Dropdown} from 'react-native-material-dropdown';
 import {LogBox} from 'react-native';
 
-// export const SymptomsContext = React.createContext(); 
+// export const SymptomsContext = React.createContext();
 
 class Symptoms extends Component {
 	state = {
@@ -25,7 +25,7 @@ class Symptoms extends Component {
 	};
 
 	async reportSymptom(text) {
-		// console.log(text); 
+		// console.log(text);
 
 		// axios
 		// 	.get("http://54.183.200.234:5000/patient/search", {
@@ -35,92 +35,121 @@ class Symptoms extends Component {
 		// 		},
 		// 	})
 		// 	.then((res) => {
-		// 		// console.log(symptom); 
+		// 		// console.log(symptom);
 		// 		console.log(res.data);
 		// 		this.setState({
 		// 			serverData: res.data,
 		// 		});
-				this.props.navigation.navigate('Doctors', {symptoms: text, data: this.state.serverData});
-			// })
-			// .catch((err) => {
-			// 	console.log(err.response.data);
-			// });
-	};
+		if (this.state.symptom != '') {
+			this.props.navigation.navigate('Doctors', {
+				symptoms: text,
+				data: this.state.serverData,
+			});
+		}
+		// })
+		// .catch((err) => {
+		// 	console.log(err.response.data);
+		// });
+	}
 
 	render() {
-		let data = [{
-            value: 'pain chest',
-          }, {
-            value: 'shortness of breath',
-          }, {
-            value: 'dizziness',
-          }, {
-            value: 'asthenia',
-          }, {
-            value: 'fall',
-          }, {
-            value: 'syncope',
-          }, {
-            value: 'vertigo',
-          }, {
-            value: 'sweat',
-          }, {
-            value: 'palpitation',
-          },{
-            value: 'nausea',
-          }, {
-            value: 'angina pectoris',
-          }, {
-            value: 'pressure chest',
-          }, {
-            value: 'polyuria',
-          }, {
-            value: 'polydypsia',
-          }, {
-            value: 'orthopnea',
-          }, {
-            value: 'unresponsiveness',
-          }, {
-            value: 'mental status changes',
-          }, {
-            value: 'vomiting',
-          }, {
-            value: 'labored breathing',
-          }, {
-            value: 'feeling suicidal',
-          }, {
-            value: 'suicidal',
-          }, {
-            value: 'hallucinations auditory',
-          }, {
-            value: 'blackout',
-		  }];
-		  
+		let data = [
+			{
+				value: 'pain chest',
+			},
+			{
+				value: 'shortness of breath',
+			},
+			{
+				value: 'dizziness',
+			},
+			{
+				value: 'asthenia',
+			},
+			{
+				value: 'fall',
+			},
+			{
+				value: 'syncope',
+			},
+			{
+				value: 'vertigo',
+			},
+			{
+				value: 'sweat',
+			},
+			{
+				value: 'palpitation',
+			},
+			{
+				value: 'nausea',
+			},
+			{
+				value: 'angina pectoris',
+			},
+			{
+				value: 'pressure chest',
+			},
+			{
+				value: 'polyuria',
+			},
+			{
+				value: 'polydypsia',
+			},
+			{
+				value: 'orthopnea',
+			},
+			{
+				value: 'unresponsiveness',
+			},
+			{
+				value: 'mental status changes',
+			},
+			{
+				value: 'vomiting',
+			},
+			{
+				value: 'labored breathing',
+			},
+			{
+				value: 'feeling suicidal',
+			},
+			{
+				value: 'suicidal',
+			},
+			{
+				value: 'hallucinations auditory',
+			},
+			{
+				value: 'blackout',
+			},
+		];
+
 		return (
 			// <SymptomsContext.Provider
 			// values={{
 			// 	symptom: this.state.symptom
 			// }}
 			// >
-				<View style={styles.container}>
-					<View>
-						<Text style={styles.header}>Enter Your Symptom Here</Text>
+			<View style={styles.container}>
+				<View>
+					<Text style={styles.header}>Enter Your Symptom Here</Text>
 
-						<Dropdown
-                    	label='Select Symptom'
-                    	data={data}
-                    	useNativeDriver={true}
-                    	onChangeText={
-                      
-                      		(value) => {
-                        	LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
-                       		this.setState({
-                       		symptom: value }
-                      		);
-                       		}}
-                    	/>
+					<Dropdown
+						label="Select Symptom"
+						data={data}
+						useNativeDriver={true}
+						onChangeText={(value) => {
+							LogBox.ignoreLogs([
+								'Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`',
+							]);
+							this.setState({
+								symptom: value,
+							});
+						}}
+					/>
 
-						{/*<TextInput
+					{/*<TextInput
 							testID="report_symptoms_text"
 							style={styles.text}
 							underlineColorAndroid="gray"
@@ -130,24 +159,20 @@ class Symptoms extends Component {
 							required
 						/>*/}
 
-						<TouchableOpacity style={styles.button} testID="report_button"
-							onPress={() => {
-								// const {symptom} = this.state;
-								// this.props.navigation.navigate('Doctors');
-								this.reportSymptom(
-									this.state.symptom,
-								)
-							}}
-						>
-							<Text
-								style={styles.buttonText}
-							>
-								Report Symptoms
-							</Text>
-						</TouchableOpacity>
-					</View>
-					{/* <DoctorsResults symptom={this.state.symptom}></DoctorsResults> */}
+					<TouchableOpacity
+						style={styles.button}
+						testID="report_button"
+						onPress={() => {
+							// const {symptom} = this.state;
+							// this.props.navigation.navigate('Doctors');
+							this.reportSymptom(this.state.symptom);
+						}}
+					>
+						<Text style={styles.buttonText}>Report Symptoms</Text>
+					</TouchableOpacity>
 				</View>
+				{/* <DoctorsResults symptom={this.state.symptom}></DoctorsResults> */}
+			</View>
 			// </SymptomsContext.Provider>
 		);
 	}

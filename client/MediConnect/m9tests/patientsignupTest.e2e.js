@@ -20,8 +20,8 @@ describe('Patient SignUp flow test', () => {
 	it('should render "Patient Sign Up Page" on pressing sign up on patient tab', async () => {
 		await device.reloadReactNative();
 		await device.launchApp();
-        await element(by.id('signup')).tap();
-        await element(by.id('patientToggle')).tap();
+		await element(by.id('signup')).tap();
+		await element(by.id('patientToggle')).tap();
 		await expect(element(by.id('firstname'))).toBeVisible();
 		await expect(element(by.id('lastname'))).toBeVisible();
 		await expect(element(by.id('email'))).toBeVisible();
@@ -32,8 +32,7 @@ describe('Patient SignUp flow test', () => {
 		await element(by.id('email')).typeText('abcd');
 		await element(by.id('password')).typeText('123');
 		await element(by.id('signup_button')).tap();
-		await expect(element(by.text('Alert')))
-			.toBeVisible()
+		await expect(element(by.text('Alert'))).toBeVisible();
 	});
 
 	it('should render “the invalid alert” on entering in an email that is already registered', async () => {
@@ -46,8 +45,7 @@ describe('Patient SignUp flow test', () => {
 		await element(by.id('firstname')).typeText('Test');
 		await element(by.id('lastname')).typeText('Test');
 		await element(by.id('signup_button')).tap();
-		await expect(element(by.text('Alert')))
-			.toBeVisible()
+		await expect(element(by.text('Alert'))).toBeVisible();
 	});
 
 	it('should go to “the homepage” on giving right info', async () => {
@@ -61,7 +59,6 @@ describe('Patient SignUp flow test', () => {
 		await element(by.id('firstname')).typeText('Test');
 		await element(by.id('lastname')).typeText('Test');
 		await element(by.id('signup_button')).tap();
-		await expect(element(by.id('homepage')))
-			.toBeVisible()
+		await expect(element(by.id('homepage'))).toBeVisible();
 	});
 });

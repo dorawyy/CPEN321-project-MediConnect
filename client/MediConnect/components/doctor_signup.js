@@ -12,7 +12,6 @@ import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import {Notifications} from 'react-native-notifications';
 
-
 class DoctorSignUp extends Component {
 	state = {
 		firstName: '',
@@ -38,8 +37,9 @@ class DoctorSignUp extends Component {
 	};
 
 	async signup() {
-		axios.post("http://54.176.99.202:5000/doctor/signup", {
-		//  axios.post('http://10.0.2.2:5000/doctor/signup', {
+		axios
+			.post('http://54.176.99.202:5000/doctor/signup', {
+				//  axios.post('http://10.0.2.2:5000/doctor/signup', {
 				first_name: this.state.firstName,
 				last_name: this.state.lastName,
 				email: this.state.email,
@@ -48,19 +48,19 @@ class DoctorSignUp extends Component {
 			.then((res) => {
 				// console.log(res.data);
 				global.userID = res.data.user;
-				console.log(global.userID); 
+				console.log(global.userID);
 
-				global.first_name = res.data.first_name; 
-				global.last_name = res.data.last_name; 
-				global.rating = res.data.rating; 
-				global.specialization = res.data.specialization; 
-				global.verified = res.data.verified; 
-				global.age = res.data.age; 
-				global.appointments = res.data.appointments; 
-				global.email = res.data.email; 
-				global.years_of_experience = res.data.years_of_experience; 
+				global.first_name = res.data.first_name;
+				global.last_name = res.data.last_name;
+				global.rating = res.data.rating;
+				global.specialization = res.data.specialization;
+				global.verified = res.data.verified;
+				global.age = res.data.age;
+				global.appointments = res.data.appointments;
+				global.email = res.data.email;
+				global.years_of_experience = res.data.years_of_experience;
 
-				this.handleNotif(); 
+				this.handleNotif();
 			})
 			.catch((err) => {
 				console.log(err.response);
@@ -77,43 +77,44 @@ class DoctorSignUp extends Component {
 	}
 
 	handleNotif = () => {
-		alert("You have signed up successfully!"); 
-		console.log(global.userID); 
+		alert('You have signed up successfully!');
+		console.log(global.userID);
 
-
-		var title = "Thank you for signing up"; 
-		var body = "We are so glad that you've chosen to join MediConnect!"; 
+		var title = 'Thank you for signing up';
+		var body = "We are so glad that you've chosen to join MediConnect!";
 
 		Notifications.postLocalNotification({
 			title: title,
 			body: body,
 			// sound: "chime.aiff",
 			silent: false,
-
-		})
-
-		axios.post("http://54.176.99.202:5000/doctor/notif/", {
-		// axios.post('http://10.0.2.2:5000/doctor/notif/', {
-			userId: global.userID, 
-			title: title, 
-			text: body, 
-		},
-		{
-			headers: {
-				Cookie: global.jwt
-			}
-		}
-		)
-		.then((res) => {
-			// console.log(res.data); 
-			console.log(res.data); 
-
-			this.props.navigation.navigate('DoctorSignIn');
-		})
-		.catch((err) => {
-			console.log(err.response);
 		});
-	}
+
+		axios
+			.post(
+				'http://54.176.99.202:5000/doctor/notif/',
+				{
+					// axios.post('http://10.0.2.2:5000/doctor/notif/', {
+					userId: global.userID,
+					title: title,
+					text: body,
+				},
+				{
+					headers: {
+						Cookie: global.jwt,
+					},
+				},
+			)
+			.then((res) => {
+				// console.log(res.data);
+				console.log(res.data);
+
+				this.props.navigation.navigate('DoctorSignIn');
+			})
+			.catch((err) => {
+				console.log(err.response);
+			});
+	};
 
 	render() {
 		return (
@@ -197,7 +198,7 @@ class DoctorSignUp extends Component {
 								required
 							/>
 						</View>
-						<View >
+						<View>
 							<TouchableOpacity
 								testID="signup_button"
 								style={styles.submitButton}
@@ -210,7 +211,7 @@ class DoctorSignUp extends Component {
 									)
 								}
 							>
-							<Text style={styles.submitButtonText} > SIGN UP </Text>
+								<Text style={styles.submitButtonText}> SIGN UP </Text>
 							</TouchableOpacity>
 						</View>
 					</View>

@@ -44,7 +44,7 @@ class PatientSignUp extends Component {
 		// axios.post("http://54.183.200.234:5000/patient/signup", {
 		axios
 			// .post('http://10.0.2.2:5000/patient/signup', {
-			.post("http://54.176.99.202:5000/patient/signup/", {
+			.post('http://54.176.99.202:5000/patient/signup/', {
 				first_name: this.state.firstName,
 				last_name: this.state.lastName,
 				email: this.state.email,
@@ -53,14 +53,20 @@ class PatientSignUp extends Component {
 			.then((res) => {
 				console.log(res.data);
 				global.userID = res.data.user;
-				console.log(global.userID); 
-				alert("You have signed up successfully! Please sign in.")
-
-				
+				console.log(global.userID);
+				alert('You have signed up successfully! Please sign in.');
 			})
 			.catch((err) => {
 				console.log(err.response.data);
-				alert(err.response.data.first_name + '\n' + err.response.data.last_name + '\n' + err.response.data.email + '\n' + err.response.data.password);
+				alert(
+					err.response.data.first_name +
+						'\n' +
+						err.response.data.last_name +
+						'\n' +
+						err.response.data.email +
+						'\n' +
+						err.response.data.password,
+				);
 			});
 	}
 
